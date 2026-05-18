@@ -136,19 +136,19 @@
         <!-- TABS -->
         <div class="mb-8 grid grid-cols-2 rounded-full border border-gray-200 bg-gray-100 p-1" role="tablist"
           aria-label="Alternar entre login e cadastro">
-          <button type="button" role="tab" [attr.aria-selected]="activeTab === 'login'"
+          <button type="button" role="tab" [attr.aria-selected]="activeTab() === 'login'"
             class="min-h-11 rounded-full text-sm font-semibold transition-all hover:text-gray-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-700 focus-visible:ring-offset-2"
-            [class.bg-amber-700]="activeTab === 'login'" [class.text-white]="activeTab === 'login'"
-            [class.shadow-lg]="activeTab === 'login'" [class.text-gray-500]="activeTab !== 'login'"
-            (click)="activeTab = 'login'">
+            [class.bg-amber-700]="activeTab() === 'login'" [class.text-white]="activeTab() === 'login'"
+            [class.shadow-lg]="activeTab() === 'login'" [class.text-gray-500]="activeTab() !== 'login'"
+            (click)="goTo('login')">
             Entrar
           </button>
 
-          <button type="button" role="tab" [attr.aria-selected]="activeTab === 'register'"
+          <button type="button" role="tab" [attr.aria-selected]="activeTab() === 'register'"
             class="min-h-11 rounded-full text-sm font-semibold transition-all hover:text-gray-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-700 focus-visible:ring-offset-2"
-            [class.bg-amber-700]="activeTab === 'register'" [class.text-white]="activeTab === 'register'"
-            [class.shadow-lg]="activeTab === 'register'" [class.text-gray-500]="activeTab !== 'register'"
-            (click)="activeTab = 'register'">
+            [class.bg-amber-700]="activeTab() === 'register'" [class.text-white]="activeTab() === 'register'"
+            [class.shadow-lg]="activeTab() === 'register'" [class.text-gray-500]="activeTab() !== 'register'"
+            (click)="goTo('register')">
             Cadastrar
           </button>
         </div>
@@ -157,9 +157,9 @@
         <div class="grid">
           <!-- LOGIN -->
           <div class="col-start-1 row-start-1 transition-opacity duration-200"
-            [class.opacity-100]="activeTab === 'login'" [class.opacity-0]="activeTab !== 'login'"
-            [class.pointer-events-none]="activeTab !== 'login'" [class.select-none]="activeTab !== 'login'"
-            [attr.aria-hidden]="activeTab !== 'login'" [attr.inert]="activeTab !== 'login' ? '' : null">
+            [class.opacity-100]="activeTab() === 'login'" [class.opacity-0]="activeTab() !== 'login'"
+            [class.pointer-events-none]="activeTab() !== 'login'" [class.select-none]="activeTab() !== 'login'"
+            [attr.aria-hidden]="activeTab() !== 'login'" [attr.inert]="activeTab() !== 'login' ? '' : null">
             <div class="flex min-h-[620px] flex-col">
               <div class="mb-7">
                 <p class="mb-2 text-xs font-semibold uppercase tracking-[0.22em] text-amber-700">
@@ -254,7 +254,7 @@
                 Não tem conta?
                 <button type="button"
                   class="font-semibold text-amber-700 transition-colors hover:text-amber-800 hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-700 focus-visible:ring-offset-2"
-                  (click)="activeTab = 'register'">
+                  (click)="goTo('register')">
                   Cadastre-se
                 </button>
               </p>
@@ -263,9 +263,9 @@
 
           <!-- REGISTER -->
           <div class="col-start-1 row-start-1 transition-opacity duration-200"
-            [class.opacity-100]="activeTab === 'register'" [class.opacity-0]="activeTab !== 'register'"
-            [class.pointer-events-none]="activeTab !== 'register'" [class.select-none]="activeTab !== 'register'"
-            [attr.aria-hidden]="activeTab !== 'register'" [attr.inert]="activeTab !== 'register' ? '' : null">
+            [class.opacity-100]="activeTab() === 'register'" [class.opacity-0]="activeTab() !== 'register'"
+            [class.pointer-events-none]="activeTab() !== 'register'" [class.select-none]="activeTab() !== 'register'"
+            [attr.aria-hidden]="activeTab() !== 'register'" [attr.inert]="activeTab() !== 'register' ? '' : null">
             <div class="flex min-h-[620px] flex-col">
               <div class="mb-7">
                 <p class="mb-2 text-xs font-semibold uppercase tracking-[0.22em] text-amber-700">
@@ -393,7 +393,7 @@
                 Já tem conta?
                 <button type="button"
                   class="font-semibold text-amber-700 transition-colors hover:text-amber-800 hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-700 focus-visible:ring-offset-2"
-                  (click)="activeTab = 'login'">
+                  (click)="goTo('login')">
                   Entrar
                 </button>
               </p>
