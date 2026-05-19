@@ -1,658 +1,911 @@
-<nav
-  class="fixed left-0 right-0 top-0 z-50 border-b border-white/20 bg-white/85 px-4 py-3 shadow-sm backdrop-blur-xl sm:px-6 lg:px-10"
-  aria-label="Navegação principal">
-  <div class="mx-auto flex max-w-7xl items-center justify-between gap-4">
-    <a href="#"
-      class="flex items-center gap-3 rounded-full focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-700 focus-visible:ring-offset-4"
-      aria-label="PrimeLar - Página inicial">
-      <div class="flex h-10 w-10 items-center justify-center rounded-2xl bg-amber-700 shadow-lg shadow-amber-900/20">
-        <span class="text-sm font-bold text-white">P</span>
-      </div>
+<!-- H3 – User control: pula direto para o conteúdo (acessibilidade) -->
+<a href="#conteudo-principal"
+   class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[999] focus:rounded-full focus:bg-white focus:px-5 focus:py-3 focus:text-sm focus:font-semibold focus:text-amber-800 focus:shadow-xl">
+  Pular para o conteúdo
+</a>
 
-      <span class="text-xl font-semibold tracking-tight text-gray-950">
-        PrimeLar
-      </span>
+<!-- ════════════════════════════════════════════════════════
+     NAV — H1 (link ativo), H4 (consistência), H6 (reconhecimento)
+════════════════════════════════════════════════════════ -->
+<nav class="fixed left-0 right-0 top-0 z-50 border-b border-white/20 bg-white/90 px-4 py-3 shadow-sm backdrop-blur-xl sm:px-6 lg:px-10"
+     aria-label="Navegação principal">
+  <div class="mx-auto flex max-w-7xl items-center justify-between gap-4">
+
+    <!-- Logo -->
+    <a href="#inicio"
+       class="flex items-center gap-3 rounded-full focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-700 focus-visible:ring-offset-4"
+       aria-label="PrimeLar — Página inicial">
+      <div class="flex h-10 w-10 items-center justify-center rounded-2xl bg-amber-700 shadow-lg shadow-amber-900/20">
+        <span class="text-sm font-bold text-white" aria-hidden="true">P</span>
+      </div>
+      <span class="text-xl font-semibold tracking-tight text-gray-950">PrimeLar</span>
     </a>
 
-    <ul
-      class="hidden items-center gap-1 rounded-full border border-gray-200 bg-white/80 p-1 text-sm font-medium text-gray-600 shadow-sm lg:flex">
-      <li>
-        <a href="#"
-          class="rounded-full bg-amber-50 px-4 py-2 text-amber-800 transition-colors hover:bg-amber-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-700">
-          Início
-        </a>
-      </li>
-
-      <li>
-        <a href="#imoveis"
-          class="rounded-full px-4 py-2 transition-colors hover:bg-gray-100 hover:text-gray-950 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-700">
-          Imóveis
-        </a>
-      </li>
-
-      <li>
-        <a href="#sobre"
-          class="rounded-full px-4 py-2 transition-colors hover:bg-gray-100 hover:text-gray-950 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-700">
-          Sobre Nós
-        </a>
-      </li>
-
-      <li>
-        <a href="#depoimentos"
-          class="rounded-full px-4 py-2 transition-colors hover:bg-gray-100 hover:text-gray-950 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-700">
-          Depoimentos
-        </a>
-      </li>
-
-      <li>
-        <a href="#contato"
-          class="rounded-full px-4 py-2 transition-colors hover:bg-gray-100 hover:text-gray-950 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-700">
-          Contato
-        </a>
-      </li>
-
-      <li>
-        <a href="#servicos"
-          class="flex items-center gap-1 rounded-full px-4 py-2 transition-colors hover:bg-gray-100 hover:text-gray-950 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-700">
-          Serviços
-          <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-          </svg>
-        </a>
-      </li>
+    <!-- Links desktop — H1: link ativo com cor e underline -->
+    <ul class="hidden items-center gap-1 rounded-full border border-gray-200 bg-white/80 p-1 text-sm font-medium text-gray-600 shadow-sm lg:flex"
+        role="list">
+      @for (item of navLinks; track item.href) {
+        <li>
+          <a [href]="item.href"
+             class="nav-link rounded-full px-4 py-2 transition-all hover:bg-amber-50 hover:text-amber-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-700"
+             [class.nav-link--active]="isNavActive(item.href)"
+             [attr.aria-current]="isNavActive(item.href) ? 'page' : null">
+            {{ item.label }}
+          </a>
+        </li>
+      }
     </ul>
 
     <div class="flex items-center gap-2">
       <a routerLink="/auth"
-        class="hidden min-h-11 items-center justify-center rounded-full border border-gray-300 bg-white px-5 py-2.5 text-sm font-semibold text-gray-800 transition-all hover:-translate-y-0.5 hover:border-amber-700 hover:text-amber-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-700 focus-visible:ring-offset-4 sm:inline-flex">
+         class="hidden min-h-11 items-center justify-center rounded-full border border-gray-300 bg-white px-5 py-2.5 text-sm font-semibold text-gray-800 transition-all hover:-translate-y-0.5 hover:border-amber-700 hover:text-amber-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-700 focus-visible:ring-offset-4 sm:inline-flex">
         Entrar
       </a>
 
       <a href="#contato"
-        class="inline-flex min-h-11 items-center justify-center rounded-full bg-amber-700 px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-amber-900/20 transition-all hover:-translate-y-0.5 hover:bg-amber-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-700 focus-visible:ring-offset-4">
+         class="inline-flex min-h-11 items-center justify-center rounded-full bg-amber-700 px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-amber-900/20 transition-all hover:-translate-y-0.5 hover:bg-amber-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-700 focus-visible:ring-offset-4">
         Fale conosco
       </a>
+
+      <!-- H3 – User control: botão hambúrguer mobile com aria-expanded -->
+      <button type="button"
+              class="flex h-10 w-10 items-center justify-center rounded-full border border-gray-200 bg-white shadow-sm transition-colors hover:bg-amber-50 lg:hidden focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-700"
+              [attr.aria-expanded]="showMobileMenu"
+              aria-controls="mobile-menu"
+              aria-label="Menu de navegação"
+              (click)="showMobileMenu = !showMobileMenu">
+        @if (!showMobileMenu) {
+          <svg class="h-5 w-5 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+          </svg>
+        } @else {
+          <svg class="h-5 w-5 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        }
+      </button>
     </div>
   </div>
 </nav>
 
-<section class="relative h-screen min-h-[600px] w-full overflow-hidden">
-  <div class="absolute inset-0">
-    <img src="assets/img/hero-house.png" alt="Imóvel de alto padrão" class="h-full w-full object-cover"
-      fetchpriority="high" />
-
-    <div class="absolute inset-0 bg-black/35"></div>
-
-    <div class="absolute inset-0"
-      style="background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.12) 45%, rgba(255, 255, 255, 0.96) 100%);">
-    </div>
+<!-- Menu mobile — H3: Escape fecha (TypeScript), overlay fecha ao clicar fora -->
+@if (showMobileMenu) {
+  <div class="mobile-overlay fixed inset-0 z-40 bg-black/40 backdrop-blur-sm lg:hidden"
+       (click)="showMobileMenu = false"
+       aria-hidden="true">
   </div>
 
-  <div class="relative z-10 flex h-full flex-col items-center justify-center px-4 pb-24 text-center">
-    <span
-      class="mb-5 rounded-full border border-white/25 bg-white/15 px-4 py-2 text-xs font-semibold uppercase tracking-[0.28em] text-white shadow-sm backdrop-blur-md">
-      Imobiliária de alto padrão
-    </span>
+  <div id="mobile-menu"
+       class="mobile-drawer fixed right-0 top-0 z-50 h-full w-72 bg-white px-6 py-8 shadow-2xl lg:hidden"
+       role="dialog"
+       aria-modal="true"
+       aria-label="Menu de navegação">
+    <div class="mb-8 flex items-center justify-between">
+      <span class="text-lg font-semibold text-gray-950">Menu</span>
+      <button type="button"
+              class="flex h-9 w-9 items-center justify-center rounded-full border border-gray-200 hover:bg-gray-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-700"
+              aria-label="Fechar menu"
+              (click)="showMobileMenu = false">
+        <svg class="h-4 w-4 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+        </svg>
+      </button>
+    </div>
 
-    <h1
-      class="max-w-4xl text-5xl font-light leading-tight tracking-[-0.04em] text-white drop-shadow-xl md:text-6xl lg:text-7xl"
-      style="font-family: 'DM Serif Display', Georgia, serif">
-      Encontre o lar perfeito<br />
-      para a sua família
-    </h1>
+    <nav aria-label="Menu mobile">
+      <ul class="space-y-1" role="list">
+        @for (item of navLinks; track item.href) {
+          <li>
+            <a [href]="item.href"
+               class="flex rounded-2xl px-4 py-3 text-sm font-medium text-gray-700 transition-colors hover:bg-amber-50 hover:text-amber-800"
+               [class.bg-amber-50]="isNavActive(item.href)"
+               [class.text-amber-800]="isNavActive(item.href)"
+               [class.font-semibold]="isNavActive(item.href)"
+               (click)="showMobileMenu = false">
+              {{ item.label }}
+            </a>
+          </li>
+        }
+      </ul>
+    </nav>
 
-    <p class="mt-6 max-w-xl text-base leading-7 text-white/90 drop-shadow-md sm:text-lg">
-      Imóveis selecionados com qualidade, exclusividade e atendimento personalizado.
-      O seu novo lar está mais perto do que você imagina.
-    </p>
-
-    <div class="mt-9 flex flex-col items-center gap-3 sm:flex-row">
-      <a href="#imoveis"
-        class="inline-flex min-h-12 items-center justify-center rounded-full bg-white px-8 py-3 text-sm font-semibold text-amber-800 shadow-xl shadow-black/20 transition-all hover:-translate-y-0.5 hover:bg-amber-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-4 focus-visible:ring-offset-amber-950">
-        Ver imóveis
-      </a>
-
+    <div class="mt-8 border-t border-gray-100 pt-8">
       <a href="#contato"
-        class="inline-flex min-h-12 items-center justify-center rounded-full border border-white/35 bg-white/10 px-8 py-3 text-sm font-semibold text-white backdrop-blur-md transition-all hover:-translate-y-0.5 hover:bg-white/20 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-4 focus-visible:ring-offset-amber-950">
-        Falar com corretor
+         class="flex w-full items-center justify-center rounded-full bg-amber-700 px-5 py-3 text-sm font-semibold text-white shadow-lg hover:bg-amber-800"
+         (click)="showMobileMenu = false">
+        Fale conosco
       </a>
     </div>
   </div>
-</section>
+}
 
-<section id="sobre" class="bg-white px-4 py-20 sm:px-6 lg:px-10 lg:py-28">
-  <div class="mx-auto grid max-w-7xl grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-16">
-    <div class="lg:col-span-4">
-      <span
-        class="mb-4 inline-flex rounded-full bg-amber-50 px-4 py-2 text-xs font-semibold uppercase tracking-[0.22em] text-amber-800">
-        Sobre a PrimeLar
-      </span>
+<!-- ════════════════════════════════════════════════════════
+     CONTEÚDO PRINCIPAL
+════════════════════════════════════════════════════════ -->
+<main id="conteudo-principal">
 
-      <p class="max-w-sm text-lg leading-8 text-gray-500">
-        Encontre o imóvel ideal para o seu momento de vida com orientação clara,
-        atendimento próximo e uma seleção cuidadosa de oportunidades.
-      </p>
-    </div>
-
-    <div class="lg:col-span-8">
-      <h2 class="max-w-4xl text-3xl font-light leading-tight tracking-[-0.04em] text-gray-950 sm:text-4xl lg:text-6xl"
-        style="font-family: 'DM Serif Display', Georgia, serif">
-        Compra, venda e locação de imóveis com segurança, clareza e confiança.
-      </h2>
-
-      <p class="mt-6 max-w-2xl text-base leading-7 text-gray-500">
-        A PrimeLar conecta famílias aos imóveis certos, reduzindo dúvidas durante
-        a escolha e tornando cada etapa da negociação mais simples e transparente.
-      </p>
-
-      <div class="mt-12 grid grid-cols-1 gap-5 sm:grid-cols-2">
-        <article
-          class="rounded-3xl border border-amber-100 bg-amber-50/60 p-6 shadow-sm transition-all hover:-translate-y-1 hover:bg-white hover:shadow-xl">
-          <div class="mb-5 flex h-12 w-12 items-center justify-center rounded-2xl bg-white text-amber-800 shadow-sm">
-            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7"
-                d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z" />
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7" d="M9 22V12h6v10" />
-            </svg>
-          </div>
-
-          <h3 class="text-lg font-semibold text-gray-950">
-            Compra e venda
-          </h3>
-
-          <p class="mt-3 text-sm leading-6 text-gray-500">
-            Assessoria completa para comprar ou vender seu imóvel com mais
-            segurança, agilidade e poder de decisão.
-          </p>
-        </article>
-
-        <article
-          class="rounded-3xl border border-amber-100 bg-amber-50/60 p-6 shadow-sm transition-all hover:-translate-y-1 hover:bg-white hover:shadow-xl">
-          <div class="mb-5 flex h-12 w-12 items-center justify-center rounded-2xl bg-white text-amber-800 shadow-sm">
-            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7"
-                d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" />
-            </svg>
-          </div>
-
-          <h3 class="text-lg font-semibold text-gray-950">
-            Locação de imóveis
-          </h3>
-
-          <p class="mt-3 text-sm leading-6 text-gray-500">
-            Casas, apartamentos e pontos comerciais selecionados para diferentes
-            perfis, necessidades e momentos.
-          </p>
-        </article>
+  <!-- HERO ─────────────────────────────────────────────── -->
+  <section id="inicio"
+           class="relative h-screen min-h-[600px] w-full overflow-hidden"
+           aria-labelledby="hero-heading">
+    <div class="absolute inset-0">
+      <img src="assets/img/hero-house.png"
+           alt="Imóvel de alto padrão em João Pessoa"
+           class="h-full w-full object-cover"
+           fetchpriority="high"/>
+      <div class="absolute inset-0 bg-black/35"></div>
+      <div class="absolute inset-0"
+           style="background: linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0.97) 100%);">
       </div>
     </div>
-  </div>
-</section>
 
-<section id="servicos" class="bg-amber-50/60 px-4 py-20 sm:px-6 lg:px-10 lg:py-28">
-  <div class="mx-auto max-w-7xl">
-    <div class="mb-12 max-w-3xl">
-      <span
-        class="mb-4 inline-flex rounded-full bg-white px-4 py-2 text-xs font-semibold uppercase tracking-[0.22em] text-amber-800 shadow-sm">
-        Serviços
+    <div class="relative z-10 flex h-full flex-col items-center justify-center px-4 pb-28 text-center">
+      <span class="hero-kicker mb-5 rounded-full border border-white/25 bg-white/15 px-4 py-2 text-xs font-semibold uppercase tracking-[0.28em] text-white shadow-sm backdrop-blur-md">
+        Imobiliária de alto padrão
       </span>
 
-      <h2 class="text-4xl font-light leading-tight tracking-[-0.04em] text-gray-950 sm:text-5xl lg:text-6xl"
-        style="font-family: 'DM Serif Display', Georgia, serif">
-        Soluções completas para cada etapa da sua escolha
-      </h2>
-
-      <p class="mt-5 max-w-2xl text-base leading-7 text-gray-500">
-        Da primeira visita até a assinatura, nossa equipe acompanha você com
-        informação clara, curadoria de imóveis e suporte em cada decisão.
-      </p>
-    </div>
-
-    <div class="grid grid-cols-1 gap-5 md:grid-cols-3">
-      <article
-        class="rounded-[2rem] border border-amber-100 bg-white p-7 shadow-sm transition-all hover:-translate-y-1 hover:shadow-xl">
-        <div class="mb-6 flex h-12 w-12 items-center justify-center rounded-2xl bg-amber-50 text-amber-800">
-          <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7" d="M12 6v12m6-6H6" />
-          </svg>
-        </div>
-
-        <h3 class="text-xl font-semibold text-gray-950">
-          Curadoria personalizada
-        </h3>
-
-        <p class="mt-3 text-sm leading-6 text-gray-500">
-          Seleção de imóveis de acordo com seu perfil, orçamento, localização desejada e momento de vida.
-        </p>
-      </article>
-
-      <article
-        class="rounded-[2rem] border border-amber-100 bg-white p-7 shadow-sm transition-all hover:-translate-y-1 hover:shadow-xl">
-        <div class="mb-6 flex h-12 w-12 items-center justify-center rounded-2xl bg-amber-50 text-amber-800">
-          <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7"
-              d="M9 12l2 2 4-4M7 4h10a2 2 0 012 2v12a2 2 0 01-2 2H7a2 2 0 01-2-2V6a2 2 0 012-2z" />
-          </svg>
-        </div>
-
-        <h3 class="text-xl font-semibold text-gray-950">
-          Negociação segura
-        </h3>
-
-        <p class="mt-3 text-sm leading-6 text-gray-500">
-          Apoio na análise de documentos, proposta comercial e condução da negociação com transparência.
-        </p>
-      </article>
-
-      <article
-        class="rounded-[2rem] border border-amber-100 bg-white p-7 shadow-sm transition-all hover:-translate-y-1 hover:shadow-xl">
-        <div class="mb-6 flex h-12 w-12 items-center justify-center rounded-2xl bg-amber-50 text-amber-800">
-          <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7"
-              d="M8 7V3m8 4V3M5 11h14M7 21h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v12a2 2 0 002 2z" />
-          </svg>
-        </div>
-
-        <h3 class="text-xl font-semibold text-gray-950">
-          Visitas agendadas
-        </h3>
-
-        <p class="mt-3 text-sm leading-6 text-gray-500">
-          Organização de visitas presenciais ou digitais para você conhecer os imóveis com mais praticidade.
-        </p>
-      </article>
-    </div>
-  </div>
-</section>
-
-<section id="imoveis" class="bg-white px-4 py-20 sm:px-6 lg:px-10 lg:py-28">
-  <div class="mx-auto max-w-7xl">
-    <div class="mb-10 flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
-      <div>
-        <span
-          class="mb-4 inline-flex rounded-full bg-amber-50 px-4 py-2 text-xs font-semibold uppercase tracking-[0.22em] text-amber-800">
-          Destaques
-        </span>
-
-        <h2 class="text-4xl font-light leading-tight tracking-[-0.04em] text-gray-950 sm:text-5xl lg:text-6xl"
+      <h1 id="hero-heading"
+          class="hero-title max-w-4xl text-5xl font-light leading-tight tracking-[-0.04em] text-white drop-shadow-xl md:text-6xl lg:text-7xl"
           style="font-family: 'DM Serif Display', Georgia, serif">
-          Explore nossos<br class="hidden sm:block" />
-          imóveis em destaque
+        Encontre o lar perfeito<br/>para a sua família
+      </h1>
+
+      <p class="hero-description mt-6 max-w-xl text-base leading-7 text-white/90 drop-shadow-md sm:text-lg">
+        Imóveis selecionados com qualidade, exclusividade e atendimento personalizado.
+        O seu novo lar está mais perto do que você imagina.
+      </p>
+
+      <div class="hero-actions mt-9 flex flex-col items-center gap-3 sm:flex-row">
+        <a href="#imoveis"
+           class="inline-flex min-h-12 items-center justify-center rounded-full bg-white px-8 py-3 text-sm font-semibold text-amber-800 shadow-xl shadow-black/20 transition-all hover:-translate-y-0.5 hover:bg-amber-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-4 focus-visible:ring-offset-amber-950">
+          Ver imóveis
+        </a>
+        <a href="#contato"
+           class="inline-flex min-h-12 items-center justify-center rounded-full border border-white/35 bg-white/10 px-8 py-3 text-sm font-semibold text-white backdrop-blur-md transition-all hover:-translate-y-0.5 hover:bg-white/20 focus:outline-none focus-visible:ring-2 focus-visible:ring-white">
+          Falar com corretor
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- BUSCA RÁPIDA ─────────────────────────────────────── -->
+  <section class="-mt-20 px-4 pb-12 sm:px-6 lg:px-10" aria-label="Busca rápida">
+    <div class="relative z-20 mx-auto grid max-w-5xl grid-cols-1 gap-3 rounded-[2rem] border border-white/60 bg-white/95 p-4 shadow-2xl shadow-amber-900/10 backdrop-blur-xl md:grid-cols-4"
+         data-aos="fade-up">
+
+      <div>
+        <label for="tipo" class="mb-1.5 block text-xs font-semibold uppercase tracking-[0.16em] text-gray-500">
+          Objetivo
+        </label>
+        <select id="tipo" name="tipo"
+                class="field-base h-12 w-full rounded-2xl border border-gray-200 bg-white px-4 text-sm text-gray-800 outline-none focus:border-amber-700 focus:ring-4 focus:ring-amber-700/10">
+          <option>Comprar</option>
+          <option>Alugar</option>
+          <option>Vender</option>
+        </select>
+      </div>
+
+      <div>
+        <label for="perfil" class="mb-1.5 block text-xs font-semibold uppercase tracking-[0.16em] text-gray-500">
+          Perfil
+        </label>
+        <select id="perfil" name="perfil"
+                class="field-base h-12 w-full rounded-2xl border border-gray-200 bg-white px-4 text-sm text-gray-800 outline-none focus:border-amber-700 focus:ring-4 focus:ring-amber-700/10">
+          <option>Casa</option>
+          <option>Apartamento</option>
+          <option>Condomínio</option>
+          <option>Comercial</option>
+        </select>
+      </div>
+
+      <div>
+        <label for="regiao" class="mb-1.5 block text-xs font-semibold uppercase tracking-[0.16em] text-gray-500">
+          Região
+        </label>
+        <select id="regiao" name="regiao"
+                class="field-base h-12 w-full rounded-2xl border border-gray-200 bg-white px-4 text-sm text-gray-800 outline-none focus:border-amber-700 focus:ring-4 focus:ring-amber-700/10">
+          <option>João Pessoa</option>
+          <option>Bessa</option>
+          <option>Altiplano</option>
+          <option>Cabo Branco</option>
+          <option>Manaíra</option>
+          <option>Tambaú</option>
+        </select>
+      </div>
+
+      <!-- H4 – Consistency: botão primário com mesmo padrão -->
+      <a href="#imoveis"
+         class="mt-5 inline-flex min-h-12 items-center justify-center rounded-2xl bg-amber-700 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-amber-900/20 transition-all hover:-translate-y-0.5 hover:bg-amber-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-700 focus-visible:ring-offset-4 md:mt-[22px]">
+        Buscar imóveis
+      </a>
+    </div>
+  </section>
+
+  <!-- SOBRE ────────────────────────────────────────────── -->
+  <section id="sobre"
+           class="bg-white px-4 py-20 sm:px-6 lg:px-10 lg:py-28"
+           aria-labelledby="sobre-heading">
+    <div class="mx-auto grid max-w-7xl grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-16">
+
+      <div class="lg:col-span-4" data-aos="fade-right">
+        <span class="mb-4 inline-flex rounded-full bg-amber-50 px-4 py-2 text-xs font-semibold uppercase tracking-[0.22em] text-amber-800">
+          Sobre a PrimeLar
+        </span>
+        <p class="max-w-sm text-lg leading-8 text-gray-500">
+          Encontre o imóvel ideal para o seu momento de vida com orientação clara,
+          atendimento próximo e seleção cuidadosa de oportunidades.
+        </p>
+      </div>
+
+      <div class="lg:col-span-8" data-aos="fade-left">
+        <h2 id="sobre-heading"
+            class="max-w-4xl text-3xl font-light leading-tight tracking-[-0.04em] text-gray-950 sm:text-4xl lg:text-5xl"
+            style="font-family: 'DM Serif Display', Georgia, serif">
+          Compra, venda e locação com segurança, clareza e confiança.
+        </h2>
+
+        <p class="mt-6 max-w-2xl text-base leading-7 text-gray-500">
+          A PrimeLar conecta famílias aos imóveis certos, reduzindo dúvidas e
+          tornando cada etapa da negociação mais simples e transparente.
+        </p>
+
+        <!-- H4 – Consistency: cards com padrão uniforme -->
+        <div class="mt-12 grid grid-cols-1 gap-5 sm:grid-cols-2">
+          @for (benefit of benefits; track benefit.title) {
+            <article class="benefit-card rounded-3xl border border-amber-100 bg-amber-50/60 p-6 shadow-sm">
+              <div class="mb-5 flex h-12 w-12 items-center justify-center rounded-2xl bg-white text-amber-800 shadow-sm">
+                <span class="text-xl" aria-hidden="true">{{ benefit.icon }}</span>
+              </div>
+              <h3 class="text-lg font-semibold text-gray-950">{{ benefit.title }}</h3>
+              <p class="mt-3 text-sm leading-6 text-gray-500">{{ benefit.description }}</p>
+            </article>
+          }
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVIÇOS ─────────────────────────────────────────── -->
+  <section id="servicos"
+           class="bg-amber-50/60 px-4 py-20 sm:px-6 lg:px-10 lg:py-28"
+           aria-labelledby="servicos-heading">
+    <div class="mx-auto max-w-7xl">
+      <div class="mb-12 max-w-3xl" data-aos="fade-up">
+        <span class="mb-4 inline-flex rounded-full bg-white px-4 py-2 text-xs font-semibold uppercase tracking-[0.22em] text-amber-800 shadow-sm">
+          Serviços
+        </span>
+        <h2 id="servicos-heading"
+            class="text-4xl font-light leading-tight tracking-[-0.04em] text-gray-950 sm:text-5xl lg:text-6xl"
+            style="font-family: 'DM Serif Display', Georgia, serif">
+          Soluções completas para cada etapa
+        </h2>
+        <p class="mt-5 max-w-2xl text-base leading-7 text-gray-500">
+          Da primeira visita até a assinatura, nossa equipe acompanha você com
+          informação clara e suporte em cada decisão.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 gap-5 md:grid-cols-3">
+        @for (service of services; track service.title; let i = $index) {
+          <article class="service-card rounded-[2rem] border border-amber-100 bg-white p-7 shadow-sm"
+                   data-aos="fade-up"
+                   [attr.data-aos-delay]="i * 80">
+            <div class="mb-6 flex h-12 w-12 items-center justify-center rounded-2xl bg-amber-50 text-amber-800">
+              <span class="text-xl font-bold" aria-hidden="true">{{ service.icon }}</span>
+            </div>
+            <h3 class="text-xl font-semibold text-gray-950">{{ service.title }}</h3>
+            <p class="mt-3 text-sm leading-6 text-gray-500">{{ service.description }}</p>
+          </article>
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- IMÓVEIS — H7: filtro por tipo ───────────────────── -->
+  <section id="imoveis"
+           class="bg-white px-4 py-20 sm:px-6 lg:px-10 lg:py-28"
+           aria-labelledby="imoveis-heading">
+    <div class="mx-auto max-w-7xl">
+
+      <div class="mb-8 flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
+        <div data-aos="fade-right">
+          <span class="mb-4 inline-flex rounded-full bg-amber-50 px-4 py-2 text-xs font-semibold uppercase tracking-[0.22em] text-amber-800">
+            Destaques
+          </span>
+          <h2 id="imoveis-heading"
+              class="text-4xl font-light leading-tight tracking-[-0.04em] text-gray-950 sm:text-5xl lg:text-6xl"
+              style="font-family: 'DM Serif Display', Georgia, serif">
+            Imóveis em destaque
+          </h2>
+        </div>
+
+        <a href="#contato"
+           class="hidden min-h-11 items-center justify-center rounded-full border border-gray-300 px-6 py-2.5 text-sm font-semibold text-gray-800 transition-all hover:-translate-y-0.5 hover:border-amber-700 hover:bg-amber-700 hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-700 focus-visible:ring-offset-4 sm:inline-flex">
+          Ver todos
+        </a>
+      </div>
+
+      <!-- H7 – Efficiency: filtro rápido por chips; H6 – Recognition: ativo visualmente -->
+      <div class="mb-8 flex flex-wrap gap-2" role="group" aria-label="Filtrar imóveis por tipo" data-aos="fade-up">
+        @for (filter of propertyFilters; track filter) {
+          <button type="button"
+                  class="filter-chip rounded-full border px-4 py-2 text-sm font-medium transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-700 focus-visible:ring-offset-2"
+                  [class.filter-chip--active]="activeFilter === filter"
+                  [attr.aria-pressed]="activeFilter === filter"
+                  (click)="activeFilter = filter">
+            {{ filter }}
+          </button>
+        }
+      </div>
+
+      <!-- H1 – Status: mensagem quando filtro retorna zero resultados -->
+      @if (filteredProperties.length === 0) {
+        <div class="flex flex-col items-center justify-center rounded-[2rem] border border-dashed border-amber-200 bg-amber-50/40 py-20 text-center"
+             role="status">
+          <span class="mb-3 text-4xl" aria-hidden="true">🏠</span>
+          <p class="text-base font-semibold text-gray-700">Nenhum imóvel nessa categoria</p>
+          <button type="button"
+                  class="mt-4 text-sm font-medium text-amber-700 underline-offset-4 hover:underline"
+                  (click)="activeFilter = 'Todos'">
+            Ver todos os imóveis
+          </button>
+        </div>
+      } @else {
+        <div class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3"
+             role="list"
+             [attr.aria-label]="'Imóveis filtrados: ' + activeFilter">
+          @for (property of filteredProperties; track property.id; let i = $index) {
+            <article class="property-card group relative rounded-[2rem] overflow-hidden bg-gray-100 shadow-sm"
+                     role="listitem"
+                     data-aos="fade-up"
+                     [attr.data-aos-delay]="(i % 3) * 70">
+              <div class="aspect-square overflow-hidden">
+                <img [src]="property.image"
+                     [alt]="property.alt"
+                     loading="lazy"
+                     class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"/>
+              </div>
+
+              <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-black/10 to-transparent"></div>
+
+              <div class="absolute bottom-4 left-4 right-4">
+                <div class="rounded-3xl border border-white/20 bg-white/95 p-4 shadow-xl backdrop-blur-md">
+                  <p class="text-xs font-semibold uppercase tracking-[0.18em] text-amber-800">
+                    {{ property.category }}
+                  </p>
+                  <div class="mt-2 flex items-end justify-between gap-3">
+                    <div>
+                      <h3 class="text-base font-semibold text-gray-950">{{ property.name }}</h3>
+                      <p class="mt-1 text-sm text-gray-500">{{ property.info }}</p>
+                    </div>
+                    <span class="rounded-full bg-amber-50 px-3 py-1.5 text-xs font-semibold text-amber-800 whitespace-nowrap">
+                      {{ property.badge }}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </article>
+          }
+        </div>
+      }
+    </div>
+  </section>
+
+  <!-- STATS — H1: contadores animados ─────────────────── -->
+  <section class="bg-white px-4 pb-20 sm:px-6 lg:px-10 lg:pb-28" aria-label="Números em destaque">
+    <div class="mx-auto grid max-w-7xl grid-cols-1 gap-5 lg:grid-cols-3">
+      @for (stat of stats; track stat.label) {
+        <article class="rounded-[2rem] border border-gray-200 bg-gray-50 p-7" data-aos="fade-up">
+          <p class="stat-number text-4xl font-semibold tracking-[-0.04em] text-amber-800"
+             [attr.data-value]="stat.value"
+             [attr.data-prefix]="stat.prefix"
+             [attr.data-suffix]="stat.suffix"
+             aria-label="{{ stat.prefix }}{{ stat.value }}{{ stat.suffix }} {{ stat.label }}">
+            {{ stat.prefix }}{{ stat.value }}{{ stat.suffix }}
+          </p>
+          <h3 class="mt-3 text-lg font-semibold text-gray-950">{{ stat.label }}</h3>
+          <p class="mt-2 text-sm leading-6 text-gray-500">{{ stat.description }}</p>
+        </article>
+      }
+    </div>
+  </section>
+
+  <!-- COMO FUNCIONA ─────────────────────────────────────── -->
+  <section class="bg-gray-950 px-4 py-20 sm:px-6 lg:px-10 lg:py-28" aria-labelledby="steps-heading">
+    <div class="mx-auto grid max-w-7xl grid-cols-1 gap-12 lg:grid-cols-12 lg:items-center">
+
+      <div class="lg:col-span-5" data-aos="fade-right">
+        <span class="mb-4 inline-flex rounded-full bg-white/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.22em] text-amber-100">
+          Como funciona
+        </span>
+        <h2 id="steps-heading"
+            class="text-4xl font-light leading-tight tracking-[-0.04em] text-white sm:text-5xl"
+            style="font-family: 'DM Serif Display', Georgia, serif">
+          Uma jornada simples até o imóvel ideal
+        </h2>
+        <p class="mt-5 max-w-xl text-sm leading-7 text-white/65 sm:text-base">
+          Organizamos o processo para você comparar opções com clareza, visitar os imóveis certos e fechar negócio com segurança.
+        </p>
+      </div>
+
+      <!-- H2 – Real world: passos numerados com linguagem familiar -->
+      <div class="grid gap-4 lg:col-span-7">
+        @for (step of steps; track step.title) {
+          <article class="step-card rounded-[2rem] border border-white/10 bg-white/8 p-6 backdrop-blur-md"
+                   data-aos="fade-up">
+            <div class="flex gap-5">
+              <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-amber-700 text-sm font-bold text-white"
+                    aria-hidden="true">
+                {{ step.number }}
+              </span>
+              <div>
+                <h3 class="text-lg font-semibold text-white">{{ step.title }}</h3>
+                <p class="mt-2 text-sm leading-6 text-white/60">{{ step.description }}</p>
+              </div>
+            </div>
+          </article>
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- REGIÕES — carrossél scroll-snap ──────────────────── -->
+  <section class="bg-white px-4 py-20 sm:px-6 lg:px-10 lg:py-28" aria-labelledby="regioes-heading">
+    <div class="mx-auto max-w-7xl">
+      <div class="mb-12 max-w-3xl" data-aos="fade-up">
+        <span class="mb-4 inline-flex rounded-full bg-amber-50 px-4 py-2 text-xs font-semibold uppercase tracking-[0.22em] text-amber-800">
+          Regiões
+        </span>
+        <h2 id="regioes-heading"
+            class="text-4xl font-light leading-tight tracking-[-0.04em] text-gray-950 sm:text-5xl lg:text-6xl"
+            style="font-family: 'DM Serif Display', Georgia, serif">
+          Regiões mais procuradas
         </h2>
       </div>
 
-      <a href="#contato"
-        class="hidden min-h-11 items-center justify-center rounded-full border border-gray-300 px-6 py-2.5 text-sm font-semibold text-gray-800 transition-all hover:-translate-y-0.5 hover:border-amber-700 hover:bg-amber-700 hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-700 focus-visible:ring-offset-4 sm:inline-flex">
-        Ver todos
-      </a>
+      <div class="carousel-shell">
+        <!-- H3 – Prev: desabilitado quando no início -->
+        <button type="button"
+                class="carousel-arrow carousel-arrow--prev"
+                [disabled]="isRegionsBeginning"
+                [attr.aria-disabled]="isRegionsBeginning"
+                aria-label="Região anterior"
+                (click)="scrollRegions(-1)">
+          <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"/>
+          </svg>
+        </button>
+
+        <!-- H7 – Efficiency: teclado (ArrowLeft/Right) navega o foco no scroll-snap -->
+        <div class="carousel-track"
+             #regionsCarousel
+             role="region"
+             aria-label="Carrossél de regiões"
+             tabindex="0"
+             (scroll)="onRegionsScroll()"
+             (keydown.arrowleft)="scrollRegions(-1)"
+             (keydown.arrowright)="scrollRegions(1)">
+          @for (location of locations; track location.name) {
+            <article class="carousel-item region-card">
+              <div class="relative aspect-[4/5] overflow-hidden rounded-[2rem] bg-gray-100 shadow-xl shadow-gray-950/10">
+                <img [src]="location.image"
+                     [alt]="location.alt"
+                     loading="lazy"
+                     class="absolute inset-0 h-full w-full object-cover transition-transform duration-700 hover:scale-105"/>
+
+                <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent"></div>
+
+                <div class="absolute inset-x-0 bottom-0 p-6">
+                  <div class="mb-3 inline-flex rounded-full border border-white/25 bg-white/20 px-3 py-1.5 text-xs font-bold uppercase tracking-[0.16em] text-white shadow backdrop-blur-md">
+                    {{ location.count }} imóveis
+                  </div>
+                  <h3 class="text-2xl font-semibold tracking-[-0.03em] text-white drop-shadow-md">
+                    {{ location.name }}
+                  </h3>
+                  <p class="mt-2 text-sm leading-6 text-white/85 drop-shadow-md">
+                    {{ location.description }}
+                  </p>
+                </div>
+              </div>
+            </article>
+          }
+        </div>
+
+        <!-- H3 – Next: desabilitado quando no fim -->
+        <button type="button"
+                class="carousel-arrow carousel-arrow--next"
+                [disabled]="isRegionsEnd"
+                [attr.aria-disabled]="isRegionsEnd"
+                aria-label="Próxima região"
+                (click)="scrollRegions(1)">
+          <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/>
+          </svg>
+        </button>
+      </div>
+
+      <!-- H1 – Status: dots indicam posição atual; H4 – Consistency: mesmo padrão -->
+      <div class="mt-7 flex items-center justify-center gap-3"
+           role="group"
+           aria-label="Indicadores de posição — regiões">
+        @for (location of locations; track location.name; let i = $index) {
+          <button type="button"
+                  class="carousel-dot"
+                  [class.carousel-dot--active]="activeRegionIndex === i"
+                  [attr.aria-label]="'Ir para ' + location.name"
+                  [attr.aria-current]="activeRegionIndex === i ? 'true' : null"
+                  (click)="goToRegion(i)">
+          </button>
+        }
+      </div>
+
+      <!-- H1 – Visually hidden status for screen readers -->
+      <p class="sr-only" aria-live="polite" aria-atomic="true">{{ regionStatusLabel }}</p>
     </div>
+  </section>
 
-    <div class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-      <article class="group relative overflow-hidden rounded-[2rem] bg-gray-100 shadow-sm">
-        <img src="assets/img/property-1.png" alt="Casa de alto padrão com três quartos e duas vagas" loading="lazy"
-          class="h-72 w-full object-cover transition-transform duration-700 group-hover:scale-105" />
+  <!-- DEPOIMENTOS — carrossél scroll-snap ──────────────── -->
+  <section id="depoimentos"
+           class="bg-amber-50/60 px-4 py-20 sm:px-6 lg:px-10 lg:py-28"
+           aria-labelledby="depoimentos-heading">
+    <div class="mx-auto max-w-7xl">
+      <div class="mb-12 max-w-3xl" data-aos="fade-up">
+        <span class="mb-4 inline-flex rounded-full bg-white px-4 py-2 text-xs font-semibold uppercase tracking-[0.22em] text-amber-800 shadow-sm">
+          Depoimentos
+        </span>
+        <h2 id="depoimentos-heading"
+            class="text-4xl font-light leading-tight tracking-[-0.04em] text-gray-950 sm:text-5xl lg:text-6xl"
+            style="font-family: 'DM Serif Display', Georgia, serif">
+          Histórias de quem encontrou o lugar certo
+        </h2>
+      </div>
 
-        <div class="absolute inset-0 bg-gradient-to-t from-black/55 via-black/10 to-transparent"></div>
+      <div class="carousel-shell">
+        <button type="button"
+                class="carousel-arrow carousel-arrow--prev"
+                [disabled]="isTestimonialsBeginning"
+                [attr.aria-disabled]="isTestimonialsBeginning"
+                aria-label="Depoimento anterior"
+                (click)="scrollTestimonials(-1)">
+          <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"/>
+          </svg>
+        </button>
 
-        <div class="absolute bottom-4 left-4 right-4">
-          <div class="rounded-3xl border border-white/20 bg-white/95 p-4 shadow-xl backdrop-blur-md">
-            <p class="text-xs font-semibold uppercase tracking-[0.18em] text-amber-800">
-              Casa familiar
-            </p>
-
-            <div class="mt-2 flex items-end justify-between gap-3">
-              <div>
-                <h3 class="text-lg font-semibold text-gray-950">
-                  Residência Prime
-                </h3>
-                <p class="mt-1 text-sm text-gray-500">
-                  3 quartos · 2 vagas
-                </p>
+        <div class="carousel-track testimonial-track"
+             #testimonialsCarousel
+             role="region"
+             aria-label="Carrossél de depoimentos"
+             tabindex="0"
+             (scroll)="onTestimonialsScroll()"
+             (keydown.arrowleft)="scrollTestimonials(-1)"
+             (keydown.arrowright)="scrollTestimonials(1)">
+          @for (testimonial of testimonials; track testimonial.name) {
+            <article class="carousel-item testimonial-card rounded-[2rem] border border-amber-100 bg-white p-7 shadow-sm">
+              <!-- H2 – Real world: estrelas de avaliação são padrão reconhecível -->
+              <div class="mb-4 flex gap-0.5" aria-label="{{ testimonial.rating }} de 5 estrelas">
+                @for (star of [1,2,3,4,5]; track star) {
+                  <svg class="h-4 w-4 fill-amber-400 text-amber-400" viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                  </svg>
+                }
               </div>
 
-              <span class="rounded-full bg-amber-50 px-3 py-1.5 text-xs font-semibold text-amber-800">
-                Destaque
-              </span>
-            </div>
-          </div>
-        </div>
-      </article>
+              <p class="text-sm leading-7 text-gray-600">"{{ testimonial.text }}"</p>
 
-      <article class="group relative overflow-hidden rounded-[2rem] bg-gray-100 shadow-sm">
-        <img src="assets/img/property-2.png" alt="Apartamento moderno com dois quartos e uma vaga" loading="lazy"
-          class="h-72 w-full object-cover transition-transform duration-700 group-hover:scale-105" />
-
-        <div class="absolute inset-0 bg-gradient-to-t from-black/55 via-black/10 to-transparent"></div>
-
-        <div class="absolute bottom-4 left-4 right-4">
-          <div class="rounded-3xl border border-white/20 bg-white/95 p-4 shadow-xl backdrop-blur-md">
-            <p class="text-xs font-semibold uppercase tracking-[0.18em] text-amber-800">
-              Apartamento
-            </p>
-
-            <div class="mt-2 flex items-end justify-between gap-3">
-              <div>
-                <h3 class="text-lg font-semibold text-gray-950">
-                  Vista Central
-                </h3>
-                <p class="mt-1 text-sm text-gray-500">
-                  2 quartos · 1 vaga
-                </p>
+              <div class="mt-6 border-t border-gray-100 pt-5">
+                <p class="font-semibold text-gray-950">{{ testimonial.name }}</p>
+                <p class="mt-1 text-sm text-gray-500">{{ testimonial.context }}</p>
               </div>
-
-              <span class="rounded-full bg-amber-50 px-3 py-1.5 text-xs font-semibold text-amber-800">
-                Novo
-              </span>
-            </div>
-          </div>
+            </article>
+          }
         </div>
-      </article>
 
-      <article class="group relative overflow-hidden rounded-[2rem] bg-gray-100 shadow-sm lg:row-span-2">
-        <img src="assets/img/property-3.png" alt="Imóvel premium amplo com quatro quartos e três vagas" loading="lazy"
-          class="h-72 w-full object-cover transition-transform duration-700 group-hover:scale-105 lg:h-full lg:min-h-[596px]" />
+        <button type="button"
+                class="carousel-arrow carousel-arrow--next"
+                [disabled]="isTestimonialsEnd"
+                [attr.aria-disabled]="isTestimonialsEnd"
+                aria-label="Próximo depoimento"
+                (click)="scrollTestimonials(1)">
+          <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/>
+          </svg>
+        </button>
+      </div>
 
-        <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent"></div>
+      <div class="mt-7 flex items-center justify-center gap-3"
+           role="group"
+           aria-label="Indicadores de posição — depoimentos">
+        @for (testimonial of testimonials; track testimonial.name; let i = $index) {
+          <button type="button"
+                  class="carousel-dot"
+                  [class.carousel-dot--active]="activeTestimonialIndex === i"
+                  [attr.aria-label]="'Ir para depoimento de ' + testimonial.name"
+                  [attr.aria-current]="activeTestimonialIndex === i ? 'true' : null"
+                  (click)="goToTestimonial(i)">
+          </button>
+        }
+      </div>
 
-        <div class="absolute bottom-4 left-4 right-4">
-          <div class="rounded-3xl border border-white/20 bg-white/95 p-4 shadow-xl backdrop-blur-md">
-            <p class="text-xs font-semibold uppercase tracking-[0.18em] text-amber-800">
-              Alto padrão
-            </p>
-
-            <div class="mt-2 flex items-end justify-between gap-3">
-              <div>
-                <h3 class="text-lg font-semibold text-gray-950">
-                  Mansão Jardins
-                </h3>
-                <p class="mt-1 text-sm text-gray-500">
-                  4 quartos · 3 vagas
-                </p>
-              </div>
-
-              <span class="rounded-full bg-amber-50 px-3 py-1.5 text-xs font-semibold text-amber-800">
-                Premium
-              </span>
-            </div>
-          </div>
-        </div>
-      </article>
-
-      <article class="group relative overflow-hidden rounded-[2rem] bg-gray-100 shadow-sm">
-        <img src="assets/img/property-4.png" alt="Casa espaçosa com cinco quartos e quatro vagas" loading="lazy"
-          class="h-72 w-full object-cover transition-transform duration-700 group-hover:scale-105" />
-
-        <div class="absolute inset-0 bg-gradient-to-t from-black/55 via-black/10 to-transparent"></div>
-
-        <div class="absolute bottom-4 left-4 right-4">
-          <div class="rounded-3xl border border-white/20 bg-white/95 p-4 shadow-xl backdrop-blur-md">
-            <p class="text-xs font-semibold uppercase tracking-[0.18em] text-amber-800">
-              Espaço completo
-            </p>
-
-            <div class="mt-2 flex items-end justify-between gap-3">
-              <div>
-                <h3 class="text-lg font-semibold text-gray-950">
-                  Casa Horizonte
-                </h3>
-                <p class="mt-1 text-sm text-gray-500">
-                  5 quartos · 4 vagas
-                </p>
-              </div>
-
-              <span class="rounded-full bg-amber-50 px-3 py-1.5 text-xs font-semibold text-amber-800">
-                Família
-              </span>
-            </div>
-          </div>
-        </div>
-      </article>
-
-      <article class="group relative overflow-hidden rounded-[2rem] bg-gray-100 shadow-sm">
-        <img src="assets/img/property-5.png" alt="Apartamento sofisticado com varanda e área de lazer" loading="lazy"
-          class="h-72 w-full object-cover transition-transform duration-700 group-hover:scale-105" />
-
-        <div class="absolute inset-0 bg-gradient-to-t from-black/55 via-black/10 to-transparent"></div>
-
-        <div class="absolute bottom-4 left-4 right-4">
-          <div class="rounded-3xl border border-white/20 bg-white/95 p-4 shadow-xl backdrop-blur-md">
-            <p class="text-xs font-semibold uppercase tracking-[0.18em] text-amber-800">
-              Condomínio
-            </p>
-
-            <div class="mt-2 flex items-end justify-between gap-3">
-              <div>
-                <h3 class="text-lg font-semibold text-gray-950">
-                  Varanda Bella
-                </h3>
-                <p class="mt-1 text-sm text-gray-500">
-                  3 quartos · 2 vagas
-                </p>
-              </div>
-
-              <span class="rounded-full bg-amber-50 px-3 py-1.5 text-xs font-semibold text-amber-800">
-                Lazer
-              </span>
-            </div>
-          </div>
-        </div>
-      </article>
+      <p class="sr-only" aria-live="polite" aria-atomic="true">{{ testimonialStatusLabel }}</p>
     </div>
+  </section>
 
-    <a href="#contato"
-      class="mt-8 inline-flex min-h-11 items-center justify-center rounded-full border border-gray-300 px-6 py-2.5 text-sm font-semibold text-gray-800 transition-all hover:-translate-y-0.5 hover:border-amber-700 hover:bg-amber-700 hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-700 focus-visible:ring-offset-4 sm:hidden">
-      Ver todos
-    </a>
-  </div>
-</section>
+  <!-- FAQ — H9: perguntas evitam erros comuns ──────────── -->
+  <section class="bg-white px-4 py-20 sm:px-6 lg:px-10 lg:py-28" aria-labelledby="faq-heading">
+    <div class="mx-auto grid max-w-7xl grid-cols-1 gap-12 lg:grid-cols-12">
 
-<section class="bg-white px-4 pb-20 sm:px-6 lg:px-10 lg:pb-28">
-  <div class="mx-auto grid max-w-7xl grid-cols-1 gap-5 lg:grid-cols-3">
-    <article class="rounded-[2rem] border border-gray-200 bg-gray-50 p-7">
-      <p class="text-4xl font-semibold tracking-[-0.04em] text-amber-800">
-        +120
-      </p>
-      <h3 class="mt-3 text-lg font-semibold text-gray-950">
-        imóveis selecionados
-      </h3>
-      <p class="mt-2 text-sm leading-6 text-gray-500">
-        Opções avaliadas com cuidado para diferentes perfis, regiões e necessidades.
-      </p>
-    </article>
+      <div class="lg:col-span-5" data-aos="fade-right">
+        <span class="mb-4 inline-flex rounded-full bg-amber-50 px-4 py-2 text-xs font-semibold uppercase tracking-[0.22em] text-amber-800">
+          Dúvidas frequentes
+        </span>
+        <h2 id="faq-heading"
+            class="text-4xl font-light leading-tight tracking-[-0.04em] text-gray-950 sm:text-5xl"
+            style="font-family: 'DM Serif Display', Georgia, serif">
+          Informações claras antes de dar o próximo passo
+        </h2>
+      </div>
 
-    <article class="rounded-[2rem] border border-gray-200 bg-gray-50 p-7">
-      <p class="text-4xl font-semibold tracking-[-0.04em] text-amber-800">
-        98%
-      </p>
-      <h3 class="mt-3 text-lg font-semibold text-gray-950">
-        satisfação no atendimento
-      </h3>
-      <p class="mt-2 text-sm leading-6 text-gray-500">
-        Acompanhamento próximo para tornar a decisão mais simples e segura.
-      </p>
-    </article>
-
-    <article class="rounded-[2rem] border border-gray-200 bg-gray-50 p-7">
-      <p class="text-4xl font-semibold tracking-[-0.04em] text-amber-800">
-        24h
-      </p>
-      <h3 class="mt-3 text-lg font-semibold text-gray-950">
-        atendimento digital
-      </h3>
-      <p class="mt-2 text-sm leading-6 text-gray-500">
-        Fale com a equipe, tire dúvidas e organize visitas com mais praticidade.
-      </p>
-    </article>
-  </div>
-</section>
-
-<section class="bg-gray-950 px-4 py-20 sm:px-6 lg:px-10 lg:py-28">
-  <div class="mx-auto grid max-w-7xl grid-cols-1 gap-12 lg:grid-cols-12 lg:items-center">
-    <div class="lg:col-span-5">
-      <span
-        class="mb-4 inline-flex rounded-full bg-white/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.22em] text-amber-100">
-        Como funciona
-      </span>
-
-      <h2 class="text-4xl font-light leading-tight tracking-[-0.04em] text-white sm:text-5xl"
-        style="font-family: 'DM Serif Display', Georgia, serif">
-        Uma jornada simples até o imóvel ideal
-      </h2>
-
-      <p class="mt-5 max-w-xl text-sm leading-7 text-white/65 sm:text-base">
-        Organizamos o processo para você comparar opções com clareza, visitar os
-        imóveis certos e fechar negócio com mais segurança.
-      </p>
+      <div class="space-y-4 lg:col-span-7">
+        @for (faq of faqs; track faq.question) {
+          <details class="faq-item group rounded-[2rem] border border-gray-200 bg-gray-50 p-6">
+            <summary class="flex cursor-pointer list-none items-center justify-between gap-4 text-base font-semibold text-gray-950 hover:text-amber-800 transition-colors">
+              {{ faq.question }}
+              <span class="faq-icon flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-amber-100 text-amber-800 text-xl leading-none transition-transform group-open:rotate-45"
+                    aria-hidden="true">+</span>
+            </summary>
+            <p class="mt-4 text-sm leading-7 text-gray-500">{{ faq.answer }}</p>
+          </details>
+        }
+      </div>
     </div>
+  </section>
 
-    <div class="grid gap-4 lg:col-span-7">
-      <article class="rounded-[2rem] border border-white/10 bg-white/10 p-6 backdrop-blur-md">
-        <div class="flex gap-5">
-          <span
-            class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-amber-700 text-sm font-bold text-white">
-            1
-          </span>
+  <!-- CONTATO — H5, H9: formulário com validação ────────── -->
+  <section id="contato"
+           class="bg-white px-4 py-16 sm:px-6 lg:px-10 lg:py-24"
+           aria-labelledby="contato-heading">
+    <div class="mx-auto grid max-w-7xl grid-cols-1 overflow-hidden rounded-[2.5rem] border border-amber-100 bg-gradient-to-br from-amber-50 via-white to-stone-100 shadow-2xl shadow-amber-900/10 lg:grid-cols-12">
 
-          <div>
-            <h3 class="text-lg font-semibold text-white">
-              Conte o que você procura
-            </h3>
-            <p class="mt-2 text-sm leading-6 text-white/60">
-              Entendemos sua rotina, orçamento, localização desejada e prioridades.
-            </p>
-          </div>
-        </div>
-      </article>
-
-      <article class="rounded-[2rem] border border-white/10 bg-white/10 p-6 backdrop-blur-md">
-        <div class="flex gap-5">
-          <span
-            class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-amber-700 text-sm font-bold text-white">
-            2
-          </span>
-
-          <div>
-            <h3 class="text-lg font-semibold text-white">
-              Receba uma seleção de imóveis
-            </h3>
-            <p class="mt-2 text-sm leading-6 text-white/60">
-              Apresentamos opções alinhadas ao seu perfil, sem excesso de escolhas confusas.
-            </p>
-          </div>
-        </div>
-      </article>
-
-      <article class="rounded-[2rem] border border-white/10 bg-white/10 p-6 backdrop-blur-md">
-        <div class="flex gap-5">
-          <span
-            class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-amber-700 text-sm font-bold text-white">
-            3
-          </span>
-
-          <div>
-            <h3 class="text-lg font-semibold text-white">
-              Visite, compare e decida
-            </h3>
-            <p class="mt-2 text-sm leading-6 text-white/60">
-              Acompanhamos visitas, dúvidas, documentação e negociação final.
-            </p>
-          </div>
-        </div>
-      </article>
-    </div>
-  </div>
-</section>
-
-<section id="depoimentos" class="bg-white px-4 py-20 sm:px-6 lg:px-10 lg:py-28">
-  <div class="mx-auto max-w-7xl">
-    <div class="mb-12 max-w-3xl">
-      <span
-        class="mb-4 inline-flex rounded-full bg-amber-50 px-4 py-2 text-xs font-semibold uppercase tracking-[0.22em] text-amber-800">
-        Depoimentos
-      </span>
-
-      <h2 class="text-4xl font-light leading-tight tracking-[-0.04em] text-gray-950 sm:text-5xl lg:text-6xl"
-        style="font-family: 'DM Serif Display', Georgia, serif">
-        Histórias de quem encontrou o lugar certo
-      </h2>
-    </div>
-
-    <div class="grid grid-cols-1 gap-5 md:grid-cols-3">
-      <article class="rounded-[2rem] border border-gray-200 bg-white p-7 shadow-sm">
-        <p class="text-sm leading-7 text-gray-600">
-          “A PrimeLar entendeu exatamente o que buscávamos. Visitamos poucos imóveis,
-          mas todos faziam sentido para nossa família.”
+      <div class="p-8 lg:col-span-7 lg:p-12">
+        <span class="mb-4 inline-flex rounded-full bg-white px-4 py-2 text-xs font-semibold uppercase tracking-[0.22em] text-amber-800 shadow-sm">
+          Atendimento personalizado
+        </span>
+        <h2 id="contato-heading"
+            class="text-4xl font-light leading-tight tracking-[-0.04em] text-gray-950 sm:text-5xl lg:text-6xl"
+            style="font-family: 'DM Serif Display', Georgia, serif">
+          Pronto para encontrar o seu novo lar?
+        </h2>
+        <p class="mt-5 max-w-xl text-sm leading-7 text-gray-600 sm:text-base">
+          Nossa equipe está pronta para entender seu perfil, apresentar as melhores opções e
+          acompanhar você em cada etapa.
         </p>
 
-        <div class="mt-6 border-t border-gray-100 pt-5">
-          <p class="font-semibold text-gray-950">
-            Mariana e Lucas
-          </p>
-          <p class="mt-1 text-sm text-gray-500">
-            Compra residencial
-          </p>
+        <!-- H6 – Recognition: passos numerados familiares -->
+        <div class="mt-8 grid grid-cols-3 gap-4">
+          @for (step of [['1','Explique seu perfil'],['2','Receba opções'],['3','Agende visitas']]; track $index) {
+            <div class="rounded-3xl bg-white/80 p-5 shadow-sm">
+              <p class="text-2xl font-semibold text-amber-800">{{ step[0] }}</p>
+              <p class="mt-2 text-sm font-medium text-gray-700">{{ step[1] }}</p>
+            </div>
+          }
         </div>
-      </article>
+      </div>
 
-      <article class="rounded-[2rem] border border-gray-200 bg-white p-7 shadow-sm">
-        <p class="text-sm leading-7 text-gray-600">
-          “O atendimento foi claro do início ao fim. Conseguimos negociar com segurança
-          e sem aquela sensação de estar perdido no processo.”
-        </p>
+      <!-- FORMULÁRIO -->
+      <div class="bg-white/80 p-6 backdrop-blur-md lg:col-span-5 lg:p-8">
 
-        <div class="mt-6 border-t border-gray-100 pt-5">
-          <p class="font-semibold text-gray-950">
-            Rafael Moreira
-          </p>
-          <p class="mt-1 text-sm text-gray-500">
-            Venda de imóvel
-          </p>
-        </div>
-      </article>
+        <!-- H1 – Status: estado de sucesso após envio -->
+        @if (formSuccess) {
+          <div class="flex h-full flex-col items-center justify-center gap-4 rounded-[2rem] border border-green-100 bg-green-50 p-8 text-center"
+               role="status"
+               aria-live="polite">
+            <div class="flex h-16 w-16 items-center justify-center rounded-full bg-green-100">
+              <svg class="h-8 w-8 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+              </svg>
+            </div>
+            <p class="text-lg font-semibold text-gray-950">Solicitação enviada!</p>
+            <p class="text-sm text-gray-500">Em breve nossa equipe entrará em contato com você.</p>
+            <!-- H3 – User control: pode enviar novamente -->
+            <button type="button"
+                    class="mt-2 text-sm font-medium text-amber-700 underline-offset-4 hover:underline"
+                    (click)="resetForm()">
+              Enviar nova solicitação
+            </button>
+          </div>
+        } @else {
+          <div class="rounded-[2rem] border border-gray-200 bg-white p-6 shadow-xl shadow-amber-900/5">
+            <div class="grid grid-cols-1 gap-4">
 
-      <article class="rounded-[2rem] border border-gray-200 bg-white p-7 shadow-sm">
-        <p class="text-sm leading-7 text-gray-600">
-          “Precisávamos de algo rápido para alugar e a equipe organizou tudo de forma
-          prática, com boas opções e suporte nas dúvidas.”
-        </p>
+              <!-- Campo: Nome — H5 + H9 -->
+              <div>
+                <label for="nome" class="mb-1.5 block text-sm font-semibold text-gray-700">
+                  Nome completo <span class="text-red-500" aria-hidden="true">*</span>
+                </label>
+                <input id="nome"
+                       name="nome"
+                       type="text"
+                       autocomplete="name"
+                       placeholder="Seu nome completo"
+                       required
+                       [value]="form.nome.value"
+                       (input)="onFieldInput('nome', $any($event.target).value)"
+                       (blur)="onFieldBlur('nome')"
+                       class="field-base h-12 w-full rounded-2xl border px-4 text-sm outline-none transition-all focus:ring-4"
+                       [class.border-gray-200]="!form.nome.error || !form.nome.touched"
+                       [class.border-red-400]="form.nome.error && form.nome.touched"
+                       [class.focus:border-amber-700]="!form.nome.error"
+                       [class.focus:ring-amber-700/10]="!form.nome.error"
+                       [class.focus:border-red-400]="form.nome.error && form.nome.touched"
+                       [class.focus:ring-red-400/10]="form.nome.error && form.nome.touched"
+                       [attr.aria-invalid]="form.nome.error && form.nome.touched ? 'true' : null"
+                       [attr.aria-describedby]="form.nome.error && form.nome.touched ? 'nome-error' : null"/>
+                @if (form.nome.error && form.nome.touched) {
+                  <p id="nome-error" class="mt-1.5 flex items-center gap-1 text-xs text-red-600" role="alert">
+                    <svg class="h-3.5 w-3.5 shrink-0" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
+                      <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+                    </svg>
+                    {{ form.nome.error }}
+                  </p>
+                }
+              </div>
 
-        <div class="mt-6 border-t border-gray-100 pt-5">
-          <p class="font-semibold text-gray-950">
-            Camila Fernandes
-          </p>
-          <p class="mt-1 text-sm text-gray-500">
-            Locação
-          </p>
-        </div>
-      </article>
+              <!-- Campo: Telefone — H2 (formato familiar), H5, H9 -->
+              <div>
+                <label for="telefone" class="mb-1.5 block text-sm font-semibold text-gray-700">
+                  Telefone ou WhatsApp <span class="text-red-500" aria-hidden="true">*</span>
+                </label>
+                <input id="telefone"
+                       name="telefone"
+                       type="tel"
+                       autocomplete="tel"
+                       placeholder="(83) 99999-9999"
+                       required
+                       [value]="form.telefone.value"
+                       (input)="onFieldInput('telefone', $any($event.target).value)"
+                       (blur)="onFieldBlur('telefone')"
+                       class="field-base h-12 w-full rounded-2xl border px-4 text-sm outline-none transition-all focus:ring-4"
+                       [class.border-gray-200]="!form.telefone.error || !form.telefone.touched"
+                       [class.border-red-400]="form.telefone.error && form.telefone.touched"
+                       [attr.aria-invalid]="form.telefone.error && form.telefone.touched ? 'true' : null"
+                       [attr.aria-describedby]="form.telefone.error && form.telefone.touched ? 'telefone-error' : null"/>
+                @if (form.telefone.error && form.telefone.touched) {
+                  <p id="telefone-error" class="mt-1.5 flex items-center gap-1 text-xs text-red-600" role="alert">
+                    <svg class="h-3.5 w-3.5 shrink-0" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
+                      <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+                    </svg>
+                    {{ form.telefone.error }}
+                  </p>
+                } @else {
+                  <p class="mt-1 text-xs text-gray-400">Inclua o DDD (ex.: 83 99999-9999)</p>
+                }
+              </div>
+
+              <!-- Campo: Interesse -->
+              <div>
+                <label for="interesse" class="mb-1.5 block text-sm font-semibold text-gray-700">
+                  Interesse <span class="text-red-500" aria-hidden="true">*</span>
+                </label>
+                <select id="interesse"
+                        name="interesse"
+                        required
+                        [value]="form.interesse.value"
+                        (change)="onFieldInput('interesse', $any($event.target).value)"
+                        (blur)="onFieldBlur('interesse')"
+                        class="field-base h-12 w-full rounded-2xl border bg-white px-4 text-sm outline-none transition-all focus:ring-4"
+                        [class.border-gray-200]="!form.interesse.error || !form.interesse.touched"
+                        [class.border-red-400]="form.interesse.error && form.interesse.touched"
+                        [attr.aria-invalid]="form.interesse.error && form.interesse.touched ? 'true' : null"
+                        [attr.aria-describedby]="form.interesse.error && form.interesse.touched ? 'interesse-error' : null">
+                  <option value="" disabled selected>Selecione uma opção</option>
+                  <option value="comprar">Comprar imóvel</option>
+                  <option value="alugar">Alugar imóvel</option>
+                  <option value="vender">Vender imóvel</option>
+                  <option value="falar">Falar com corretor</option>
+                </select>
+                @if (form.interesse.error && form.interesse.touched) {
+                  <p id="interesse-error" class="mt-1.5 flex items-center gap-1 text-xs text-red-600" role="alert">
+                    <svg class="h-3.5 w-3.5 shrink-0" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
+                      <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+                    </svg>
+                    {{ form.interesse.error }}
+                  </p>
+                }
+              </div>
+
+              <!-- H5 – Error prevention: desabilitado enquanto inválido após interação -->
+              <!-- H1 – Status: spinner durante envio -->
+              <button type="button"
+                      class="btn-submit mt-2 inline-flex min-h-12 items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-amber-900/20 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-700 focus-visible:ring-offset-4"
+                      [class.bg-amber-700]="!formSubmitting"
+                      [class.hover:bg-amber-800]="!formSubmitting"
+                      [class.hover:-translate-y-0.5]="!formSubmitting"
+                      [class.bg-amber-400]="formSubmitting"
+                      [disabled]="formSubmitting"
+                      [attr.aria-busy]="formSubmitting"
+                      (click)="onSubmit()">
+                @if (formSubmitting) {
+                  <svg class="h-4 w-4 animate-spin" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/>
+                  </svg>
+                  Enviando…
+                } @else {
+                  Solicitar atendimento
+                }
+              </button>
+            </div>
+
+            <!-- H10 – Help: nota discreta sobre campos obrigatórios -->
+            <p class="mt-4 text-xs text-gray-400">
+              <span aria-hidden="true">* </span>Campos obrigatórios
+            </p>
+          </div>
+        }
+      </div>
     </div>
-  </div>
-</section>
+  </section>
+</main>
 
-<section id="contato" class="bg-amber-800 px-4 py-16 sm:px-6 lg:px-10 lg:py-20">
-  <div
-    class="mx-auto flex max-w-7xl flex-col items-start justify-between gap-8 rounded-[2rem] border border-white/10 bg-white/10 p-8 backdrop-blur-md md:flex-row md:items-center lg:p-10">
-    <div>
-      <span
-        class="mb-4 inline-flex rounded-full bg-white/15 px-4 py-2 text-xs font-semibold uppercase tracking-[0.22em] text-amber-50">
-        Atendimento personalizado
-      </span>
-
-      <h3 class="text-3xl font-light leading-tight tracking-[-0.03em] text-white md:text-5xl"
-        style="font-family: 'DM Serif Display', Georgia, serif">
-        Pronto para encontrar<br class="hidden sm:block" />
-        o seu novo lar?
-      </h3>
-
-      <p class="mt-4 max-w-xl text-sm leading-6 text-white/75">
-        Nossa equipe está pronta para entender seu perfil, apresentar as melhores
-        opções e acompanhar você em cada etapa.
+<!-- FOOTER ────────────────────────────────────────────────── -->
+<footer class="border-t border-gray-200 bg-gray-950 px-4 py-12 text-white sm:px-6 lg:px-10">
+  <div class="mx-auto grid max-w-7xl grid-cols-1 gap-10 lg:grid-cols-12">
+    <div class="lg:col-span-4">
+      <div class="flex items-center gap-3">
+        <div class="flex h-10 w-10 items-center justify-center rounded-2xl bg-amber-700">
+          <span class="text-sm font-bold text-white" aria-hidden="true">P</span>
+        </div>
+        <span class="text-xl font-semibold tracking-tight">PrimeLar</span>
+      </div>
+      <p class="mt-5 max-w-sm text-sm leading-7 text-white/60">
+        Imóveis selecionados, atendimento consultivo e uma experiência clara para
+        quem quer comprar, vender ou alugar com segurança.
       </p>
     </div>
 
-    <a href="#"
-      class="inline-flex min-h-12 shrink-0 items-center justify-center rounded-full bg-white px-8 py-3 text-sm font-semibold text-amber-800 shadow-xl shadow-black/20 transition-all hover:-translate-y-0.5 hover:bg-amber-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-4 focus-visible:ring-offset-amber-900">
-      Falar com um corretor
-    </a>
+    @for (column of footerColumns; track column.title) {
+      <div class="lg:col-span-2">
+        <h3 class="text-sm font-semibold text-white">{{ column.title }}</h3>
+        <ul class="mt-4 space-y-3" role="list">
+          @for (link of column.links; track link.href) {
+            <li>
+              <a [href]="link.href"
+                 class="text-sm text-white/55 transition-colors hover:text-amber-100 focus:outline-none focus-visible:text-amber-100">
+                {{ link.label }}
+              </a>
+            </li>
+          }
+        </ul>
+      </div>
+    }
+
+    <div class="lg:col-span-2">
+      <h3 class="text-sm font-semibold text-white">Contato</h3>
+      <address class="not-italic">
+        <ul class="mt-4 space-y-3 text-sm text-white/55" role="list">
+          <li>João Pessoa — PB</li>
+          <li><a href="mailto:contato@primelar.com" class="hover:text-amber-100 transition-colors">contato&#64;primelar.com</a></li>
+          <li><a href="tel:+558399999999" class="hover:text-amber-100 transition-colors">(83) 99999-9999</a></li>
+        </ul>
+      </address>
+    </div>
   </div>
-</section>
+
+  <div class="mx-auto mt-10 flex max-w-7xl flex-col gap-4 border-t border-white/10 pt-6 text-sm text-white/45 sm:flex-row sm:items-center sm:justify-between">
+    <p>© {{ currentYear }} PrimeLar. Todos os direitos reservados.</p>
+    <p>Experiência simples, acessível e responsiva.</p>
+  </div>
+</footer>
+
+<!-- BACK-TO-TOP — H3: controle explícito do usuário ────────── -->
+@if (showBackToTop) {
+  <button type="button"
+          class="back-to-top fixed bottom-6 right-6 z-50 flex h-12 w-12 items-center justify-center rounded-full bg-amber-700 text-white shadow-lg shadow-amber-900/30 transition-all hover:-translate-y-1 hover:bg-amber-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-700 focus-visible:ring-offset-4"
+          aria-label="Voltar ao topo da página"
+          (click)="scrollToTop()">
+    <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 15l7-7 7 7"/>
+    </svg>
+  </button>
+}
