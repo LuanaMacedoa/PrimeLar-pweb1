@@ -1,18 +1,412 @@
+/* ═══════════════════════════════════════════════════════════
+   PrimeLar — landing.styles.css
+   Refatorado com foco nas Heurísticas de Nielsen
+   ═══════════════════════════════════════════════════════════ */
+
 @import "tailwindcss";
- 
+@import "aos/dist/aos.css";
+
+/* ── Fontes / Tokens ──────────────────────────────────────── */
 @theme {
   --font-display: "DM Serif Display", Georgia, serif;
   --font-sans: "DM Sans", system-ui, sans-serif;
 }
- 
+
+/* ── Base ─────────────────────────────────────────────────── */
 @layer base {
   html {
     scroll-behavior: smooth;
+    text-rendering: optimizeLegibility;
   }
- 
+
   body {
     font-family: var(--font-sans);
     color: #111827;
+    background: #ffffff;
     -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
-} 
+
+  button, a, input, select, textarea, summary {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  img { max-width: 100%; }
+
+  ::selection { background: rgba(146, 64, 14, 0.22); }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   COMPONENTES
+   ═══════════════════════════════════════════════════════════ */
+@layer components {
+
+  /* ── Navegação: link ativo (H1 – Visibility of system status) ─ */
+  .nav-link--active {
+    background-color: rgb(255 251 235); /* amber-50 */
+    color: rgb(146 64 14);              /* amber-800 */
+    font-weight: 600;
+    position: relative;
+  }
+
+  /* Underline sutil no link ativo */
+  .nav-link--active::after {
+    content: "";
+    position: absolute;
+    bottom: 2px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 16px;
+    height: 2px;
+    border-radius: 9999px;
+    background-color: rgb(180 83 9); /* amber-700 */
+  }
+
+  /* ── Menu mobile (H3 – User control) ─────────────────────── */
+  .mobile-overlay {
+    animation: fade-in 150ms ease-out;
+  }
+
+  .mobile-drawer {
+    animation: slide-in-right 220ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  @keyframes fade-in {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+
+  @keyframes slide-in-right {
+    from { transform: translateX(100%); }
+    to   { transform: translateX(0); }
+  }
+
+  /* ── Cards: benefícios, serviços ─────────────────────────── */
+  .benefit-card {
+    transition: transform 250ms ease, box-shadow 250ms ease, background-color 250ms ease;
+  }
+  .benefit-card:hover {
+    transform: translateY(-4px);
+    background-color: white;
+    box-shadow: 0 12px 32px rgba(0,0,0,0.08);
+  }
+
+  .service-card {
+    transition: transform 250ms ease, box-shadow 250ms ease;
+  }
+  .service-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 16px 40px rgba(0,0,0,0.08);
+  }
+
+  .step-card {
+    transition: background-color 250ms ease, transform 250ms ease;
+    background-color: rgba(255,255,255,0.08);
+  }
+  .step-card:hover {
+    background-color: rgba(255,255,255,0.13);
+    transform: translateX(4px);
+  }
+
+  /* ── Cards: imóveis ──────────────────────────────────────── */
+  .property-card {
+    transition: transform 300ms ease, box-shadow 300ms ease;
+    cursor: pointer;
+  }
+  .property-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 20px 48px rgba(0,0,0,0.12);
+  }
+
+  /* ── Filtro de imóveis (H7 – Flexibility and efficiency) ──── */
+  .filter-chip {
+    background-color: white;
+    border-color: rgb(229 231 235); /* gray-200 */
+    color: rgb(75 85 99);           /* gray-600 */
+  }
+  .filter-chip:hover {
+    border-color: rgb(217 119 6);   /* amber-600 */
+    color: rgb(146 64 14);          /* amber-800 */
+    background-color: rgb(255 251 235);
+    transform: translateY(-1px);
+  }
+  .filter-chip--active {
+    background-color: rgb(180 83 9) !important; /* amber-700 */
+    border-color: rgb(180 83 9) !important;
+    color: white !important;
+    font-weight: 600;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(146, 64, 14, 0.25);
+  }
+
+  /* ── FAQ (H9 – Help users recover from errors) ─────────────── */
+  .faq-item {
+    transition: border-color 200ms ease, background-color 200ms ease;
+  }
+  .faq-item[open] {
+    border-color: rgb(253 230 138); /* amber-200 */
+    background-color: white;
+  }
+  .faq-icon {
+    transition: transform 200ms ease;
+  }
+  /* group-open:rotate-45 é tratado via Tailwind no template */
+
+  /* ── Campo de formulário base ─────────────────────────────── */
+  .field-base {
+    color: #111827;
+    background-color: white;
+    appearance: none;
+  }
+
+  /* Estado de foco OK */
+  .field-base:focus {
+    border-color: rgb(180 83 9);
+    box-shadow: 0 0 0 4px rgba(180, 83, 9, 0.08);
+  }
+
+  /* Estado de erro (H9 – Error recovery) */
+  .field-base.field-error,
+  input[aria-invalid="true"],
+  select[aria-invalid="true"] {
+    border-color: rgb(248 113 113) !important;
+  }
+  input[aria-invalid="true"]:focus,
+  select[aria-invalid="true"]:focus {
+    box-shadow: 0 0 0 4px rgba(248, 113, 113, 0.12) !important;
+  }
+
+  /* Estado de sucesso */
+  .field-base.field-valid {
+    border-color: rgb(74 222 128);
+  }
+
+  /* ── Botão enviar ─────────────────────────────────────────── */
+  .btn-submit {
+    cursor: pointer;
+  }
+  .btn-submit:disabled {
+    cursor: not-allowed;
+    opacity: 0.7;
+  }
+
+  /* ── Carrossél: estrutura base ──────────────────────────────
+     H4 – Consistency: mesmo padrão para regiões e depoimentos  */
+  .carousel-shell {
+    position: relative;
+    /* Espaço nas laterais para as setas no desktop */
+  }
+
+  /* Trilha rolável — scroll-snap nativo (H3 – User control) */
+  .carousel-track {
+    display: flex;
+    gap: 24px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    scrollbar-width: none;         /* Firefox */
+    -ms-overflow-style: none;      /* IE/Edge */
+    -webkit-overflow-scrolling: touch;
+    padding: 4px 2px 12px;
+    outline: none;
+  }
+
+  .carousel-track::-webkit-scrollbar {
+    display: none;                 /* Chrome/Safari */
+  }
+
+  /* H7 – Efficiency: foco visível para navegação por teclado */
+  .carousel-track:focus-visible {
+    outline: 2px solid rgb(180 83 9);
+    outline-offset: 4px;
+    border-radius: 12px;
+  }
+
+  /* Item individual */
+  .carousel-item {
+    flex: 0 0 calc((100% - 48px) / 3); /* 3 visíveis no desktop */
+    scroll-snap-align: start;
+  }
+
+  /* Trilha de depoimentos: itens mais largos */
+  .testimonial-track .carousel-item {
+    flex: 0 0 calc((100% - 40px) / 3);
+  }
+
+  /* ── Setas de navegação (H1 – Visibility, H3 – Control) ──── */
+  .carousel-arrow {
+    display: none; /* visíveis apenas em desktop */
+    position: absolute;
+    top: 40%;
+    z-index: 10;
+    width: 3rem;
+    height: 3rem;
+    align-items: center;
+    justify-content: center;
+    border-radius: 9999px;
+    border: 1px solid rgba(229, 231, 235, 0.6);
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(8px);
+    color: #374151;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.10);
+    transition: transform 180ms ease, background 180ms ease, color 180ms ease, opacity 180ms ease, box-shadow 180ms ease;
+  }
+
+  .carousel-arrow:hover:not(:disabled) {
+    transform: translateY(-50%) scale(1.06);
+    background: white;
+    color: rgb(146 64 14);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.14);
+  }
+
+  .carousel-arrow:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(180, 83, 9, 0.35);
+  }
+
+  /* H1 – Status: desabilitado comunicado claramente */
+  .carousel-arrow:disabled,
+  .carousel-arrow[aria-disabled="true"] {
+    cursor: not-allowed;
+    opacity: 0.35;
+    background: rgb(249 250 251);
+    color: rgb(156 163 175);
+    box-shadow: none;
+    pointer-events: none;
+  }
+
+  .carousel-arrow--prev {
+    left: -1.5rem;
+    transform: translateY(-50%);
+  }
+  .carousel-arrow--prev:hover:not(:disabled) {
+    transform: translateY(-50%) scale(1.06);
+  }
+
+  .carousel-arrow--next {
+    right: -1.5rem;
+    transform: translateY(-50%);
+  }
+  .carousel-arrow--next:hover:not(:disabled) {
+    transform: translateY(-50%) scale(1.06);
+  }
+
+  /* ── Dots (H1 – Status: posição atual; H4 – Consistency) ──── */
+  .carousel-dot {
+    position: relative;
+    height: 8px;
+    width: 8px;
+    border-radius: 9999px;
+    background: rgb(231 229 228); /* stone-200 */
+    transition: width 200ms ease, background 200ms ease, transform 200ms ease;
+    flex-shrink: 0;
+  }
+
+  /* Área de toque ampliada (H7 – Efficiency: toque fácil no mobile) */
+  .carousel-dot::after {
+    content: "";
+    position: absolute;
+    inset: -8px;
+    border-radius: 9999px;
+  }
+
+  .carousel-dot:hover {
+    background: rgb(214 211 208);
+    transform: scale(1.15);
+  }
+
+  .carousel-dot:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(180, 83, 9, 0.35);
+  }
+
+  .carousel-dot--active {
+    width: 32px;
+    background: rgb(146 64 14); /* amber-800 */
+  }
+
+  .carousel-dot--active:hover {
+    background: rgb(120 53 15); /* amber-900 */
+  }
+
+  /* ── Back-to-top (H3 – User control) ─────────────────────── */
+  .back-to-top {
+    animation: pop-in 200ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  @keyframes pop-in {
+    from { transform: scale(0.8); opacity: 0; }
+    to   { transform: scale(1);   opacity: 1; }
+  }
+
+  /* ── Região: card no carrossél ────────────────────────────── */
+  .region-card img {
+    transition: transform 600ms ease;
+  }
+  .region-card:hover img {
+    transform: scale(1.04);
+  }
+
+  /* ── Depoimentos: card no carrossél ──────────────────────── */
+  .testimonial-card {
+    transition: transform 200ms ease, box-shadow 200ms ease;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+  .testimonial-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 28px rgba(0,0,0,0.07);
+  }
+
+} /* end @layer components */
+
+/* ═══════════════════════════════════════════════════════════
+   RESPONSIVO
+   ═══════════════════════════════════════════════════════════ */
+
+/* Tablet: 2 itens visíveis */
+@media (max-width: 1023px) {
+  .carousel-item {
+    flex: 0 0 calc((100% - 24px) / 2);
+  }
+  .testimonial-track .carousel-item {
+    flex: 0 0 calc((100% - 20px) / 2);
+  }
+}
+
+/* Mobile: 1.05 itens (peek do próximo — H6: Recognition) */
+@media (max-width: 767px) {
+  .carousel-item {
+    flex: 0 0 88%;
+  }
+  .testimonial-track .carousel-item {
+    flex: 0 0 88%;
+  }
+
+  /* Dots menores no mobile */
+  .carousel-dot { width: 6px; height: 6px; }
+  .carousel-dot--active { width: 24px; }
+}
+
+/* Setas visíveis apenas a partir do breakpoint lg */
+@media (min-width: 1024px) {
+  .carousel-arrow { display: flex; }
+  .carousel-shell { padding: 0 1.5rem; }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   REDUCED MOTION (H8 – Aesthetic, acessibilidade)
+   ═══════════════════════════════════════════════════════════ */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
