@@ -1,191 +1,658 @@
-<!-- NAVBAR -->
-<nav class="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-8 py-4 bg-white/95 backdrop-blur-sm border-b border-gray-100">
-  <div class="flex items-center gap-2">
-    <div class="w-7 h-7 bg-amber-700 rounded-md flex items-center justify-center">
-      <span class="text-white text-xs font-bold">P</span>
-    </div>
-    <span class="font-semibold text-gray-900 text-lg tracking-tight">PrimeLar</span>
-  </div>
+<nav
+  class="fixed left-0 right-0 top-0 z-50 border-b border-white/20 bg-white/85 px-4 py-3 shadow-sm backdrop-blur-xl sm:px-6 lg:px-10"
+  aria-label="Navegação principal">
+  <div class="mx-auto flex max-w-7xl items-center justify-between gap-4">
+    <a href="#"
+      class="flex items-center gap-3 rounded-full focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-700 focus-visible:ring-offset-4"
+      aria-label="PrimeLar - Página inicial">
+      <div class="flex h-10 w-10 items-center justify-center rounded-2xl bg-amber-700 shadow-lg shadow-amber-900/20">
+        <span class="text-sm font-bold text-white">P</span>
+      </div>
 
-  <ul class="hidden md:flex items-center gap-8 text-sm text-gray-600 font-medium">
-    <li><a href="#" class="hover:text-gray-900 transition-colors">Início</a></li>
-    <li><a href="#" class="hover:text-gray-900 transition-colors">Imóveis</a></li>
-    <li><a href="#" class="hover:text-gray-900 transition-colors">Sobre Nós</a></li>
-    <li><a href="#" class="hover:text-gray-900 transition-colors">Blog</a></li>
-    <li><a href="#" class="hover:text-gray-900 transition-colors">Contato</a></li>
-    <li>
-      <a href="#" class="flex items-center gap-1 hover:text-gray-900 transition-colors">
-        Serviços
-        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
-        </svg>
-      </a>
-    </li>
-  </ul>
+      <span class="text-xl font-semibold tracking-tight text-gray-950">
+        PrimeLar
+      </span>
+    </a>
 
-  <div class="flex items-center gap-3">
-    <a
-      routerLink="/auth"
-      class="bg-amber-700 text-white text-sm font-medium px-5 py-2.5 rounded-full hover:bg-amber-800 transition-colors"
-      >
+    <ul
+      class="hidden items-center gap-1 rounded-full border border-gray-200 bg-white/80 p-1 text-sm font-medium text-gray-600 shadow-sm lg:flex">
+      <li>
+        <a href="#"
+          class="rounded-full bg-amber-50 px-4 py-2 text-amber-800 transition-colors hover:bg-amber-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-700">
+          Início
+        </a>
+      </li>
+
+      <li>
+        <a href="#imoveis"
+          class="rounded-full px-4 py-2 transition-colors hover:bg-gray-100 hover:text-gray-950 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-700">
+          Imóveis
+        </a>
+      </li>
+
+      <li>
+        <a href="#sobre"
+          class="rounded-full px-4 py-2 transition-colors hover:bg-gray-100 hover:text-gray-950 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-700">
+          Sobre Nós
+        </a>
+      </li>
+
+      <li>
+        <a href="#depoimentos"
+          class="rounded-full px-4 py-2 transition-colors hover:bg-gray-100 hover:text-gray-950 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-700">
+          Depoimentos
+        </a>
+      </li>
+
+      <li>
+        <a href="#contato"
+          class="rounded-full px-4 py-2 transition-colors hover:bg-gray-100 hover:text-gray-950 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-700">
+          Contato
+        </a>
+      </li>
+
+      <li>
+        <a href="#servicos"
+          class="flex items-center gap-1 rounded-full px-4 py-2 transition-colors hover:bg-gray-100 hover:text-gray-950 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-700">
+          Serviços
+          <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+          </svg>
+        </a>
+      </li>
+    </ul>
+
+    <div class="flex items-center gap-2">
+      <a routerLink="/auth"
+        class="hidden min-h-11 items-center justify-center rounded-full border border-gray-300 bg-white px-5 py-2.5 text-sm font-semibold text-gray-800 transition-all hover:-translate-y-0.5 hover:border-amber-700 hover:text-amber-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-700 focus-visible:ring-offset-4 sm:inline-flex">
         Entrar
-    </a>
+      </a>
 
-    <a
-      href="#contato"
-      class="bg-amber-700 text-white text-sm font-medium px-5 py-2.5 rounded-full hover:bg-amber-800 transition-colors"
-      >
+      <a href="#contato"
+        class="inline-flex min-h-11 items-center justify-center rounded-full bg-amber-700 px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-amber-900/20 transition-all hover:-translate-y-0.5 hover:bg-amber-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-700 focus-visible:ring-offset-4">
         Fale conosco
-    </a>
+      </a>
+    </div>
   </div>
 </nav>
 
-<!-- HERO SECTION -->
-<section class="relative w-full h-screen min-h-[600px] overflow-hidden">
+<section class="relative h-screen min-h-[600px] w-full overflow-hidden">
   <div class="absolute inset-0">
-    <img
-      src="assets/img/hero-house.png"
-      alt="Imóvel de alto padrão"
-      class="w-full h-full object-cover"
-    />
-    <div class="absolute inset-0 bg-gradient-to-b from-black/40 via-black/15 to-white"></div>
+    <img src="assets/img/hero-house.png" alt="Imóvel de alto padrão" class="h-full w-full object-cover"
+      fetchpriority="high" />
+
+    <div class="absolute inset-0 bg-black/35"></div>
+
+    <div class="absolute inset-0"
+      style="background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.12) 45%, rgba(255, 255, 255, 0.96) 100%);">
+    </div>
   </div>
 
-  <div class="relative z-10 flex flex-col items-center justify-center h-full text-center px-4 pb-24">
-    <span class="text-white/70 text-xs font-semibold tracking-widest uppercase mb-4">Imobiliária de Alto Padrão</span>
-    <h1 class="text-5xl md:text-6xl lg:text-7xl font-light text-white leading-tight max-w-3xl mb-4 drop-shadow-sm" style="font-family: 'DM Serif Display', Georgia, serif">
-      Encontre o lar perfeito<br/>para a sua família
+  <div class="relative z-10 flex h-full flex-col items-center justify-center px-4 pb-24 text-center">
+    <span
+      class="mb-5 rounded-full border border-white/25 bg-white/15 px-4 py-2 text-xs font-semibold uppercase tracking-[0.28em] text-white shadow-sm backdrop-blur-md">
+      Imobiliária de alto padrão
+    </span>
+
+    <h1
+      class="max-w-4xl text-5xl font-light leading-tight tracking-[-0.04em] text-white drop-shadow-xl md:text-6xl lg:text-7xl"
+      style="font-family: 'DM Serif Display', Georgia, serif">
+      Encontre o lar perfeito<br />
+      para a sua família
     </h1>
-    <p class="text-white/80 text-base max-w-sm mb-8 leading-relaxed">
-      Imóveis selecionados com qualidade e exclusividade.
-      O seu novo lar está a apenas uma busca de distância.
+
+    <p class="mt-6 max-w-xl text-base leading-7 text-white/90 drop-shadow-md sm:text-lg">
+      Imóveis selecionados com qualidade, exclusividade e atendimento personalizado.
+      O seu novo lar está mais perto do que você imagina.
     </p>
-    <button class="bg-amber-700 text-white font-medium text-sm px-8 py-3.5 rounded-full hover:bg-amber-800 transition-all hover:scale-105 shadow-lg">
-      Ver imóveis
-    </button>
+
+    <div class="mt-9 flex flex-col items-center gap-3 sm:flex-row">
+      <a href="#imoveis"
+        class="inline-flex min-h-12 items-center justify-center rounded-full bg-white px-8 py-3 text-sm font-semibold text-amber-800 shadow-xl shadow-black/20 transition-all hover:-translate-y-0.5 hover:bg-amber-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-4 focus-visible:ring-offset-amber-950">
+        Ver imóveis
+      </a>
+
+      <a href="#contato"
+        class="inline-flex min-h-12 items-center justify-center rounded-full border border-white/35 bg-white/10 px-8 py-3 text-sm font-semibold text-white backdrop-blur-md transition-all hover:-translate-y-0.5 hover:bg-white/20 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-4 focus-visible:ring-offset-amber-950">
+        Falar com corretor
+      </a>
+    </div>
   </div>
 </section>
 
-<!-- ABOUT / FEATURES SECTION -->
-<section class="bg-white px-8 md:px-16 lg:px-24 py-20">
-  <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-12 items-start">
+<section id="sobre" class="bg-white px-4 py-20 sm:px-6 lg:px-10 lg:py-28">
+  <div class="mx-auto grid max-w-7xl grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-16">
+    <div class="lg:col-span-4">
+      <span
+        class="mb-4 inline-flex rounded-full bg-amber-50 px-4 py-2 text-xs font-semibold uppercase tracking-[0.22em] text-amber-800">
+        Sobre a PrimeLar
+      </span>
 
-    <div class="md:col-span-3">
-      <p class="text-gray-400 text-sm leading-relaxed">
-        Encontre o imóvel ideal para o seu momento de vida.
+      <p class="max-w-sm text-lg leading-8 text-gray-500">
+        Encontre o imóvel ideal para o seu momento de vida com orientação clara,
+        atendimento próximo e uma seleção cuidadosa de oportunidades.
       </p>
     </div>
 
-    <div class="md:col-span-9">
-      <h2 class="text-3xl md:text-4xl lg:text-5xl font-light text-gray-900 leading-snug max-w-xl mb-10" style="font-family: 'DM Serif Display', Georgia, serif">
-        Descubra os imóveis mais exclusivos com a PrimeLar. Seja para comprar, vender ou alugar, temos a solução certa para você e sua família.
+    <div class="lg:col-span-8">
+      <h2 class="max-w-4xl text-3xl font-light leading-tight tracking-[-0.04em] text-gray-950 sm:text-4xl lg:text-6xl"
+        style="font-family: 'DM Serif Display', Georgia, serif">
+        Compra, venda e locação de imóveis com segurança, clareza e confiança.
       </h2>
 
-      <div class="flex flex-col sm:flex-row gap-8 mb-10">
-        <!-- Compra e Venda -->
-        <div class="flex flex-col gap-3">
-          <div class="w-10 h-10 bg-amber-50 rounded-lg flex items-center justify-center">
-            <svg class="w-5 h-5 text-amber-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 22V12h6v10"/>
-            </svg>
-          </div>
-          <div>
-            <h3 class="font-semibold text-gray-900 text-sm mb-1">Compra e Venda</h3>
-            <p class="text-gray-400 text-sm leading-relaxed max-w-xs">
-              Assessoria completa para comprar ou vender seu imóvel com segurança e agilidade.
-            </p>
-          </div>
-        </div>
+      <p class="mt-6 max-w-2xl text-base leading-7 text-gray-500">
+        A PrimeLar conecta famílias aos imóveis certos, reduzindo dúvidas durante
+        a escolha e tornando cada etapa da negociação mais simples e transparente.
+      </p>
 
-        <!-- Locação -->
-        <div class="flex flex-col gap-3">
-          <div class="w-10 h-10 bg-amber-50 rounded-lg flex items-center justify-center">
-            <svg class="w-5 h-5 text-amber-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"/>
+      <div class="mt-12 grid grid-cols-1 gap-5 sm:grid-cols-2">
+        <article
+          class="rounded-3xl border border-amber-100 bg-amber-50/60 p-6 shadow-sm transition-all hover:-translate-y-1 hover:bg-white hover:shadow-xl">
+          <div class="mb-5 flex h-12 w-12 items-center justify-center rounded-2xl bg-white text-amber-800 shadow-sm">
+            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7"
+                d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7" d="M9 22V12h6v10" />
             </svg>
           </div>
-          <div>
-            <h3 class="font-semibold text-gray-900 text-sm mb-1">Locação de Imóveis</h3>
-            <p class="text-gray-400 text-sm leading-relaxed max-w-xs">
-              Imóveis residenciais e comerciais disponíveis para aluguel em toda a região.
-            </p>
+
+          <h3 class="text-lg font-semibold text-gray-950">
+            Compra e venda
+          </h3>
+
+          <p class="mt-3 text-sm leading-6 text-gray-500">
+            Assessoria completa para comprar ou vender seu imóvel com mais
+            segurança, agilidade e poder de decisão.
+          </p>
+        </article>
+
+        <article
+          class="rounded-3xl border border-amber-100 bg-amber-50/60 p-6 shadow-sm transition-all hover:-translate-y-1 hover:bg-white hover:shadow-xl">
+          <div class="mb-5 flex h-12 w-12 items-center justify-center rounded-2xl bg-white text-amber-800 shadow-sm">
+            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7"
+                d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" />
+            </svg>
           </div>
-        </div>
+
+          <h3 class="text-lg font-semibold text-gray-950">
+            Locação de imóveis
+          </h3>
+
+          <p class="mt-3 text-sm leading-6 text-gray-500">
+            Casas, apartamentos e pontos comerciais selecionados para diferentes
+            perfis, necessidades e momentos.
+          </p>
+        </article>
       </div>
-
-      <button class="border border-gray-300 text-gray-800 text-sm font-medium px-6 py-2.5 rounded-full hover:bg-amber-700 hover:text-white hover:border-amber-700 transition-all">
-        Conhecer mais
-      </button>
     </div>
   </div>
 </section>
 
-<!-- DISCOVER SECTION -->
-<section class="bg-white px-8 md:px-16 lg:px-24 pb-20">
-  <div class="max-w-6xl mx-auto">
-    <p class="text-xs font-semibold tracking-widest text-amber-700 uppercase mb-3">Destaques</p>
-    <div class="flex items-end justify-between mb-8">
-      <h2 class="text-4xl md:text-5xl font-light text-gray-900 leading-tight" style="font-family: 'DM Serif Display', Georgia, serif">
-        Explore nossos<br/>imóveis em destaque
+<section id="servicos" class="bg-amber-50/60 px-4 py-20 sm:px-6 lg:px-10 lg:py-28">
+  <div class="mx-auto max-w-7xl">
+    <div class="mb-12 max-w-3xl">
+      <span
+        class="mb-4 inline-flex rounded-full bg-white px-4 py-2 text-xs font-semibold uppercase tracking-[0.22em] text-amber-800 shadow-sm">
+        Serviços
+      </span>
+
+      <h2 class="text-4xl font-light leading-tight tracking-[-0.04em] text-gray-950 sm:text-5xl lg:text-6xl"
+        style="font-family: 'DM Serif Display', Georgia, serif">
+        Soluções completas para cada etapa da sua escolha
       </h2>
-      <button class="hidden sm:block border border-gray-300 text-gray-700 text-sm font-medium px-5 py-2.5 rounded-full hover:bg-amber-700 hover:text-white hover:border-amber-700 transition-all">
-        Ver todos
-      </button>
+
+      <p class="mt-5 max-w-2xl text-base leading-7 text-gray-500">
+        Da primeira visita até a assinatura, nossa equipe acompanha você com
+        informação clara, curadoria de imóveis e suporte em cada decisão.
+      </p>
     </div>
 
-    <!-- Property Grid -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-      <div class="relative group overflow-hidden rounded-2xl">
-        <img src="assets/img/property-1.png" alt="Imóvel 1"
-             class="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-500"/>
-        <div class="absolute bottom-3 right-3 bg-white text-gray-800 text-xs font-medium px-3 py-1.5 rounded-full shadow">
-          3 Quartos · 2 Vagas
+    <div class="grid grid-cols-1 gap-5 md:grid-cols-3">
+      <article
+        class="rounded-[2rem] border border-amber-100 bg-white p-7 shadow-sm transition-all hover:-translate-y-1 hover:shadow-xl">
+        <div class="mb-6 flex h-12 w-12 items-center justify-center rounded-2xl bg-amber-50 text-amber-800">
+          <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7" d="M12 6v12m6-6H6" />
+          </svg>
         </div>
-      </div>
 
-      <div class="relative group overflow-hidden rounded-2xl">
-        <img src="assets/img/property-2.png" alt="Imóvel 2"
-             class="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-500"/>
-        <div class="absolute bottom-3 right-3 bg-white text-gray-800 text-xs font-medium px-3 py-1.5 rounded-full shadow">
-          2 Quartos · 1 Vaga
-        </div>
-      </div>
+        <h3 class="text-xl font-semibold text-gray-950">
+          Curadoria personalizada
+        </h3>
 
-      <div class="relative group overflow-hidden rounded-2xl hidden lg:block lg:row-span-2">
-        <img src="assets/img/property-3.png" alt="Imóvel 3"
-             class="w-full h-full min-h-[540px] object-cover group-hover:scale-105 transition-transform duration-500"/>
-        <div class="absolute bottom-3 right-3 bg-white text-gray-800 text-xs font-medium px-3 py-1.5 rounded-full shadow">
-          4 Quartos · 3 Vagas
-        </div>
-      </div>
+        <p class="mt-3 text-sm leading-6 text-gray-500">
+          Seleção de imóveis de acordo com seu perfil, orçamento, localização desejada e momento de vida.
+        </p>
+      </article>
 
-      <div class="relative group overflow-hidden rounded-2xl sm:col-span-2 lg:col-span-1">
-        <img src="assets/img/property-4.png" alt="Imóvel 4"
-             class="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-500"/>
-        <div class="absolute bottom-3 right-3 bg-white text-gray-800 text-xs font-medium px-3 py-1.5 rounded-full shadow">
-          5 Quartos · 4 Vagas
+      <article
+        class="rounded-[2rem] border border-amber-100 bg-white p-7 shadow-sm transition-all hover:-translate-y-1 hover:shadow-xl">
+        <div class="mb-6 flex h-12 w-12 items-center justify-center rounded-2xl bg-amber-50 text-amber-800">
+          <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7"
+              d="M9 12l2 2 4-4M7 4h10a2 2 0 012 2v12a2 2 0 01-2 2H7a2 2 0 01-2-2V6a2 2 0 012-2z" />
+          </svg>
         </div>
-      </div>
+
+        <h3 class="text-xl font-semibold text-gray-950">
+          Negociação segura
+        </h3>
+
+        <p class="mt-3 text-sm leading-6 text-gray-500">
+          Apoio na análise de documentos, proposta comercial e condução da negociação com transparência.
+        </p>
+      </article>
+
+      <article
+        class="rounded-[2rem] border border-amber-100 bg-white p-7 shadow-sm transition-all hover:-translate-y-1 hover:shadow-xl">
+        <div class="mb-6 flex h-12 w-12 items-center justify-center rounded-2xl bg-amber-50 text-amber-800">
+          <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7"
+              d="M8 7V3m8 4V3M5 11h14M7 21h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v12a2 2 0 002 2z" />
+          </svg>
+        </div>
+
+        <h3 class="text-xl font-semibold text-gray-950">
+          Visitas agendadas
+        </h3>
+
+        <p class="mt-3 text-sm leading-6 text-gray-500">
+          Organização de visitas presenciais ou digitais para você conhecer os imóveis com mais praticidade.
+        </p>
+      </article>
     </div>
-
-    <button class="mt-6 sm:hidden border border-gray-300 text-gray-700 text-sm font-medium px-5 py-2.5 rounded-full hover:bg-amber-700 hover:text-white hover:border-amber-700 transition-all">
-      Ver todos
-    </button>
   </div>
-</section> 
+</section>
 
-<!-- FOOTER CTA -->
-<section class="bg-amber-700 px-8 md:px-16 lg:px-24 py-16">
-  <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8">
-    <div>
-      <h3 class="text-3xl md:text-4xl font-light text-white mb-2" style="font-family: 'DM Serif Display', Georgia, serif">
-        Pronto para encontrar<br/>o seu novo lar?
-      </h3>
-      <p class="text-white/70 text-sm">Nossa equipe está pronta para te ajudar.</p>
+<section id="imoveis" class="bg-white px-4 py-20 sm:px-6 lg:px-10 lg:py-28">
+  <div class="mx-auto max-w-7xl">
+    <div class="mb-10 flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
+      <div>
+        <span
+          class="mb-4 inline-flex rounded-full bg-amber-50 px-4 py-2 text-xs font-semibold uppercase tracking-[0.22em] text-amber-800">
+          Destaques
+        </span>
+
+        <h2 class="text-4xl font-light leading-tight tracking-[-0.04em] text-gray-950 sm:text-5xl lg:text-6xl"
+          style="font-family: 'DM Serif Display', Georgia, serif">
+          Explore nossos<br class="hidden sm:block" />
+          imóveis em destaque
+        </h2>
+      </div>
+
+      <a href="#contato"
+        class="hidden min-h-11 items-center justify-center rounded-full border border-gray-300 px-6 py-2.5 text-sm font-semibold text-gray-800 transition-all hover:-translate-y-0.5 hover:border-amber-700 hover:bg-amber-700 hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-700 focus-visible:ring-offset-4 sm:inline-flex">
+        Ver todos
+      </a>
     </div>
-    <button class="bg-white text-amber-700 font-semibold text-sm px-8 py-3.5 rounded-full hover:bg-amber-50 transition-all whitespace-nowrap">
+
+    <div class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      <article class="group relative overflow-hidden rounded-[2rem] bg-gray-100 shadow-sm">
+        <img src="assets/img/property-1.png" alt="Casa de alto padrão com três quartos e duas vagas" loading="lazy"
+          class="h-72 w-full object-cover transition-transform duration-700 group-hover:scale-105" />
+
+        <div class="absolute inset-0 bg-gradient-to-t from-black/55 via-black/10 to-transparent"></div>
+
+        <div class="absolute bottom-4 left-4 right-4">
+          <div class="rounded-3xl border border-white/20 bg-white/95 p-4 shadow-xl backdrop-blur-md">
+            <p class="text-xs font-semibold uppercase tracking-[0.18em] text-amber-800">
+              Casa familiar
+            </p>
+
+            <div class="mt-2 flex items-end justify-between gap-3">
+              <div>
+                <h3 class="text-lg font-semibold text-gray-950">
+                  Residência Prime
+                </h3>
+                <p class="mt-1 text-sm text-gray-500">
+                  3 quartos · 2 vagas
+                </p>
+              </div>
+
+              <span class="rounded-full bg-amber-50 px-3 py-1.5 text-xs font-semibold text-amber-800">
+                Destaque
+              </span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="group relative overflow-hidden rounded-[2rem] bg-gray-100 shadow-sm">
+        <img src="assets/img/property-2.png" alt="Apartamento moderno com dois quartos e uma vaga" loading="lazy"
+          class="h-72 w-full object-cover transition-transform duration-700 group-hover:scale-105" />
+
+        <div class="absolute inset-0 bg-gradient-to-t from-black/55 via-black/10 to-transparent"></div>
+
+        <div class="absolute bottom-4 left-4 right-4">
+          <div class="rounded-3xl border border-white/20 bg-white/95 p-4 shadow-xl backdrop-blur-md">
+            <p class="text-xs font-semibold uppercase tracking-[0.18em] text-amber-800">
+              Apartamento
+            </p>
+
+            <div class="mt-2 flex items-end justify-between gap-3">
+              <div>
+                <h3 class="text-lg font-semibold text-gray-950">
+                  Vista Central
+                </h3>
+                <p class="mt-1 text-sm text-gray-500">
+                  2 quartos · 1 vaga
+                </p>
+              </div>
+
+              <span class="rounded-full bg-amber-50 px-3 py-1.5 text-xs font-semibold text-amber-800">
+                Novo
+              </span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="group relative overflow-hidden rounded-[2rem] bg-gray-100 shadow-sm lg:row-span-2">
+        <img src="assets/img/property-3.png" alt="Imóvel premium amplo com quatro quartos e três vagas" loading="lazy"
+          class="h-72 w-full object-cover transition-transform duration-700 group-hover:scale-105 lg:h-full lg:min-h-[596px]" />
+
+        <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent"></div>
+
+        <div class="absolute bottom-4 left-4 right-4">
+          <div class="rounded-3xl border border-white/20 bg-white/95 p-4 shadow-xl backdrop-blur-md">
+            <p class="text-xs font-semibold uppercase tracking-[0.18em] text-amber-800">
+              Alto padrão
+            </p>
+
+            <div class="mt-2 flex items-end justify-between gap-3">
+              <div>
+                <h3 class="text-lg font-semibold text-gray-950">
+                  Mansão Jardins
+                </h3>
+                <p class="mt-1 text-sm text-gray-500">
+                  4 quartos · 3 vagas
+                </p>
+              </div>
+
+              <span class="rounded-full bg-amber-50 px-3 py-1.5 text-xs font-semibold text-amber-800">
+                Premium
+              </span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="group relative overflow-hidden rounded-[2rem] bg-gray-100 shadow-sm">
+        <img src="assets/img/property-4.png" alt="Casa espaçosa com cinco quartos e quatro vagas" loading="lazy"
+          class="h-72 w-full object-cover transition-transform duration-700 group-hover:scale-105" />
+
+        <div class="absolute inset-0 bg-gradient-to-t from-black/55 via-black/10 to-transparent"></div>
+
+        <div class="absolute bottom-4 left-4 right-4">
+          <div class="rounded-3xl border border-white/20 bg-white/95 p-4 shadow-xl backdrop-blur-md">
+            <p class="text-xs font-semibold uppercase tracking-[0.18em] text-amber-800">
+              Espaço completo
+            </p>
+
+            <div class="mt-2 flex items-end justify-between gap-3">
+              <div>
+                <h3 class="text-lg font-semibold text-gray-950">
+                  Casa Horizonte
+                </h3>
+                <p class="mt-1 text-sm text-gray-500">
+                  5 quartos · 4 vagas
+                </p>
+              </div>
+
+              <span class="rounded-full bg-amber-50 px-3 py-1.5 text-xs font-semibold text-amber-800">
+                Família
+              </span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="group relative overflow-hidden rounded-[2rem] bg-gray-100 shadow-sm">
+        <img src="assets/img/property-5.png" alt="Apartamento sofisticado com varanda e área de lazer" loading="lazy"
+          class="h-72 w-full object-cover transition-transform duration-700 group-hover:scale-105" />
+
+        <div class="absolute inset-0 bg-gradient-to-t from-black/55 via-black/10 to-transparent"></div>
+
+        <div class="absolute bottom-4 left-4 right-4">
+          <div class="rounded-3xl border border-white/20 bg-white/95 p-4 shadow-xl backdrop-blur-md">
+            <p class="text-xs font-semibold uppercase tracking-[0.18em] text-amber-800">
+              Condomínio
+            </p>
+
+            <div class="mt-2 flex items-end justify-between gap-3">
+              <div>
+                <h3 class="text-lg font-semibold text-gray-950">
+                  Varanda Bella
+                </h3>
+                <p class="mt-1 text-sm text-gray-500">
+                  3 quartos · 2 vagas
+                </p>
+              </div>
+
+              <span class="rounded-full bg-amber-50 px-3 py-1.5 text-xs font-semibold text-amber-800">
+                Lazer
+              </span>
+            </div>
+          </div>
+        </div>
+      </article>
+    </div>
+
+    <a href="#contato"
+      class="mt-8 inline-flex min-h-11 items-center justify-center rounded-full border border-gray-300 px-6 py-2.5 text-sm font-semibold text-gray-800 transition-all hover:-translate-y-0.5 hover:border-amber-700 hover:bg-amber-700 hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-700 focus-visible:ring-offset-4 sm:hidden">
+      Ver todos
+    </a>
+  </div>
+</section>
+
+<section class="bg-white px-4 pb-20 sm:px-6 lg:px-10 lg:pb-28">
+  <div class="mx-auto grid max-w-7xl grid-cols-1 gap-5 lg:grid-cols-3">
+    <article class="rounded-[2rem] border border-gray-200 bg-gray-50 p-7">
+      <p class="text-4xl font-semibold tracking-[-0.04em] text-amber-800">
+        +120
+      </p>
+      <h3 class="mt-3 text-lg font-semibold text-gray-950">
+        imóveis selecionados
+      </h3>
+      <p class="mt-2 text-sm leading-6 text-gray-500">
+        Opções avaliadas com cuidado para diferentes perfis, regiões e necessidades.
+      </p>
+    </article>
+
+    <article class="rounded-[2rem] border border-gray-200 bg-gray-50 p-7">
+      <p class="text-4xl font-semibold tracking-[-0.04em] text-amber-800">
+        98%
+      </p>
+      <h3 class="mt-3 text-lg font-semibold text-gray-950">
+        satisfação no atendimento
+      </h3>
+      <p class="mt-2 text-sm leading-6 text-gray-500">
+        Acompanhamento próximo para tornar a decisão mais simples e segura.
+      </p>
+    </article>
+
+    <article class="rounded-[2rem] border border-gray-200 bg-gray-50 p-7">
+      <p class="text-4xl font-semibold tracking-[-0.04em] text-amber-800">
+        24h
+      </p>
+      <h3 class="mt-3 text-lg font-semibold text-gray-950">
+        atendimento digital
+      </h3>
+      <p class="mt-2 text-sm leading-6 text-gray-500">
+        Fale com a equipe, tire dúvidas e organize visitas com mais praticidade.
+      </p>
+    </article>
+  </div>
+</section>
+
+<section class="bg-gray-950 px-4 py-20 sm:px-6 lg:px-10 lg:py-28">
+  <div class="mx-auto grid max-w-7xl grid-cols-1 gap-12 lg:grid-cols-12 lg:items-center">
+    <div class="lg:col-span-5">
+      <span
+        class="mb-4 inline-flex rounded-full bg-white/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.22em] text-amber-100">
+        Como funciona
+      </span>
+
+      <h2 class="text-4xl font-light leading-tight tracking-[-0.04em] text-white sm:text-5xl"
+        style="font-family: 'DM Serif Display', Georgia, serif">
+        Uma jornada simples até o imóvel ideal
+      </h2>
+
+      <p class="mt-5 max-w-xl text-sm leading-7 text-white/65 sm:text-base">
+        Organizamos o processo para você comparar opções com clareza, visitar os
+        imóveis certos e fechar negócio com mais segurança.
+      </p>
+    </div>
+
+    <div class="grid gap-4 lg:col-span-7">
+      <article class="rounded-[2rem] border border-white/10 bg-white/10 p-6 backdrop-blur-md">
+        <div class="flex gap-5">
+          <span
+            class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-amber-700 text-sm font-bold text-white">
+            1
+          </span>
+
+          <div>
+            <h3 class="text-lg font-semibold text-white">
+              Conte o que você procura
+            </h3>
+            <p class="mt-2 text-sm leading-6 text-white/60">
+              Entendemos sua rotina, orçamento, localização desejada e prioridades.
+            </p>
+          </div>
+        </div>
+      </article>
+
+      <article class="rounded-[2rem] border border-white/10 bg-white/10 p-6 backdrop-blur-md">
+        <div class="flex gap-5">
+          <span
+            class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-amber-700 text-sm font-bold text-white">
+            2
+          </span>
+
+          <div>
+            <h3 class="text-lg font-semibold text-white">
+              Receba uma seleção de imóveis
+            </h3>
+            <p class="mt-2 text-sm leading-6 text-white/60">
+              Apresentamos opções alinhadas ao seu perfil, sem excesso de escolhas confusas.
+            </p>
+          </div>
+        </div>
+      </article>
+
+      <article class="rounded-[2rem] border border-white/10 bg-white/10 p-6 backdrop-blur-md">
+        <div class="flex gap-5">
+          <span
+            class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-amber-700 text-sm font-bold text-white">
+            3
+          </span>
+
+          <div>
+            <h3 class="text-lg font-semibold text-white">
+              Visite, compare e decida
+            </h3>
+            <p class="mt-2 text-sm leading-6 text-white/60">
+              Acompanhamos visitas, dúvidas, documentação e negociação final.
+            </p>
+          </div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section id="depoimentos" class="bg-white px-4 py-20 sm:px-6 lg:px-10 lg:py-28">
+  <div class="mx-auto max-w-7xl">
+    <div class="mb-12 max-w-3xl">
+      <span
+        class="mb-4 inline-flex rounded-full bg-amber-50 px-4 py-2 text-xs font-semibold uppercase tracking-[0.22em] text-amber-800">
+        Depoimentos
+      </span>
+
+      <h2 class="text-4xl font-light leading-tight tracking-[-0.04em] text-gray-950 sm:text-5xl lg:text-6xl"
+        style="font-family: 'DM Serif Display', Georgia, serif">
+        Histórias de quem encontrou o lugar certo
+      </h2>
+    </div>
+
+    <div class="grid grid-cols-1 gap-5 md:grid-cols-3">
+      <article class="rounded-[2rem] border border-gray-200 bg-white p-7 shadow-sm">
+        <p class="text-sm leading-7 text-gray-600">
+          “A PrimeLar entendeu exatamente o que buscávamos. Visitamos poucos imóveis,
+          mas todos faziam sentido para nossa família.”
+        </p>
+
+        <div class="mt-6 border-t border-gray-100 pt-5">
+          <p class="font-semibold text-gray-950">
+            Mariana e Lucas
+          </p>
+          <p class="mt-1 text-sm text-gray-500">
+            Compra residencial
+          </p>
+        </div>
+      </article>
+
+      <article class="rounded-[2rem] border border-gray-200 bg-white p-7 shadow-sm">
+        <p class="text-sm leading-7 text-gray-600">
+          “O atendimento foi claro do início ao fim. Conseguimos negociar com segurança
+          e sem aquela sensação de estar perdido no processo.”
+        </p>
+
+        <div class="mt-6 border-t border-gray-100 pt-5">
+          <p class="font-semibold text-gray-950">
+            Rafael Moreira
+          </p>
+          <p class="mt-1 text-sm text-gray-500">
+            Venda de imóvel
+          </p>
+        </div>
+      </article>
+
+      <article class="rounded-[2rem] border border-gray-200 bg-white p-7 shadow-sm">
+        <p class="text-sm leading-7 text-gray-600">
+          “Precisávamos de algo rápido para alugar e a equipe organizou tudo de forma
+          prática, com boas opções e suporte nas dúvidas.”
+        </p>
+
+        <div class="mt-6 border-t border-gray-100 pt-5">
+          <p class="font-semibold text-gray-950">
+            Camila Fernandes
+          </p>
+          <p class="mt-1 text-sm text-gray-500">
+            Locação
+          </p>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section id="contato" class="bg-amber-800 px-4 py-16 sm:px-6 lg:px-10 lg:py-20">
+  <div
+    class="mx-auto flex max-w-7xl flex-col items-start justify-between gap-8 rounded-[2rem] border border-white/10 bg-white/10 p-8 backdrop-blur-md md:flex-row md:items-center lg:p-10">
+    <div>
+      <span
+        class="mb-4 inline-flex rounded-full bg-white/15 px-4 py-2 text-xs font-semibold uppercase tracking-[0.22em] text-amber-50">
+        Atendimento personalizado
+      </span>
+
+      <h3 class="text-3xl font-light leading-tight tracking-[-0.03em] text-white md:text-5xl"
+        style="font-family: 'DM Serif Display', Georgia, serif">
+        Pronto para encontrar<br class="hidden sm:block" />
+        o seu novo lar?
+      </h3>
+
+      <p class="mt-4 max-w-xl text-sm leading-6 text-white/75">
+        Nossa equipe está pronta para entender seu perfil, apresentar as melhores
+        opções e acompanhar você em cada etapa.
+      </p>
+    </div>
+
+    <a href="#"
+      class="inline-flex min-h-12 shrink-0 items-center justify-center rounded-full bg-white px-8 py-3 text-sm font-semibold text-amber-800 shadow-xl shadow-black/20 transition-all hover:-translate-y-0.5 hover:bg-amber-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-4 focus-visible:ring-offset-amber-900">
       Falar com um corretor
-    </button>
+    </a>
   </div>
 </section>
