@@ -11,6 +11,7 @@ import {
 } from '@angular/core';
 import { FooterComponent } from '../layout/footer/footer.component';
 import { NavbarComponent } from '../layout/navbar/navbar.component';
+import { ImovelService } from '../../../service/imovel.service';
 // Load AOS and GSAP dynamically in the browser to avoid static analysis
 // issues with CommonJS modules during type checking.
 
@@ -34,6 +35,7 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
   /* ── Injeções ───────────────────────────────────────────── */
   private readonly platformId = inject(PLATFORM_ID);
   private readonly host = inject(ElementRef<HTMLElement>);
+  private readonly imovelService = inject(ImovelService);
 
   private gsapCtx?: any;
   private sectionObserver?: IntersectionObserver;
@@ -114,58 +116,7 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
     },
   ];
 
-  properties = [
-    {
-      id: 1,
-      name: 'Residência Prime',
-      category: 'Casa familiar',
-      type: 'Casa',
-      info: '3 quartos · 2 vagas',
-      badge: 'Destaque',
-      image: 'assets/img/property-1.png',
-      alt: 'Casa de alto padrão com três quartos',
-    },
-    {
-      id: 2,
-      name: 'Vista Central',
-      category: 'Apartamento',
-      type: 'Apartamento',
-      info: '2 quartos · 1 vaga',
-      badge: 'Novo',
-      image: 'assets/img/property-2.png',
-      alt: 'Apartamento moderno com dois quartos',
-    },
-    {
-      id: 3,
-      name: 'Mansão Jardins',
-      category: 'Alto padrão',
-      type: 'Premium',
-      info: '4 quartos · 3 vagas',
-      badge: 'Premium',
-      image: 'assets/img/property-3.png',
-      alt: 'Imóvel premium com quatro quartos',
-    },
-    {
-      id: 4,
-      name: 'Casa Horizonte',
-      category: 'Espaço completo',
-      type: 'Casa',
-      info: '5 quartos · 4 vagas',
-      badge: 'Família',
-      image: 'assets/img/property-4.png',
-      alt: 'Casa espaçosa com cinco quartos',
-    },
-    {
-      id: 5,
-      name: 'Varanda Bella',
-      category: 'Condomínio',
-      type: 'Condomínio',
-      info: '3 quartos · 2 vagas',
-      badge: 'Lazer',
-      image: 'assets/img/property-5.png',
-      alt: 'Apartamento sofisticado em condomínio',
-    },
-  ];
+  properties: any[] = [];
 
   stats = [
     {
@@ -348,6 +299,7 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
 
   ngAfterViewInit(): void {
     if (!isPlatformBrowser(this.platformId)) return;
+    this.carregarImoveis();
 
     // Dynamically import AOS and GSAP only in the browser.
     Promise.all([import('aos'), import('gsap'), import('gsap/ScrollTrigger')])
@@ -523,6 +475,10 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
     };
     this.formSuccess = false;
     this.formError = false;
+  }
+
+  async carregarImoveis(): Promise<void> {
+  this.properties = await this.imovelService.getImoveis();
   }
 
   /** H3 – User control: volta ao topo suavemente */
