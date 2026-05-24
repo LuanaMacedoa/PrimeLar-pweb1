@@ -1,0 +1,53 @@
+@url = https://gwwzahbscsijbehvxlgz.supabase.co/rest/v1/
+@apiKey = sb_publishable_mX-d5Z2qs5uApfiUBUxjGg_pLrJw11H
+
+### GET
+GET {{url}}/usuario 
+apikey: {{apiKey}}
+Authorization: Bearer {{apiKey}}
+
+### POST
+POST {{url}}/usuario
+apikey: {{apiKey}}
+Authorization: Bearer {{apiKey}}
+Content-Type: application/json
+Prefer: return=representation
+
+{    
+    "nome": "Laura",
+    "sobrenome": "Silva",
+    "email": "laura@gmail.com",
+    "senha": "123456"
+}
+
+
+### DELETE
+DELETE {{url}}/usuario?id=eq.1
+apikey: {{apiKey}}
+Authorization: Bearer {{apiKey}}
+
+### PATCH
+PATCH {{url}}/usuario?id=eq.1
+apikey: {{apiKey}}
+Authorization: Bearer {{apiKey}}
+Content-type: application/json
+Prefer: return=representation
+
+{
+    "nome": "laurita"
+}
+
+### PUT
+PUT {{url}}/usuario?id=eq.1
+apikey: {{apiKey}}
+Authorization: Bearer {{apiKey}}
+Content-type: application/json
+Prefer: return=representation
+
+{
+    "id": 1,
+    "nome": "Luana",
+    "sobrenome": "Macedo",
+    "email": "luana.macedo@gmail.com",
+    "senha": "123456"
+}
