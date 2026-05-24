@@ -12,6 +12,7 @@ import {
 import { FooterComponent } from '../layout/footer/footer.component';
 import { NavbarComponent } from '../layout/navbar/navbar.component';
 import { ImovelService } from '../../../service/imovel.service';
+import { AtendimentoService } from '../../../service/atendimento.service';
 // Load AOS and GSAP dynamically in the browser to avoid static analysis
 // issues with CommonJS modules during type checking.
 
@@ -36,6 +37,7 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
   private readonly platformId = inject(PLATFORM_ID);
   private readonly host = inject(ElementRef<HTMLElement>);
   private readonly imovelService = inject(ImovelService);
+  private atendimento = inject(AtendimentoService);
 
   private gsapCtx?: any;
   private sectionObserver?: IntersectionObserver;
@@ -448,23 +450,36 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
   }
 
   /** H5 – Error prevention: valida todos antes de enviar */
-  onSubmit(): void {
-    (Object.keys(this.form) as FormKey[]).forEach((k) => {
-      this.form[k].touched = true;
-      this.validateField(k);
-    });
+ async onSubmit() {
+  this.formSubmitting = true;
+  this.formSuccess = false;
 
-    if (!this.formValid) return;
-
-    this.formSubmitting = true;
-    this.formError = false;
-
-    // Simula chamada de API
-    setTimeout(() => {
-      this.formSubmitting = false;
-      this.formSuccess = true;
-    }, 1600);
+ 
+  if (!this.form.nome.value || !this.form.telefone.value || !this.form.interesse.value) {
+    this.formSubmitting = false;
+    return;
   }
+
+  const ok = await this.atendimento.criarAtendimento({
+    nome: this.form.nome.value,
+    telefone: this.form.telefone.value,
+    interesse: this.form.interesse.value,
+  });
+
+  this.formSubmitting = false;
+
+  if (!ok) {
+    this.form.nome.error = 'Erro ao enviar solicitação';
+    this.form.nome.touched = true;
+    return;
+  }
+
+  this.formSuccess = true;
+
+  this.form.nome.value = '';
+  this.form.telefone.value = '';
+  this.form.interesse.value = '';
+}
 
   /** H3 – User control: permite refazer o envio */
   resetForm(): void {
