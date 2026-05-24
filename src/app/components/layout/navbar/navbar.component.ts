@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
 type NavbarVariant = 'landing' | 'auth';
@@ -13,8 +13,8 @@ type NavbarVariant = 'landing' | 'auth';
   },
 })
 export class NavbarComponent {
-  readonly variant = input<NavbarVariant>('landing');
-  readonly activeHref = input<string | null>(null);
+  @Input() variant: NavbarVariant = 'landing';
+  @Input() activeHref: string | null = null;
 
   protected readonly landingNavLinks = [
     { label: 'Início', href: '#inicio' },

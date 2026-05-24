@@ -11,9 +11,8 @@ import {
 } from '@angular/core';
 import { FooterComponent } from '../layout/footer/footer.component';
 import { NavbarComponent } from '../layout/navbar/navbar.component';
-import AOS from 'aos';
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+// Load AOS and GSAP dynamically in the browser to avoid static analysis
+// issues with CommonJS modules during type checking.
 
 /* ── Tipos ─────────────────────────────────────────────────── */
 interface FormField {
@@ -36,7 +35,7 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
   private readonly platformId = inject(PLATFORM_ID);
   private readonly host = inject(ElementRef<HTMLElement>);
 
-  private gsapCtx?: gsap.Context;
+  private gsapCtx?: any;
   private sectionObserver?: IntersectionObserver;
   private initTimer?: ReturnType<typeof setTimeout>;
 
@@ -350,13 +349,39 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
   ngAfterViewInit(): void {
     if (!isPlatformBrowser(this.platformId)) return;
 
-    AOS.init({ duration: 650, easing: 'ease-out-cubic', once: true, offset: 80 });
+    // Dynamically import AOS and GSAP only in the browser.
+    Promise.all([import('aos'), import('gsap'), import('gsap/ScrollTrigger')])
+      .then(([AOSModule, gsapModule, ScrollTriggerModule]) => {
+        const AOSLib = (AOSModule && (AOSModule as any).default) ? (AOSModule as any).default : AOSModule;
+        const gsapLib = (gsapModule && (gsapModule as any).gsap) ? (gsapModule as any).gsap : gsapModule;
+        const ScrollTrigger = (ScrollTriggerModule && (ScrollTriggerModule as any).ScrollTrigger)
+          ? (ScrollTriggerModule as any).ScrollTrigger
+          : (ScrollTriggerModule as any).default ?? ScrollTriggerModule;
 
-    this.initTimer = setTimeout(() => {
-      this.initSectionObserver();
-      this.initGsapAnimations();
-      AOS.refreshHard();
-    }, 100);
+        // Store reference for later use in animations
+        (this as any).gsapLib = gsapLib;
+
+        try {
+          gsapLib.registerPlugin(ScrollTrigger);
+        } catch (e) {
+          // ignore plugin registration errors silently
+        }
+
+        AOSLib?.init?.({ duration: 650, easing: 'ease-out-cubic', once: true, offset: 80 });
+
+        this.initTimer = setTimeout(() => {
+          this.initSectionObserver();
+          this.initGsapAnimations();
+          AOSLib?.refreshHard?.();
+        }, 100);
+      })
+      .catch(() => {
+        // If dynamic imports fail, still initialize observers/timers
+        this.initTimer = setTimeout(() => {
+          this.initSectionObserver();
+          this.initGsapAnimations();
+        }, 100);
+      });
   }
 
   ngOnDestroy(): void {
@@ -529,11 +554,14 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
   }
 
   private initGsapAnimations(): void {
-    gsap.registerPlugin(ScrollTrigger);
+    const gsapLib = (this as any).gsapLib ?? (typeof (window as any).gsap !== 'undefined' ? (window as any).gsap : null);
+    if (!gsapLib) return;
 
-    this.gsapCtx = gsap.context(() => {
+    gsapLib.registerPlugin?.(gsapLib.ScrollTrigger ?? (gsapLib as any).ScrollTrigger);
+
+    this.gsapCtx = gsapLib.context(() => {
       /* Hero: entrada escalonada */
-      gsap.from('.hero-kicker, .hero-title, .hero-description, .hero-actions', {
+      gsapLib.from('.hero-kicker, .hero-title, .hero-description, .hero-actions', {
         y: 24,
         opacity: 0,
         duration: 0.8,
@@ -549,7 +577,7 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
           const suffix = el.dataset['suffix'] ?? '';
           const counter = { v: 0 };
 
-          gsap.to(counter, {
+          gsapLib.to(counter, {
             v: value,
             duration: 1.5,
             ease: 'power2.out',

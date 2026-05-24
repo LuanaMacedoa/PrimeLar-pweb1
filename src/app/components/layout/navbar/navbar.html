@@ -1,4 +1,4 @@
-@if (variant() === 'landing') {
+@if (variant === 'landing') {
   <a href="#conteudo-principal"
      class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[999] focus:rounded-full focus:bg-white focus:px-5 focus:py-3 focus:text-sm focus:font-semibold focus:text-amber-800 focus:shadow-xl">
     Pular para o conteúdo
@@ -22,8 +22,8 @@
           <li>
             <a [href]="item.href"
                class="nav-link rounded-full px-4 py-2 transition-all hover:bg-amber-50 hover:text-amber-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-700"
-               [class.nav-link--active]="activeHref() === item.href"
-               [attr.aria-current]="activeHref() === item.href ? 'page' : null">
+               [class.nav-link--active]="activeHref === item.href"
+               [attr.aria-current]="activeHref === item.href ? 'page' : null">
               {{ item.label }}
             </a>
           </li>
@@ -90,9 +90,9 @@
             <li>
               <a [href]="item.href"
                  class="flex rounded-2xl px-4 py-3 text-sm font-medium text-gray-700 transition-colors hover:bg-amber-50 hover:text-amber-800"
-                 [class.bg-amber-50]="activeHref() === item.href"
-                 [class.text-amber-800]="activeHref() === item.href"
-                 [class.font-semibold]="activeHref() === item.href"
+                 [class.bg-amber-50]="activeHref === item.href"
+                 [class.text-amber-800]="activeHref === item.href"
+                 [class.font-semibold]="activeHref === item.href"
                  (click)="closeMobileMenu()">
                 {{ item.label }}
               </a>
