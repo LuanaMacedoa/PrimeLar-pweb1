@@ -1,0 +1,179 @@
+@if (variant() === 'landing') {
+  <a href="#conteudo-principal"
+     class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[999] focus:rounded-full focus:bg-white focus:px-5 focus:py-3 focus:text-sm focus:font-semibold focus:text-amber-800 focus:shadow-xl">
+    Pular para o conteúdo
+  </a>
+
+  <nav class="fixed left-0 right-0 top-0 z-50 border-b border-white/20 bg-white/90 px-4 py-3 shadow-sm backdrop-blur-xl sm:px-6 lg:px-10"
+       aria-label="Navegação principal">
+    <div class="mx-auto flex max-w-7xl items-center justify-between gap-4">
+      <a href="#inicio"
+         class="flex items-center gap-3 rounded-full focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-700 focus-visible:ring-offset-4"
+         aria-label="PrimeLar — Página inicial">
+        <div class="flex h-10 w-10 items-center justify-center rounded-2xl bg-amber-700 shadow-lg shadow-amber-900/20">
+          <span class="text-sm font-bold text-white" aria-hidden="true">P</span>
+        </div>
+        <span class="text-xl font-semibold tracking-tight text-gray-950">PrimeLar</span>
+      </a>
+
+      <ul class="hidden items-center gap-1 rounded-full border border-gray-200 bg-white/80 p-1 text-sm font-medium text-gray-600 shadow-sm lg:flex"
+          role="list">
+        @for (item of landingNavLinks; track item.href) {
+          <li>
+            <a [href]="item.href"
+               class="nav-link rounded-full px-4 py-2 transition-all hover:bg-amber-50 hover:text-amber-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-700"
+               [class.nav-link--active]="activeHref() === item.href"
+               [attr.aria-current]="activeHref() === item.href ? 'page' : null">
+              {{ item.label }}
+            </a>
+          </li>
+        }
+      </ul>
+
+      <div class="flex items-center gap-2">
+        <a routerLink="/auth"
+           class="hidden min-h-11 items-center justify-center rounded-full border border-gray-300 bg-white px-5 py-2.5 text-sm font-semibold text-gray-800 transition-all hover:-translate-y-0.5 hover:border-amber-700 hover:text-amber-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-700 focus-visible:ring-offset-4 sm:inline-flex">
+          Entrar
+        </a>
+
+        <a href="#contato"
+           class="inline-flex min-h-11 items-center justify-center rounded-full bg-amber-700 px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-amber-900/20 transition-all hover:-translate-y-0.5 hover:bg-amber-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-700 focus-visible:ring-offset-4">
+          Fale conosco
+        </a>
+
+        <button type="button"
+                class="flex h-10 w-10 items-center justify-center rounded-full border border-gray-200 bg-white shadow-sm transition-colors hover:bg-amber-50 lg:hidden focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-700"
+                [attr.aria-expanded]="showMobileMenu"
+                aria-controls="mobile-menu"
+                aria-label="Menu de navegação"
+                (click)="toggleMobileMenu()">
+          @if (!showMobileMenu) {
+            <svg class="h-5 w-5 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+            </svg>
+          } @else {
+            <svg class="h-5 w-5 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+            </svg>
+          }
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  @if (showMobileMenu) {
+    <div class="mobile-overlay fixed inset-0 z-40 bg-black/40 backdrop-blur-sm lg:hidden"
+         (click)="closeMobileMenu()"
+         aria-hidden="true">
+    </div>
+
+    <div id="mobile-menu"
+         class="mobile-drawer fixed right-0 top-0 z-50 h-full w-72 bg-white px-6 py-8 shadow-2xl lg:hidden"
+         role="dialog"
+         aria-modal="true"
+         aria-label="Menu de navegação">
+      <div class="mb-8 flex items-center justify-between">
+        <span class="text-lg font-semibold text-gray-950">Menu</span>
+        <button type="button"
+                class="flex h-9 w-9 items-center justify-center rounded-full border border-gray-200 hover:bg-gray-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-700"
+                aria-label="Fechar menu"
+                (click)="closeMobileMenu()">
+          <svg class="h-4 w-4 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+
+      <nav aria-label="Menu mobile">
+        <ul class="space-y-1" role="list">
+          @for (item of landingNavLinks; track item.href) {
+            <li>
+              <a [href]="item.href"
+                 class="flex rounded-2xl px-4 py-3 text-sm font-medium text-gray-700 transition-colors hover:bg-amber-50 hover:text-amber-800"
+                 [class.bg-amber-50]="activeHref() === item.href"
+                 [class.text-amber-800]="activeHref() === item.href"
+                 [class.font-semibold]="activeHref() === item.href"
+                 (click)="closeMobileMenu()">
+                {{ item.label }}
+              </a>
+            </li>
+          }
+        </ul>
+      </nav>
+
+      <div class="mt-8 border-t border-gray-100 pt-8">
+        <a href="#contato"
+           class="flex w-full items-center justify-center rounded-full bg-amber-700 px-5 py-3 text-sm font-semibold text-white shadow-lg hover:bg-amber-800"
+           (click)="closeMobileMenu()">
+          Fale conosco
+        </a>
+      </div>
+    </div>
+  }
+} @else {
+  <nav
+    class="fixed left-0 right-0 top-0 z-50 border-b border-white/20 bg-white/90 px-4 py-3 shadow-sm backdrop-blur-xl sm:px-6 lg:px-10"
+    aria-label="Navegação principal">
+    <div class="mx-auto flex max-w-7xl items-center justify-between gap-4">
+      <a routerLink="/"
+        class="flex items-center gap-3 rounded-full focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-700 focus-visible:ring-offset-4"
+        aria-label="PrimeLar - Voltar para página inicial">
+        <div class="flex h-10 w-10 items-center justify-center rounded-2xl bg-amber-700 shadow-lg shadow-amber-900/20">
+          <span class="text-sm font-bold text-white">P</span>
+        </div>
+
+        <span class="text-xl font-semibold tracking-tight text-gray-950">
+          PrimeLar
+        </span>
+      </a>
+
+      <ul
+        class="hidden items-center gap-1 rounded-full border border-gray-200 bg-white/80 p-1 text-sm font-medium text-gray-600 shadow-sm lg:flex">
+        <li>
+          <a routerLink="/"
+            class="rounded-full px-4 py-2 transition-colors hover:bg-amber-50 hover:text-amber-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-700">
+            Início
+          </a>
+        </li>
+
+        <li>
+          <span class="cursor-default select-none rounded-full px-4 py-2 text-gray-400">
+            Imóveis
+          </span>
+        </li>
+
+        <li>
+          <span class="cursor-default select-none rounded-full px-4 py-2 text-gray-400">
+            Sobre Nós
+          </span>
+        </li>
+
+        <li>
+          <span class="cursor-default select-none rounded-full px-4 py-2 text-gray-400">
+            Blog
+          </span>
+        </li>
+
+        <li>
+          <span class="cursor-default select-none rounded-full px-4 py-2 text-gray-400">
+            Contato
+          </span>
+        </li>
+
+        <li>
+          <span class="flex cursor-default select-none items-center gap-1 rounded-full px-4 py-2 text-gray-400">
+            Serviços
+            <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+          </span>
+        </li>
+      </ul>
+
+      <a routerLink="/" fragment="contato"
+        class="inline-flex min-h-11 items-center justify-center rounded-full bg-amber-700 px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-amber-900/20 transition-all hover:-translate-y-0.5 hover:bg-amber-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-700 focus-visible:ring-offset-4">
+        Fale conosco
+      </a>
+    </div>
+  </nav>
+}
