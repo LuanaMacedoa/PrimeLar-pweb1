@@ -1,5 +1,6 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { AuthService } from '../../../../service/auth.service';
 
 type NavbarVariant = 'landing' | 'auth';
 
@@ -34,4 +35,9 @@ export class NavbarComponent {
   protected closeMobileMenu(): void {
     this.showMobileMenu = false;
   }
+
+  auth = inject(AuthService);
+  user = this.auth.user;
+
+  
 }
