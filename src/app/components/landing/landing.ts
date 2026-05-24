@@ -9,7 +9,8 @@ import {
   ViewChild,
   inject,
 } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { FooterComponent } from '../layout/footer/footer.component';
+import { NavbarComponent } from '../layout/navbar/navbar.component';
 import AOS from 'aos';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -26,7 +27,7 @@ type FormKey = 'nome' | 'telefone' | 'interesse';
 @Component({
   selector: 'app-landing',
   standalone: true,
-  imports: [RouterLink],
+  imports: [NavbarComponent, FooterComponent],
   templateUrl: './landing.html',
   styleUrls: ['../../app.css'],
 })
@@ -44,8 +45,6 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
   @ViewChild('testimonialsCarousel') testimonialsCarouselRef?: ElementRef<HTMLDivElement>;
 
   /* ── Estado geral ───────────────────────────────────────── */
-  readonly currentYear = new Date().getFullYear();
-  showMobileMenu = false;
   showBackToTop = false;
   activeSection = 'inicio';
   windowWidth = isPlatformBrowser(inject(PLATFORM_ID))
@@ -79,15 +78,6 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
   /* ══════════════════════════════════════════════════════════
      DADOS
   ══════════════════════════════════════════════════════════ */
-
-  navLinks = [
-    { label: 'Início', href: '#inicio' },
-    { label: 'Imóveis', href: '#imoveis' },
-    { label: 'Sobre', href: '#sobre' },
-    { label: 'Serviços', href: '#servicos' },
-    { label: 'Depoimentos', href: '#depoimentos' },
-    { label: 'Contato', href: '#contato' },
-  ];
 
   benefits = [
     {
@@ -308,41 +298,9 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
     },
   ];
 
-  footerColumns = [
-    {
-      title: 'Navegação',
-      links: [
-        { label: 'Início', href: '#inicio' },
-        { label: 'Imóveis', href: '#imoveis' },
-        { label: 'Serviços', href: '#servicos' },
-      ],
-    },
-    {
-      title: 'Empresa',
-      links: [
-        { label: 'Sobre nós', href: '#sobre' },
-        { label: 'Depoimentos', href: '#depoimentos' },
-        { label: 'Contato', href: '#contato' },
-      ],
-    },
-    {
-      title: 'Atendimento',
-      links: [
-        { label: 'Comprar', href: '#contato' },
-        { label: 'Alugar', href: '#contato' },
-        { label: 'Vender', href: '#contato' },
-      ],
-    },
-  ];
-
   /* ══════════════════════════════════════════════════════════
      GETTERS COMPUTADOS
   ══════════════════════════════════════════════════════════ */
-
-  /** H6 – Recognition: nav link marcado pelo scroll */
-  isNavActive(href: string): boolean {
-    return href === `#${this.activeSection}`;
-  }
 
   /** H8 – Minimalism: exibe apenas propriedades do filtro ativo */
   get filteredProperties() {
@@ -377,12 +335,6 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
   @HostListener('window:scroll')
   onWindowScroll(): void {
     this.showBackToTop = window.scrollY > 400;
-  }
-
-  /** H3 – User control: fecha menu mobile com Escape (H3) */
-  @HostListener('window:keydown.escape')
-  onEscape(): void {
-    this.showMobileMenu = false;
   }
 
   /** H7 – Efficiency: largura da janela para layout responsivo */

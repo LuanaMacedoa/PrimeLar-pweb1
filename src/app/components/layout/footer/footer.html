@@ -1,0 +1,48 @@
+<footer class="border-t border-gray-200 bg-gray-950 px-4 py-12 text-white sm:px-6 lg:px-10">
+  <div class="mx-auto grid max-w-7xl grid-cols-1 gap-10 lg:grid-cols-12">
+    <div class="lg:col-span-4">
+      <div class="flex items-center gap-3">
+        <div class="flex h-10 w-10 items-center justify-center rounded-2xl bg-amber-700">
+          <span class="text-sm font-bold text-white" aria-hidden="true">P</span>
+        </div>
+        <span class="text-xl font-semibold tracking-tight">PrimeLar</span>
+      </div>
+      <p class="mt-5 max-w-sm text-sm leading-7 text-white/60">
+        Imóveis selecionados, atendimento consultivo e uma experiência clara para
+        quem quer comprar, vender ou alugar com segurança.
+      </p>
+    </div>
+
+    @for (column of footerColumns; track column.title) {
+      <div class="lg:col-span-2">
+        <h3 class="text-sm font-semibold text-white">{{ column.title }}</h3>
+        <ul class="mt-4 space-y-3" role="list">
+          @for (link of column.links; track link.href) {
+            <li>
+              <a [href]="link.href"
+                 class="text-sm text-white/55 transition-colors hover:text-amber-100 focus:outline-none focus-visible:text-amber-100">
+                {{ link.label }}
+              </a>
+            </li>
+          }
+        </ul>
+      </div>
+    }
+
+    <div class="lg:col-span-2">
+      <h3 class="text-sm font-semibold text-white">Contato</h3>
+      <address class="not-italic">
+        <ul class="mt-4 space-y-3 text-sm text-white/55" role="list">
+          <li>João Pessoa — PB</li>
+          <li><a href="mailto:contato@primelar.com" class="hover:text-amber-100 transition-colors">contato&#64;primelar.com</a></li>
+          <li><a href="tel:+558399999999" class="hover:text-amber-100 transition-colors">(83) 99999-9999</a></li>
+        </ul>
+      </address>
+    </div>
+  </div>
+
+  <div class="mx-auto mt-10 flex max-w-7xl flex-col gap-4 border-t border-white/10 pt-6 text-sm text-white/45 sm:flex-row sm:items-center sm:justify-between">
+    <p>© {{ currentYear }} PrimeLar. Todos os direitos reservados.</p>
+    <p>Experiência simples, acessível e responsiva.</p>
+  </div>
+</footer>
