@@ -9,8 +9,8 @@ import {
   ViewChild,
   inject,
 } from '@angular/core';
-import { FooterComponent } from '../layout/footer/footer.component';
-import { NavbarComponent } from '../layout/navbar/navbar.component';
+import { FooterComponent } from '../../components/layout/footer/footer.component';
+import { NavbarComponent } from '../../components/layout/navbar/navbar.component';
 import { ImovelService } from '../../../service/imovel.service';
 import { AtendimentoService } from '../../../service/atendimento.service';
 // Load AOS and GSAP dynamically in the browser to avoid static analysis
