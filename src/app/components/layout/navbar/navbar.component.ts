@@ -1,5 +1,5 @@
-import { ChangeDetectionStrategy, Component, Input, inject } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { ChangeDetectionStrategy, Component, ElementRef, HostListener, Input, inject, signal } from '@angular/core';
+import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../../../service/auth.service';
 
 type NavbarVariant = 'landing' | 'auth';
@@ -17,6 +17,9 @@ export class NavbarComponent {
   @Input() variant: NavbarVariant = 'landing';
   @Input() activeHref: string | null = null;
 
+  private readonly hostElement = inject(ElementRef<HTMLElement>);
+  private readonly router = inject(Router);
+
   protected readonly landingNavLinks = [
     { label: 'Início', href: '#inicio' },
     { label: 'Imóveis', href: '#imoveis' },
@@ -27,6 +30,7 @@ export class NavbarComponent {
   ];
 
   protected showMobileMenu = false;
+  protected showUserMenu = signal(false);
 
   protected toggleMobileMenu(): void {
     this.showMobileMenu = !this.showMobileMenu;
@@ -34,6 +38,40 @@ export class NavbarComponent {
 
   protected closeMobileMenu(): void {
     this.showMobileMenu = false;
+  }
+
+  protected toggleUserMenu(): void {
+    this.showUserMenu.update((value) => !value);
+  }
+
+  protected closeUserMenu(): void {
+    this.showUserMenu.set(false);
+  }
+
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent): void {
+    if (!this.showUserMenu()) return;
+
+    const target = event.target as Node | null;
+    if (target && !this.hostElement.nativeElement.contains(target)) {
+      this.closeUserMenu();
+    }
+  }
+
+  @HostListener('window:keydown.escape')
+  onEscape(): void {
+    this.closeMobileMenu();
+    this.closeUserMenu();
+  }
+
+  protected async deactivateAccount(): Promise<void> {
+    const confirmed = window.confirm('Tem certeza que deseja desativar sua conta?');
+    if (!confirmed) return;
+
+    await this.auth.deactivateAccount();
+    await this.router.navigateByUrl('/auth');
+    window.location.reload();
+    this.closeUserMenu();
   }
 
   auth = inject(AuthService);

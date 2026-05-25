@@ -1,7 +1,8 @@
 import { CommonModule, DOCUMENT } from '@angular/common';
 import { Component, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { NavbarComponent } from '../layout/navbar/navbar.component';
+import { Router } from '@angular/router';
+import { NavbarComponent } from '../../components/layout/navbar/navbar.component';
 import { AuthService } from '../../../service/auth.service';
 
 @Component({
@@ -12,6 +13,7 @@ import { AuthService } from '../../../service/auth.service';
 })
 export class AuthComponent {
   private readonly documentRef = inject(DOCUMENT);
+  private readonly router = inject(Router);
   private auth = inject(AuthService);
   
 
@@ -45,21 +47,22 @@ export class AuthComponent {
 
   async onLogin() {
     this.feedback.set(null);
-  this.loading.set(true);
+    this.loading.set(true);
 
-  const ok = await this.auth.login(
-    this.loginData.email,
-    this.loginData.password
-  );
+    const ok = await this.auth.login(
+      this.loginData.email,
+      this.loginData.password,
+    );
 
-  this.loading.set(false);
+    this.loading.set(false);
 
-  if (!ok) {
-    this.feedback.set('Email ou senha inválidos.');
-    return;
-  }
+    if (!ok) {
+      this.feedback.set('Email ou senha inválidos.');
+      return;
+    }
 
-  this.feedback.set('Login realizado com sucesso.');
+    await this.router.navigateByUrl('/');
+    window.location.reload();
   }
 
   async onRegister() {
