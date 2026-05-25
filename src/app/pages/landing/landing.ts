@@ -9,11 +9,12 @@ import {
   ViewChild,
   inject,
 } from '@angular/core';
-import { FooterComponent } from '../layout/footer/footer.component';
-import { NavbarComponent } from '../layout/navbar/navbar.component';
-import AOS from 'aos';
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { FooterComponent } from '../../components/layout/footer/footer.component';
+import { NavbarComponent } from '../../components/layout/navbar/navbar.component';
+import { ImovelService } from '../../../service/imovel.service';
+import { AtendimentoService } from '../../../service/atendimento.service';
+// Load AOS and GSAP dynamically in the browser to avoid static analysis
+// issues with CommonJS modules during type checking.
 
 /* ── Tipos ─────────────────────────────────────────────────── */
 interface FormField {
@@ -35,8 +36,10 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
   /* ── Injeções ───────────────────────────────────────────── */
   private readonly platformId = inject(PLATFORM_ID);
   private readonly host = inject(ElementRef<HTMLElement>);
+  private readonly imovelService = inject(ImovelService);
+  private atendimento = inject(AtendimentoService);
 
-  private gsapCtx?: gsap.Context;
+  private gsapCtx?: any;
   private sectionObserver?: IntersectionObserver;
   private initTimer?: ReturnType<typeof setTimeout>;
 
@@ -115,58 +118,7 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
     },
   ];
 
-  properties = [
-    {
-      id: 1,
-      name: 'Residência Prime',
-      category: 'Casa familiar',
-      type: 'Casa',
-      info: '3 quartos · 2 vagas',
-      badge: 'Destaque',
-      image: 'assets/img/property-1.png',
-      alt: 'Casa de alto padrão com três quartos',
-    },
-    {
-      id: 2,
-      name: 'Vista Central',
-      category: 'Apartamento',
-      type: 'Apartamento',
-      info: '2 quartos · 1 vaga',
-      badge: 'Novo',
-      image: 'assets/img/property-2.png',
-      alt: 'Apartamento moderno com dois quartos',
-    },
-    {
-      id: 3,
-      name: 'Mansão Jardins',
-      category: 'Alto padrão',
-      type: 'Premium',
-      info: '4 quartos · 3 vagas',
-      badge: 'Premium',
-      image: 'assets/img/property-3.png',
-      alt: 'Imóvel premium com quatro quartos',
-    },
-    {
-      id: 4,
-      name: 'Casa Horizonte',
-      category: 'Espaço completo',
-      type: 'Casa',
-      info: '5 quartos · 4 vagas',
-      badge: 'Família',
-      image: 'assets/img/property-4.png',
-      alt: 'Casa espaçosa com cinco quartos',
-    },
-    {
-      id: 5,
-      name: 'Varanda Bella',
-      category: 'Condomínio',
-      type: 'Condomínio',
-      info: '3 quartos · 2 vagas',
-      badge: 'Lazer',
-      image: 'assets/img/property-5.png',
-      alt: 'Apartamento sofisticado em condomínio',
-    },
-  ];
+  properties: any[] = [];
 
   stats = [
     {
@@ -349,14 +301,41 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
 
   ngAfterViewInit(): void {
     if (!isPlatformBrowser(this.platformId)) return;
+    this.carregarImoveis();
 
-    AOS.init({ duration: 650, easing: 'ease-out-cubic', once: true, offset: 80 });
+    // Dynamically import AOS and GSAP only in the browser.
+    Promise.all([import('aos'), import('gsap'), import('gsap/ScrollTrigger')])
+      .then(([AOSModule, gsapModule, ScrollTriggerModule]) => {
+        const AOSLib = (AOSModule && (AOSModule as any).default) ? (AOSModule as any).default : AOSModule;
+        const gsapLib = (gsapModule && (gsapModule as any).gsap) ? (gsapModule as any).gsap : gsapModule;
+        const ScrollTrigger = (ScrollTriggerModule && (ScrollTriggerModule as any).ScrollTrigger)
+          ? (ScrollTriggerModule as any).ScrollTrigger
+          : (ScrollTriggerModule as any).default ?? ScrollTriggerModule;
 
-    this.initTimer = setTimeout(() => {
-      this.initSectionObserver();
-      this.initGsapAnimations();
-      AOS.refreshHard();
-    }, 100);
+        // Store reference for later use in animations
+        (this as any).gsapLib = gsapLib;
+
+        try {
+          gsapLib.registerPlugin(ScrollTrigger);
+        } catch (e) {
+          // ignore plugin registration errors silently
+        }
+
+        AOSLib?.init?.({ duration: 650, easing: 'ease-out-cubic', once: true, offset: 80 });
+
+        this.initTimer = setTimeout(() => {
+          this.initSectionObserver();
+          this.initGsapAnimations();
+          AOSLib?.refreshHard?.();
+        }, 100);
+      })
+      .catch(() => {
+        // If dynamic imports fail, still initialize observers/timers
+        this.initTimer = setTimeout(() => {
+          this.initSectionObserver();
+          this.initGsapAnimations();
+        }, 100);
+      });
   }
 
   ngOnDestroy(): void {
@@ -471,23 +450,36 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
   }
 
   /** H5 – Error prevention: valida todos antes de enviar */
-  onSubmit(): void {
-    (Object.keys(this.form) as FormKey[]).forEach((k) => {
-      this.form[k].touched = true;
-      this.validateField(k);
-    });
+ async onSubmit() {
+  this.formSubmitting = true;
+  this.formSuccess = false;
 
-    if (!this.formValid) return;
-
-    this.formSubmitting = true;
-    this.formError = false;
-
-    // Simula chamada de API
-    setTimeout(() => {
-      this.formSubmitting = false;
-      this.formSuccess = true;
-    }, 1600);
+ 
+  if (!this.form.nome.value || !this.form.telefone.value || !this.form.interesse.value) {
+    this.formSubmitting = false;
+    return;
   }
+
+  const ok = await this.atendimento.criarAtendimento({
+    nome: this.form.nome.value,
+    telefone: this.form.telefone.value,
+    interesse: this.form.interesse.value,
+  });
+
+  this.formSubmitting = false;
+
+  if (!ok) {
+    this.form.nome.error = 'Erro ao enviar solicitação';
+    this.form.nome.touched = true;
+    return;
+  }
+
+  this.formSuccess = true;
+
+  this.form.nome.value = '';
+  this.form.telefone.value = '';
+  this.form.interesse.value = '';
+}
 
   /** H3 – User control: permite refazer o envio */
   resetForm(): void {
@@ -498,6 +490,10 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
     };
     this.formSuccess = false;
     this.formError = false;
+  }
+
+  async carregarImoveis(): Promise<void> {
+  this.properties = await this.imovelService.getImoveis();
   }
 
   /** H3 – User control: volta ao topo suavemente */
@@ -529,11 +525,14 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
   }
 
   private initGsapAnimations(): void {
-    gsap.registerPlugin(ScrollTrigger);
+    const gsapLib = (this as any).gsapLib ?? (typeof (window as any).gsap !== 'undefined' ? (window as any).gsap : null);
+    if (!gsapLib) return;
 
-    this.gsapCtx = gsap.context(() => {
+    gsapLib.registerPlugin?.(gsapLib.ScrollTrigger ?? (gsapLib as any).ScrollTrigger);
+
+    this.gsapCtx = gsapLib.context(() => {
       /* Hero: entrada escalonada */
-      gsap.from('.hero-kicker, .hero-title, .hero-description, .hero-actions', {
+      gsapLib.from('.hero-kicker, .hero-title, .hero-description, .hero-actions', {
         y: 24,
         opacity: 0,
         duration: 0.8,
@@ -549,7 +548,7 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
           const suffix = el.dataset['suffix'] ?? '';
           const counter = { v: 0 };
 
-          gsap.to(counter, {
+          gsapLib.to(counter, {
             v: value,
             duration: 1.5,
             ease: 'power2.out',
