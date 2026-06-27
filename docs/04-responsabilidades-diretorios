@@ -1,0 +1,17 @@
+# Estrutura de Camadas do Backend
+
+Este documento descreve brevemente a responsabilidade de cada camada do backend, visando manter a separação de responsabilidades organizada e alinhada às convenções do projeto.
+
+---
+
+## Divisão de Responsabilidades
+
+1. **Raiz (`com.primelar.backend`)**: Contém a classe principal `BackendApplication.java`, responsável apenas por inicializar e configurar o Spring Boot, mantendo o ponto de entrada da aplicação isolado de outras lógicas.
+2. **Config (`com.primelar.backend.config`)**: Reúne as configurações de infraestrutura e do framework, tais como políticas de segurança (Spring Security), configurações de CORS e filtros.
+3. **Controller (`com.primelar.backend.controller`)**: Camada de apresentação/API REST que expõe os endpoints HTTP. Recebe as requisições, valida a entrada básica e delega o processamento de negócio para os serviços.
+4. **Service (`com.primelar.backend.service`)**: Camada que concentra a lógica de negócio e regras da aplicação. Orquestra a comunicação entre os controllers e os repositórios.
+5. **Model (`com.primelar.backend.model`)**: Representa os dados e a lógica de domínio do sistema. Divide-se em:
+   - **`model.entity`**: Entidades de banco de dados mapeadas com JPA.
+   - **`model.dto.request` / `model.dto.response`**: Objetos de transferência de dados (DTOs) usados na comunicação com o cliente, isolando a estrutura do banco de dados da API externa.
+6. **Repository (`com.primelar.backend.repository`)**: Interfaces que herdam de repositórios do Spring Data JPA, responsáveis pelas consultas e manipulação direta de dados no banco de dados.
+7. **Shared (`com.primelar.backend.shared`)**: Pacote auxiliar para classes utilitárias, constantes globais, manipuladores genéricos de exceção e outras configurações compartilhadas de uso transversal no projeto.
