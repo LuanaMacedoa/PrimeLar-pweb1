@@ -12,3 +12,27 @@ Este trabalho foi planejado com base em:
 
 O sistema esta sendo estruturado para atender aos requisitos academicos de API REST, Spring Boot, JPA, integracao com Angular e principios de seguranca aplicados ao desenvolvimento do software.
 
+## Ambiente com Docker (backend + banco)
+
+Pré-requisitos: [Docker](https://docs.docker.com/get-docker/) e [Docker Compose](https://docs.docker.com/compose/) v2+.
+
+### 1. Configurar variáveis de ambiente
+
+```bash
+cp .env.example .env
+
+Edite .env e defina POSTGRES_PASSWORD (e demais valores se necessário)
+
+# Rodar em background
+docker compose up -d --build
+
+# Ver logs
+docker compose logs -f backend
+
+# Parar e remover containers (volume do banco é preservado)
+docker compose down
+
+# Parar e apagar dados do banco
+docker compose down -v
+
+```
