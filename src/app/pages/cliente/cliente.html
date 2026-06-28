@@ -1,0 +1,692 @@
+<main id="cliente" class="min-h-screen bg-[#F8F6F2]">
+
+  <!-- TOPO / ÁREA DO CLIENTE -->
+  <section class="relative overflow-hidden border-b border-amber-100 bg-white px-4 py-8 sm:px-6 lg:px-10">
+    <div class="absolute right-0 top-0 h-72 w-72 rounded-full bg-amber-100/60 blur-3xl"></div>
+    <div class="absolute bottom-0 left-0 h-56 w-56 rounded-full bg-stone-200/60 blur-3xl"></div>
+
+    <div class="relative z-10 mx-auto max-w-7xl">
+      <a routerLink="/"
+        class="inline-flex min-h-11 items-center justify-center gap-2 rounded-full border border-amber-200 bg-white px-5 py-2.5 text-sm font-semibold text-amber-800 shadow-sm transition-all hover:-translate-y-0.5 hover:border-amber-700 hover:bg-amber-700 hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-700 focus-visible:ring-offset-4"
+        aria-label="Voltar para a página inicial">
+        <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7" />
+        </svg>
+        Voltar à página inicial
+      </a>
+
+      <div class="mt-10 grid grid-cols-1 gap-8 lg:grid-cols-12 lg:items-end">
+        <div class="lg:col-span-7">
+          <span
+            class="mb-4 inline-flex rounded-full bg-amber-50 px-4 py-2 text-xs font-semibold uppercase tracking-[0.22em] text-amber-800">
+            Área do cliente
+          </span>
+
+          <h1
+            class="max-w-4xl text-4xl font-light leading-tight tracking-[-0.04em] text-gray-950 sm:text-5xl lg:text-6xl"
+            style="font-family: 'DM Serif Display', Georgia, serif">
+            Acompanhe seus imóveis, visitas e propostas com clareza.
+          </h1>
+
+          <p class="mt-5 max-w-2xl text-sm leading-7 text-gray-500 sm:text-base">
+            Atualize seus dados, consulte imóveis disponíveis, favorite oportunidades e solicite visitas de forma
+            simples.
+          </p>
+        </div>
+
+        <!-- RESUMO -->
+        <div class="grid grid-cols-1 gap-3 sm:grid-cols-3 lg:col-span-5">
+          <article class="rounded-[1.75rem] border border-amber-100 bg-amber-50/70 p-5 shadow-sm">
+            <div class="flex items-center justify-between gap-3">
+              <span class="flex h-11 w-11 items-center justify-center rounded-2xl bg-white text-amber-800 shadow-sm">
+                ★
+              </span>
+              <span class="rounded-full bg-white px-3 py-1 text-xs font-semibold text-amber-800">
+                Salvos
+              </span>
+            </div>
+            <p class="mt-5 text-3xl font-semibold tracking-[-0.04em] text-gray-950">
+              {{ favoriteProperties.length }}
+            </p>
+            <p class="mt-1 text-sm text-gray-500">Imóveis favoritos</p>
+          </article>
+
+          <article class="rounded-[1.75rem] border border-amber-100 bg-white p-5 shadow-sm">
+            <div class="flex items-center justify-between gap-3">
+              <span class="flex h-11 w-11 items-center justify-center rounded-2xl bg-amber-50 text-amber-800">
+                R$
+              </span>
+              <span class="rounded-full bg-amber-50 px-3 py-1 text-xs font-semibold text-amber-800">
+                Enviadas
+              </span>
+            </div>
+            <p class="mt-5 text-3xl font-semibold tracking-[-0.04em] text-gray-950">
+              {{ proposals.length }}
+            </p>
+            <p class="mt-1 text-sm text-gray-500">Propostas</p>
+          </article>
+
+          <article class="rounded-[1.75rem] border border-amber-100 bg-white p-5 shadow-sm">
+            <div class="flex items-center justify-between gap-3">
+              <span class="flex h-11 w-11 items-center justify-center rounded-2xl bg-amber-50 text-amber-800">
+                ✓
+              </span>
+              <span class="rounded-full bg-green-50 px-3 py-1 text-xs font-semibold text-green-700">
+                Agenda
+              </span>
+            </div>
+            <p class="mt-5 text-3xl font-semibold tracking-[-0.04em] text-gray-950">
+              {{ visits.length }}
+            </p>
+            <p class="mt-1 text-sm text-gray-500">Visitas</p>
+          </article>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- NAVEGAÇÃO INTERNA -->
+  <section
+    class="sticky top-0 z-30 border-b border-gray-200 bg-[#F8F6F2]/90 px-4 py-4 backdrop-blur-md sm:px-6 lg:px-10">
+    <div class="mx-auto max-w-7xl">
+      <div class="grid grid-cols-1 gap-3 md:grid-cols-3" role="tablist" aria-label="Navegação da área do cliente">
+
+        <!-- TAB PERFIL -->
+        <button type="button"
+          class="group rounded-[1.5rem] border p-4 text-left transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-700 focus-visible:ring-offset-2"
+          [class.border-amber-700]="activeSection === 'perfil'" [class.bg-amber-700]="activeSection === 'perfil'"
+          [class.text-white]="activeSection === 'perfil'" [class.shadow-lg]="activeSection === 'perfil'"
+          [class.shadow-amber-900]="activeSection === 'perfil'" [class.border-gray-200]="activeSection !== 'perfil'"
+          [class.bg-white]="activeSection !== 'perfil'" [class.text-gray-800]="activeSection !== 'perfil'"
+          [attr.aria-selected]="activeSection === 'perfil'" role="tab" (click)="setSection('perfil')">
+          <div class="flex items-center gap-3">
+            <span
+              class="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl border text-sm font-bold shadow-sm text-amber-800"
+              [class.border-white]="activeSection === 'perfil'" [class.bg-white]="activeSection === 'perfil'"
+              [class.text-amber-800]="activeSection === 'perfil'" [class.border-amber-100]="activeSection !== 'perfil'"
+              [class.bg-amber-50]="activeSection !== 'perfil'">
+              1
+            </span>
+
+            <div>
+              <p class="font-semibold">Perfil e senha</p>
+              <p class="mt-1 text-xs" [class.text-white]="activeSection === 'perfil'"
+                [class.text-gray-500]="activeSection !== 'perfil'">
+                Dados pessoais e segurança
+              </p>
+            </div>
+          </div>
+        </button>
+
+        <!-- TAB ATIVIDADE -->
+        <button type="button"
+          class="group rounded-[1.5rem] border p-4 text-left transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-700 focus-visible:ring-offset-2"
+          [class.border-amber-700]="activeSection === 'atividade'" [class.bg-amber-700]="activeSection === 'atividade'"
+          [class.text-white]="activeSection === 'atividade'" [class.shadow-lg]="activeSection === 'atividade'"
+          [class.shadow-amber-900]="activeSection === 'atividade'"
+          [class.border-gray-200]="activeSection !== 'atividade'" [class.bg-white]="activeSection !== 'atividade'"
+          [class.text-gray-800]="activeSection !== 'atividade'" [attr.aria-selected]="activeSection === 'atividade'"
+          role="tab" (click)="setSection('atividade')">
+          <div class="flex items-center gap-3">
+            <span
+              class="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl border text-sm font-bold shadow-sm text-amber-800"
+              [class.border-white]="activeSection === 'atividade'" [class.bg-white]="activeSection === 'atividade'"
+              [class.text-amber-800]="activeSection === 'atividade'"
+              [class.border-amber-100]="activeSection !== 'atividade'"
+              [class.bg-amber-50]="activeSection !== 'atividade'">
+              2
+            </span>
+
+            <div>
+              <p class="font-semibold">Minha atividade</p>
+              <p class="mt-1 text-xs" [class.text-white]="activeSection === 'atividade'"
+                [class.text-gray-500]="activeSection !== 'atividade'">
+                Favoritos, propostas e visitas
+              </p>
+            </div>
+          </div>
+        </button>
+
+        <!-- TAB CONSULTA -->
+        <button type="button"
+          class="group rounded-[1.5rem] border p-4 text-left transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-700 focus-visible:ring-offset-2"
+          [class.border-amber-700]="activeSection === 'consulta'" [class.bg-amber-700]="activeSection === 'consulta'"
+          [class.text-white]="activeSection === 'consulta'" [class.shadow-lg]="activeSection === 'consulta'"
+          [class.shadow-amber-900]="activeSection === 'consulta'" [class.border-gray-200]="activeSection !== 'consulta'"
+          [class.bg-white]="activeSection !== 'consulta'" [class.text-gray-800]="activeSection !== 'consulta'"
+          [attr.aria-selected]="activeSection === 'consulta'" role="tab" (click)="setSection('consulta')">
+          <div class="flex items-center gap-3">
+            <span
+              class="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl border text-sm font-bold shadow-sm text-amber-800"
+              [class.border-white]="activeSection === 'consulta'" [class.bg-white]="activeSection === 'consulta'"
+              [class.text-amber-800]="activeSection === 'consulta'"
+              [class.border-amber-100]="activeSection !== 'consulta'"
+              [class.bg-amber-50]="activeSection !== 'consulta'">
+              3
+            </span>
+
+            <div>
+              <p class="font-semibold">Consultar imóveis</p>
+              <p class="mt-1 text-xs" [class.text-white]="activeSection === 'consulta'"
+                [class.text-gray-500]="activeSection !== 'consulta'">
+                Filtre, favorite e agende
+              </p>
+            </div>
+          </div>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEEDBACK GLOBAL -->
+  @if (actionMessage) {
+  <div
+    class="fixed bottom-5 left-1/2 z-50 w-[calc(100%-2rem)] max-w-md -translate-x-1/2 rounded-3xl border border-green-100 bg-green-50 px-5 py-4 text-sm font-medium text-green-700 shadow-xl shadow-green-900/10 sm:right-5 sm:left-auto sm:translate-x-0"
+    role="status" aria-live="polite">
+    <div class="flex items-start gap-3">
+      <span class="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-green-100 text-green-700">
+        ✓
+      </span>
+      <p>{{ actionMessage }}</p>
+    </div>
+  </div>
+  }
+
+  <!-- PERFIL -->
+  @if (activeSection === 'perfil') {
+  <section class="px-4 py-16 sm:px-6 lg:px-10 lg:py-20">
+    <div class="mx-auto grid max-w-7xl grid-cols-1 gap-8 lg:grid-cols-12">
+
+      <aside class="lg:col-span-4">
+        <div class="sticky top-32 rounded-[2rem] border border-amber-100 bg-white p-6 shadow-sm">
+          <span
+            class="mb-4 inline-flex rounded-full bg-amber-50 px-4 py-2 text-xs font-semibold uppercase tracking-[0.22em] text-amber-800">
+            Conta do cliente
+          </span>
+
+          <h2 class="text-3xl font-light leading-tight tracking-[-0.04em] text-gray-950 sm:text-4xl"
+            style="font-family: 'DM Serif Display', Georgia, serif">
+            Atualize suas informações com segurança.
+          </h2>
+
+          <p class="mt-5 text-sm leading-7 text-gray-500">
+            Dados corretos ajudam a imobiliária a entrar em contato, confirmar visitas e enviar propostas com menos
+            erros.
+          </p>
+
+          <div class="mt-6 rounded-3xl bg-amber-50/70 p-4">
+            <p class="text-sm font-semibold text-gray-950">Dica de segurança</p>
+            <p class="mt-1 text-sm leading-6 text-gray-500">
+              Use uma senha com pelo menos 6 caracteres e evite repetir senhas de outros sites.
+            </p>
+          </div>
+        </div>
+      </aside>
+
+      <div class="grid gap-6 lg:col-span-8">
+
+        <!-- INFORMAÇÕES PESSOAIS -->
+        <article class="rounded-[2rem] border border-gray-200 bg-white p-6 shadow-sm lg:p-8">
+          <div class="flex flex-col gap-3 border-b border-gray-100 pb-6 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <h3 class="text-xl font-semibold text-gray-950">Informações pessoais</h3>
+              <p class="mt-1 text-sm text-gray-500">Esses dados serão usados para contato e atendimento.</p>
+            </div>
+
+            @if (profileSuccess) {
+            <span class="inline-flex rounded-full bg-green-50 px-3 py-1.5 text-xs font-semibold text-green-700"
+              role="status">
+              Perfil salvo
+            </span>
+            }
+          </div>
+
+          <div class="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
+            <div>
+              <label class="mb-1.5 block text-sm font-semibold text-gray-700">Nome completo</label>
+              <input type="text"
+                class="h-12 w-full rounded-2xl border border-gray-200 bg-gray-50 px-4 text-sm outline-none transition-all focus:border-amber-700 focus:bg-white focus:ring-4 focus:ring-amber-700/10"
+                [value]="profile.nome" (input)="profile.nome = $any($event.target).value" />
+            </div>
+
+            <div>
+              <label class="mb-1.5 block text-sm font-semibold text-gray-700">E-mail</label>
+              <input type="email"
+                class="h-12 w-full rounded-2xl border border-gray-200 bg-gray-50 px-4 text-sm outline-none transition-all focus:border-amber-700 focus:bg-white focus:ring-4 focus:ring-amber-700/10"
+                [value]="profile.email" (input)="profile.email = $any($event.target).value" />
+            </div>
+
+            <div>
+              <label class="mb-1.5 block text-sm font-semibold text-gray-700">Telefone</label>
+              <input type="tel"
+                class="h-12 w-full rounded-2xl border border-gray-200 bg-gray-50 px-4 text-sm outline-none transition-all focus:border-amber-700 focus:bg-white focus:ring-4 focus:ring-amber-700/10"
+                [value]="profile.telefone" (input)="profile.telefone = $any($event.target).value" />
+            </div>
+
+            <div>
+              <label class="mb-1.5 block text-sm font-semibold text-gray-700">Cidade</label>
+              <input type="text"
+                class="h-12 w-full rounded-2xl border border-gray-200 bg-gray-50 px-4 text-sm outline-none transition-all focus:border-amber-700 focus:bg-white focus:ring-4 focus:ring-amber-700/10"
+                [value]="profile.cidade" (input)="profile.cidade = $any($event.target).value" />
+            </div>
+
+            <div class="sm:col-span-2">
+              <label class="mb-1.5 block text-sm font-semibold text-gray-700">Interesse principal</label>
+              <select
+                class="h-12 w-full rounded-2xl border border-gray-200 bg-gray-50 px-4 text-sm outline-none transition-all focus:border-amber-700 focus:bg-white focus:ring-4 focus:ring-amber-700/10"
+                [value]="profile.interesse" (change)="profile.interesse = $any($event.target).value">
+                <option>Comprar imóvel</option>
+                <option>Alugar imóvel</option>
+                <option>Vender imóvel</option>
+                <option>Falar com corretor</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="mt-7 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <p class="text-xs text-gray-400">Revise os dados antes de salvar.</p>
+
+            <button type="button"
+              class="inline-flex min-h-12 items-center justify-center rounded-full bg-amber-700 px-7 py-3 text-sm font-semibold text-white shadow-lg shadow-amber-900/20 transition-all hover:-translate-y-0.5 hover:bg-amber-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-700 focus-visible:ring-offset-4"
+              (click)="updateProfile()">
+              Salvar alterações
+            </button>
+          </div>
+        </article>
+
+        <!-- ALTERAR SENHA -->
+        <article class="rounded-[2rem] border border-gray-200 bg-white p-6 shadow-sm lg:p-8">
+          <div class="border-b border-gray-100 pb-6">
+            <h3 class="text-xl font-semibold text-gray-950">Alterar senha</h3>
+            <p class="mt-1 text-sm text-gray-500">Confirme sua senha atual antes de definir uma nova.</p>
+          </div>
+
+          <div class="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-3">
+            <div>
+              <label class="mb-1.5 block text-sm font-semibold text-gray-700">Senha atual</label>
+              <input type="password"
+                class="h-12 w-full rounded-2xl border border-gray-200 bg-gray-50 px-4 text-sm outline-none transition-all focus:border-amber-700 focus:bg-white focus:ring-4 focus:ring-amber-700/10"
+                [value]="password.atual" (input)="password.atual = $any($event.target).value" />
+            </div>
+
+            <div>
+              <label class="mb-1.5 block text-sm font-semibold text-gray-700">Nova senha</label>
+              <input type="password"
+                class="h-12 w-full rounded-2xl border border-gray-200 bg-gray-50 px-4 text-sm outline-none transition-all focus:border-amber-700 focus:bg-white focus:ring-4 focus:ring-amber-700/10"
+                [value]="password.nova" (input)="password.nova = $any($event.target).value" />
+            </div>
+
+            <div>
+              <label class="mb-1.5 block text-sm font-semibold text-gray-700">Confirmar senha</label>
+              <input type="password"
+                class="h-12 w-full rounded-2xl border border-gray-200 bg-gray-50 px-4 text-sm outline-none transition-all focus:border-amber-700 focus:bg-white focus:ring-4 focus:ring-amber-700/10"
+                [value]="password.confirmar" (input)="password.confirmar = $any($event.target).value" />
+            </div>
+          </div>
+
+          @if (passwordError) {
+          <p class="mt-5 rounded-2xl border border-red-100 bg-red-50 px-4 py-3 text-sm font-medium text-red-600"
+            role="alert">
+            {{ passwordError }}
+          </p>
+          }
+
+          <div class="mt-7 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            @if (passwordSuccess) {
+            <p class="text-sm font-medium text-green-600" role="status">
+              Senha alterada com sucesso.
+            </p>
+            } @else {
+            <p class="text-xs text-gray-400">A alteração só será feita após validação dos campos.</p>
+            }
+
+            <button type="button"
+              class="inline-flex min-h-12 items-center justify-center rounded-full border border-gray-300 bg-white px-7 py-3 text-sm font-semibold text-gray-800 transition-all hover:-translate-y-0.5 hover:border-amber-700 hover:bg-amber-700 hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-700 focus-visible:ring-offset-4"
+              (click)="updatePassword()">
+              Alterar senha
+            </button>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+  }
+
+  <!-- ATIVIDADE -->
+  @if (activeSection === 'atividade') {
+  <section class="px-4 py-16 sm:px-6 lg:px-10 lg:py-20">
+    <div class="mx-auto max-w-7xl">
+      <div class="mb-10 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+        <div>
+          <span
+            class="mb-4 inline-flex rounded-full bg-white px-4 py-2 text-xs font-semibold uppercase tracking-[0.22em] text-amber-800 shadow-sm">
+            Minha atividade
+          </span>
+
+          <h2 class="text-4xl font-light leading-tight tracking-[-0.04em] text-gray-950"
+            style="font-family: 'DM Serif Display', Georgia, serif">
+            Tudo que você está acompanhando.
+          </h2>
+
+          <p class="mt-4 max-w-2xl text-sm leading-7 text-gray-500">
+            Veja rapidamente seus imóveis salvos, propostas enviadas e visitas marcadas.
+          </p>
+        </div>
+
+        <button type="button"
+          class="inline-flex min-h-11 items-center justify-center rounded-full bg-amber-700 px-6 py-2.5 text-sm font-semibold text-white shadow-lg shadow-amber-900/20 transition-all hover:-translate-y-0.5 hover:bg-amber-800"
+          (click)="setSection('consulta')">
+          Consultar novos imóveis
+        </button>
+      </div>
+
+      <div class="grid grid-cols-1 gap-6 lg:grid-cols-3">
+
+        <!-- FAVORITOS -->
+        <article class="rounded-[2rem] border border-amber-100 bg-white p-6 shadow-sm">
+          <div class="flex items-center justify-between gap-4">
+            <h3 class="text-xl font-semibold text-gray-950">Favoritos</h3>
+            <span class="rounded-full bg-amber-50 px-3 py-1 text-xs font-semibold text-amber-800">
+              {{ favoriteProperties.length }}
+            </span>
+          </div>
+
+          @if (favoriteProperties.length === 0) {
+          <div class="mt-5 rounded-3xl border border-dashed border-amber-200 bg-amber-50/60 p-6 text-center">
+            <p class="text-sm font-medium text-gray-700">Você ainda não favoritou nenhum imóvel.</p>
+            <button type="button" class="mt-3 text-sm font-semibold text-amber-800 underline-offset-4 hover:underline"
+              (click)="setSection('consulta')">
+              Consultar imóveis
+            </button>
+          </div>
+          } @else {
+          <div class="mt-5 space-y-4">
+            @for (property of favoriteProperties; track property.id) {
+            <div class="flex gap-4 rounded-3xl border border-gray-100 bg-gray-50 p-3">
+              <img [src]="property.image" [alt]="property.alt" class="h-20 w-20 rounded-2xl object-cover" />
+
+              <div class="min-w-0 flex-1">
+                <p class="truncate font-semibold text-gray-950">{{ property.name }}</p>
+                <p class="mt-1 text-sm text-gray-500">{{ property.location }}</p>
+                <p class="mt-2 text-sm font-semibold text-amber-800">{{ property.price }}</p>
+
+                <button type="button" class="mt-2 text-xs font-semibold text-red-600 underline-offset-4 hover:underline"
+                  (click)="toggleFavorite(property)">
+                  Remover favorito
+                </button>
+              </div>
+            </div>
+            }
+          </div>
+          }
+        </article>
+
+        <!-- PROPOSTAS -->
+        <article class="rounded-[2rem] border border-amber-100 bg-white p-6 shadow-sm">
+          <div class="flex items-center justify-between gap-4">
+            <h3 class="text-xl font-semibold text-gray-950">Propostas</h3>
+            <span class="rounded-full bg-amber-50 px-3 py-1 text-xs font-semibold text-amber-800">
+              {{ proposals.length }}
+            </span>
+          </div>
+
+          <div class="mt-5 space-y-4">
+            @for (proposal of proposals; track proposal.property) {
+            <div class="rounded-3xl border border-gray-100 bg-gray-50 p-4">
+              <div class="flex items-start justify-between gap-4">
+                <div>
+                  <p class="font-semibold text-gray-950">{{ proposal.property }}</p>
+                  <p class="mt-1 text-sm text-gray-500">Enviada em {{ proposal.date }}</p>
+                </div>
+
+                <span class="rounded-full bg-amber-100 px-3 py-1 text-xs font-semibold text-amber-800">
+                  {{ proposal.status }}
+                </span>
+              </div>
+
+              <div class="mt-4 rounded-2xl bg-white p-3">
+                <p class="text-xs text-gray-400">Valor proposto</p>
+                <p class="text-lg font-semibold text-gray-950">{{ proposal.value }}</p>
+              </div>
+            </div>
+            }
+          </div>
+        </article>
+
+        <!-- VISITAS -->
+        <article class="rounded-[2rem] border border-amber-100 bg-white p-6 shadow-sm">
+          <div class="flex items-center justify-between gap-4">
+            <h3 class="text-xl font-semibold text-gray-950">Visitas</h3>
+            <span class="rounded-full bg-green-50 px-3 py-1 text-xs font-semibold text-green-700">
+              {{ visits.length }}
+            </span>
+          </div>
+
+          @if (visits.length === 0) {
+          <div class="mt-5 rounded-3xl border border-dashed border-amber-200 bg-amber-50/60 p-6 text-center">
+            <p class="text-sm font-medium text-gray-700">Você ainda não possui visitas marcadas.</p>
+            <button type="button" class="mt-3 text-sm font-semibold text-amber-800 underline-offset-4 hover:underline"
+              (click)="setSection('consulta')">
+              Agendar visita
+            </button>
+          </div>
+          } @else {
+          <div class="mt-5 space-y-4">
+            @for (visit of visits; track visit.property + visit.date) {
+            <div class="rounded-3xl border border-gray-100 bg-gray-50 p-4">
+              <div class="flex items-start justify-between gap-4">
+                <div>
+                  <p class="font-semibold text-gray-950">{{ visit.property }}</p>
+                  <p class="mt-1 text-sm text-gray-500">{{ visit.date }} às {{ visit.hour }}</p>
+                </div>
+
+                <span class="rounded-full bg-green-100 px-3 py-1 text-xs font-semibold text-green-700">
+                  {{ visit.status }}
+                </span>
+              </div>
+
+              @if (visit.status === 'Marcada') {
+              <button type="button"
+                class="mt-4 inline-flex min-h-10 items-center justify-center rounded-full border border-red-200 bg-red-50 px-4 py-2 text-xs font-semibold text-red-700 transition-all hover:bg-red-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-400 focus-visible:ring-offset-2"
+                (click)="cancelVisitByPropertyName(visit.property)">
+                Desmarcar visita
+              </button>
+              }
+            </div>
+            }
+          </div>
+          }
+        </article>
+      </div>
+    </div>
+  </section>
+  }
+
+  <!-- CONSULTA -->
+  @if (activeSection === 'consulta') {
+  <section class="px-4 py-16 sm:px-6 lg:px-10 lg:py-20">
+    <div class="mx-auto max-w-7xl">
+
+      <div class="mb-8 rounded-[2rem] border border-amber-100 bg-white p-6 shadow-sm lg:p-8">
+        <div class="grid grid-cols-1 gap-6 lg:grid-cols-12 lg:items-end">
+          <div class="lg:col-span-7">
+            <span
+              class="mb-4 inline-flex rounded-full bg-amber-50 px-4 py-2 text-xs font-semibold uppercase tracking-[0.22em] text-amber-800">
+              Consulta de imóveis
+            </span>
+
+            <h2 class="text-4xl font-light leading-tight tracking-[-0.04em] text-gray-950"
+              style="font-family: 'DM Serif Display', Georgia, serif">
+              Encontre uma opção compatível com seu perfil.
+            </h2>
+
+            <p class="mt-4 max-w-2xl text-sm leading-7 text-gray-500">
+              Use os filtros para reduzir escolhas e tome ações diretamente no card do imóvel.
+            </p>
+          </div>
+
+          <div class="lg:col-span-5">
+            <label class="mb-2 block text-sm font-semibold text-gray-700">Buscar imóvel</label>
+            <input type="text" placeholder="Nome, bairro ou tipo..."
+              class="h-12 w-full rounded-2xl border border-gray-200 bg-gray-50 px-5 text-sm outline-none transition-all focus:border-amber-700 focus:bg-white focus:ring-4 focus:ring-amber-700/10"
+              [value]="searchTerm" (input)="searchTerm = $any($event.target).value" aria-label="Buscar imóvel" />
+          </div>
+        </div>
+
+        <div
+          class="mt-6 flex flex-col gap-4 border-t border-gray-100 pt-6 lg:flex-row lg:items-center lg:justify-between">
+          <div class="flex flex-wrap gap-2" role="group" aria-label="Filtrar imóveis por tipo">
+            @for (filter of propertyFilters; track filter) {
+            <button type="button"
+              class="rounded-full border px-4 py-2 text-sm font-medium transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-700 focus-visible:ring-offset-2"
+              [class.border-amber-700]="activeFilter === filter" [class.bg-amber-700]="activeFilter === filter"
+              [class.text-white]="activeFilter === filter" [class.border-gray-200]="activeFilter !== filter"
+              [class.bg-white]="activeFilter !== filter" [class.text-gray-700]="activeFilter !== filter"
+              [attr.aria-pressed]="activeFilter === filter" (click)="activeFilter = filter">
+              {{ filter }}
+            </button>
+            }
+          </div>
+
+          <div class="flex items-center gap-3">
+            <p class="text-sm text-gray-500" role="status">
+              {{ filteredProperties.length }} imóvel(is) encontrado(s)
+            </p>
+
+            @if (activeFilter !== 'Todos' || searchTerm) {
+            <button type="button" class="text-sm font-semibold text-amber-800 underline-offset-4 hover:underline"
+              (click)="clearFilters()">
+              Limpar filtros
+            </button>
+            }
+          </div>
+        </div>
+      </div>
+
+      @if (filteredProperties.length === 0) {
+      <div class="rounded-[2rem] border border-dashed border-amber-200 bg-white p-10 text-center shadow-sm"
+        role="status">
+        <div class="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-amber-50 text-3xl">
+          ⌂
+        </div>
+        <p class="mt-5 text-lg font-semibold text-gray-950">Nenhum imóvel encontrado</p>
+        <p class="mt-2 text-sm text-gray-500">Tente remover filtros ou buscar por outro termo.</p>
+
+        <button type="button"
+          class="mt-5 inline-flex min-h-11 items-center justify-center rounded-full bg-amber-700 px-6 py-2.5 text-sm font-semibold text-white transition-all hover:bg-amber-800"
+          (click)="clearFilters()">
+          Limpar filtros
+        </button>
+      </div>
+      } @else {
+
+      <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-3">
+        @for (property of filteredProperties; track property.id) {
+        <article
+          class="group overflow-hidden rounded-[2rem] border border-gray-200 bg-white shadow-sm transition-all hover:-translate-y-1 hover:border-amber-200 hover:shadow-xl hover:shadow-amber-900/10">
+
+          <div class="relative aspect-[4/3] overflow-hidden bg-gray-100">
+            <img [src]="property.image" [alt]="property.alt"
+              class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+              loading="lazy" />
+
+            <div class="absolute left-4 top-4 flex flex-wrap gap-2">
+              <span
+                class="rounded-full bg-white/95 px-3 py-1.5 text-xs font-semibold text-amber-800 shadow-sm backdrop-blur-md">
+                {{ property.type }}
+              </span>
+
+              <span class="rounded-full bg-gray-950/75 px-3 py-1.5 text-xs font-semibold text-white backdrop-blur-md">
+                {{ property.badge }}
+              </span>
+            </div>
+
+            <button type="button"
+              class="absolute right-4 top-4 flex h-11 w-11 items-center justify-center rounded-full border border-white/40 shadow-sm backdrop-blur-md transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
+              [class.bg-amber-700]="isFavorite(property.id)" [class.text-white]="isFavorite(property.id)"
+              [class.bg-white]="!isFavorite(property.id)" [class.text-amber-800]="!isFavorite(property.id)"
+              [attr.aria-pressed]="isFavorite(property.id)"
+              [attr.aria-label]="isFavorite(property.id) ? 'Remover imóvel dos favoritos' : 'Adicionar imóvel aos favoritos'"
+              (click)="toggleFavorite(property)">
+              @if (isFavorite(property.id)) {
+              ★
+              } @else {
+              ☆
+              }
+            </button>
+          </div>
+
+          <div class="p-5">
+            <div class="flex items-start justify-between gap-4">
+              <div>
+                <h3 class="text-lg font-semibold text-gray-950">{{ property.name }}</h3>
+                <p class="mt-1 text-sm text-gray-500">{{ property.location }}</p>
+              </div>
+
+              <p class="shrink-0 text-sm font-bold text-amber-800">{{ property.price }}</p>
+            </div>
+
+            <div class="mt-5 grid grid-cols-3 gap-2 text-center text-xs text-gray-500">
+              <div class="rounded-2xl bg-gray-50 p-3">
+                <p class="font-semibold text-gray-950">{{ property.bedrooms }}</p>
+                <p class="mt-0.5">Quartos</p>
+              </div>
+
+              <div class="rounded-2xl bg-gray-50 p-3">
+                <p class="font-semibold text-gray-950">{{ property.bathrooms }}</p>
+                <p class="mt-0.5">Banheiros</p>
+              </div>
+
+              <div class="rounded-2xl bg-gray-50 p-3">
+                <p class="font-semibold text-gray-950">{{ property.area }}</p>
+                <p class="mt-0.5">Área</p>
+              </div>
+            </div>
+
+            <p class="mt-4 line-clamp-3 text-sm leading-6 text-gray-500">
+              {{ property.description }}
+            </p>
+
+            <div class="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-2">
+              <button type="button"
+                class="inline-flex min-h-11 items-center justify-center rounded-full border px-5 py-2.5 text-sm font-semibold transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-700 focus-visible:ring-offset-2"
+                [class.border-amber-700]="isFavorite(property.id)" [class.bg-amber-700]="isFavorite(property.id)"
+                [class.text-white]="isFavorite(property.id)" [class.border-gray-300]="!isFavorite(property.id)"
+                [class.bg-white]="!isFavorite(property.id)" [class.text-gray-800]="!isFavorite(property.id)"
+                [class.hover:border-amber-700]="!isFavorite(property.id)"
+                [class.hover:bg-amber-700]="!isFavorite(property.id)"
+                [class.hover:text-white]="!isFavorite(property.id)" [attr.aria-pressed]="isFavorite(property.id)"
+                (click)="toggleFavorite(property)">
+                @if (isFavorite(property.id)) {
+                Favoritado
+                } @else {
+                Favoritar
+                }
+              </button>
+
+              <button type="button"
+                class="inline-flex min-h-11 items-center justify-center rounded-full border px-5 py-2.5 text-sm font-semibold transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-700 focus-visible:ring-offset-2"
+                [class.border-red-200]="isVisitScheduled(property)" [class.bg-red-50]="isVisitScheduled(property)"
+                [class.text-red-700]="isVisitScheduled(property)" [class.hover:bg-red-100]="isVisitScheduled(property)"
+                [class.border-amber-700]="!isVisitScheduled(property)"
+                [class.bg-amber-700]="!isVisitScheduled(property)" [class.text-white]="!isVisitScheduled(property)"
+                [class.hover:bg-amber-800]="!isVisitScheduled(property)"
+                [attr.aria-pressed]="isVisitScheduled(property)" (click)="toggleVisit(property)">
+                @if (isVisitScheduled(property)) {
+                Desmarcar visita
+                } @else {
+                Agendar visita
+                }
+              </button>
+            </div>
+          </div>
+        </article>
+        }
+      </div>
+      }
+    </div>
+  </section>
+  }
+</main>
+
+<app-footer></app-footer>
