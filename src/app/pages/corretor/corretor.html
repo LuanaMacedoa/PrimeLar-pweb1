@@ -1,0 +1,807 @@
+<main id="corretor" class="min-h-screen bg-[#F8F6F2]">
+
+  <!-- TOPO / ÁREA DO CORRETOR -->
+  <section class="relative overflow-hidden border-b border-amber-100 bg-white px-4 py-8 sm:px-6 lg:px-10">
+    <div class="absolute right-0 top-0 h-72 w-72 rounded-full bg-amber-100/60 blur-3xl"></div>
+    <div class="absolute bottom-0 left-0 h-56 w-56 rounded-full bg-stone-200/60 blur-3xl"></div>
+
+    <div class="relative z-10 mx-auto max-w-7xl">
+      <a routerLink="/"
+        class="inline-flex min-h-11 items-center justify-center gap-2 rounded-full border border-amber-200 bg-white px-5 py-2.5 text-sm font-semibold text-amber-800 shadow-sm transition-all hover:-translate-y-0.5 hover:border-amber-700 hover:bg-amber-700 hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-700 focus-visible:ring-offset-4"
+        aria-label="Voltar para a página inicial">
+        <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7" />
+        </svg>
+        Voltar à página inicial
+      </a>
+
+      <div class="mt-10 grid grid-cols-1 gap-8 lg:grid-cols-12 lg:items-end">
+        <div class="lg:col-span-7">
+          <span
+            class="mb-4 inline-flex rounded-full bg-amber-50 px-4 py-2 text-xs font-semibold uppercase tracking-[0.22em] text-amber-800">
+            Área do corretor
+          </span>
+
+          <h1
+            class="max-w-4xl text-4xl font-light leading-tight tracking-[-0.04em] text-gray-950 sm:text-5xl lg:text-6xl"
+            style="font-family: 'DM Serif Display', Georgia, serif">
+            Organize leads, visitas e propostas em uma rotina mais clara.
+          </h1>
+
+          <p class="mt-5 max-w-2xl text-sm leading-7 text-gray-500 sm:text-base">
+            Acompanhe atividades diárias, priorize atendimentos, gerencie clientes interessados e mova propostas pelo
+            funil comercial.
+          </p>
+        </div>
+
+        <!-- RESUMO -->
+        <div class="grid grid-cols-1 gap-3 sm:grid-cols-4 lg:col-span-5">
+          <article class="rounded-[1.75rem] border border-amber-100 bg-amber-50/70 p-5 shadow-sm">
+            <div class="flex items-center justify-between gap-3">
+              <span class="flex h-11 w-11 items-center justify-center rounded-2xl bg-white text-amber-800 shadow-sm">
+                !
+              </span>
+              <span class="rounded-full bg-white px-3 py-1 text-xs font-semibold text-amber-800">
+                Pendentes
+              </span>
+            </div>
+            <p class="mt-5 text-3xl font-semibold tracking-[-0.04em] text-gray-950">
+              {{ pendingLeads.length }}
+            </p>
+            <p class="mt-1 text-sm text-gray-500">Leads</p>
+          </article>
+
+          <article class="rounded-[1.75rem] border border-amber-100 bg-white p-5 shadow-sm">
+            <div class="flex items-center justify-between gap-3">
+              <span class="flex h-11 w-11 items-center justify-center rounded-2xl bg-amber-50 text-amber-800">
+                ✓
+              </span>
+              <span class="rounded-full bg-green-50 px-3 py-1 text-xs font-semibold text-green-700">
+                Hoje
+              </span>
+            </div>
+            <p class="mt-5 text-3xl font-semibold tracking-[-0.04em] text-gray-950">
+              {{ todayVisits.length }}
+            </p>
+            <p class="mt-1 text-sm text-gray-500">Visitas</p>
+          </article>
+
+          <article class="rounded-[1.75rem] border border-amber-100 bg-white p-5 shadow-sm">
+            <div class="flex items-center justify-between gap-3">
+              <span class="flex h-11 w-11 items-center justify-center rounded-2xl bg-amber-50 text-amber-800">
+                R$
+              </span>
+              <span class="rounded-full bg-amber-50 px-3 py-1 text-xs font-semibold text-amber-800">
+                Ativas
+              </span>
+            </div>
+            <p class="mt-5 text-3xl font-semibold tracking-[-0.04em] text-gray-950">
+              {{ activeProposals.length }}
+            </p>
+            <p class="mt-1 text-sm text-gray-500">Propostas</p>
+          </article>
+
+          <article class="rounded-[1.75rem] border border-amber-100 bg-white p-5 shadow-sm">
+            <div class="flex items-center justify-between gap-3">
+              <span class="flex h-11 w-11 items-center justify-center rounded-2xl bg-amber-50 text-amber-800">
+                %
+              </span>
+              <span class="rounded-full bg-gray-100 px-3 py-1 text-xs font-semibold text-gray-700">
+                Geral
+              </span>
+            </div>
+            <p class="mt-5 text-3xl font-semibold tracking-[-0.04em] text-gray-950">
+              {{ conversionRate }}%
+            </p>
+            <p class="mt-1 text-sm text-gray-500">Conversão</p>
+          </article>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- NAVEGAÇÃO INTERNA -->
+  <section
+    class="sticky top-0 z-30 border-b border-gray-200 bg-[#F8F6F2]/90 px-4 py-4 backdrop-blur-md sm:px-6 lg:px-10">
+    <div class="mx-auto max-w-7xl">
+      <div class="grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-4" role="tablist"
+        aria-label="Navegação da área do corretor">
+
+        <button type="button"
+          class="group rounded-[1.5rem] border p-4 text-left transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-700 focus-visible:ring-offset-2"
+          [class.border-amber-700]="activeSection === 'visao'" [class.bg-amber-700]="activeSection === 'visao'"
+          [class.text-white]="activeSection === 'visao'" [class.shadow-lg]="activeSection === 'visao'"
+          [class.shadow-amber-900]="activeSection === 'visao'" [class.border-gray-200]="activeSection !== 'visao'"
+          [class.bg-white]="activeSection !== 'visao'" [class.text-gray-800]="activeSection !== 'visao'"
+          [attr.aria-selected]="activeSection === 'visao'" role="tab" (click)="setSection('visao')">
+          <div class="flex items-center gap-3">
+            <span
+              class="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl border text-sm font-bold shadow-sm text-amber-800"
+              [class.border-white]="activeSection === 'visao'" [class.bg-white]="activeSection === 'visao'"
+              [class.text-amber-800]="activeSection === 'visao'" [class.border-amber-100]="activeSection !== 'visao'"
+              [class.bg-amber-50]="activeSection !== 'visao'">
+              1
+            </span>
+
+            <div>
+              <p class="font-semibold">Visão diária</p>
+              <p class="mt-1 text-xs" [class.text-white]="activeSection === 'visao'"
+                [class.text-gray-500]="activeSection !== 'visao'">
+                Leads e propostas
+              </p>
+            </div>
+          </div>
+        </button>
+
+        <button type="button"
+          class="group rounded-[1.5rem] border p-4 text-left transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-700 focus-visible:ring-offset-2"
+          [class.border-amber-700]="activeSection === 'perfil'" [class.bg-amber-700]="activeSection === 'perfil'"
+          [class.text-white]="activeSection === 'perfil'" [class.shadow-lg]="activeSection === 'perfil'"
+          [class.shadow-amber-900]="activeSection === 'perfil'" [class.border-gray-200]="activeSection !== 'perfil'"
+          [class.bg-white]="activeSection !== 'perfil'" [class.text-gray-800]="activeSection !== 'perfil'"
+          [attr.aria-selected]="activeSection === 'perfil'" role="tab" (click)="setSection('perfil')">
+          <div class="flex items-center gap-3">
+            <span
+              class="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl border text-sm font-bold shadow-sm text-amber-800"
+              [class.border-white]="activeSection === 'perfil'" [class.bg-white]="activeSection === 'perfil'"
+              [class.text-amber-800]="activeSection === 'perfil'" [class.border-amber-100]="activeSection !== 'perfil'"
+              [class.bg-amber-50]="activeSection !== 'perfil'">
+              2
+            </span>
+
+            <div>
+              <p class="font-semibold">Perfil e senha</p>
+              <p class="mt-1 text-xs" [class.text-white]="activeSection === 'perfil'"
+                [class.text-gray-500]="activeSection !== 'perfil'">
+                Dados do corretor
+              </p>
+            </div>
+          </div>
+        </button>
+
+        <button type="button"
+          class="group rounded-[1.5rem] border p-4 text-left transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-700 focus-visible:ring-offset-2"
+          [class.border-amber-700]="activeSection === 'atendimentos'"
+          [class.bg-amber-700]="activeSection === 'atendimentos'" [class.text-white]="activeSection === 'atendimentos'"
+          [class.shadow-lg]="activeSection === 'atendimentos'"
+          [class.shadow-amber-900]="activeSection === 'atendimentos'"
+          [class.border-gray-200]="activeSection !== 'atendimentos'" [class.bg-white]="activeSection !== 'atendimentos'"
+          [class.text-gray-800]="activeSection !== 'atendimentos'"
+          [attr.aria-selected]="activeSection === 'atendimentos'" role="tab" (click)="setSection('atendimentos')">
+          <div class="flex items-center gap-3">
+            <span
+              class="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl border text-sm font-bold shadow-sm text-amber-800"
+              [class.border-white]="activeSection === 'atendimentos'"
+              [class.bg-white]="activeSection === 'atendimentos'"
+              [class.text-amber-800]="activeSection === 'atendimentos'"
+              [class.border-amber-100]="activeSection !== 'atendimentos'"
+              [class.bg-amber-50]="activeSection !== 'atendimentos'">
+              3
+            </span>
+
+            <div>
+              <p class="font-semibold">Atendimentos</p>
+              <p class="mt-1 text-xs" [class.text-white]="activeSection === 'atendimentos'"
+                [class.text-gray-500]="activeSection !== 'atendimentos'">
+                Clientes, leads e visitas
+              </p>
+            </div>
+          </div>
+        </button>
+
+        <button type="button"
+          class="group rounded-[1.5rem] border p-4 text-left transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-700 focus-visible:ring-offset-2"
+          [class.border-amber-700]="activeSection === 'funil'" [class.bg-amber-700]="activeSection === 'funil'"
+          [class.text-white]="activeSection === 'funil'" [class.shadow-lg]="activeSection === 'funil'"
+          [class.shadow-amber-900]="activeSection === 'funil'" [class.border-gray-200]="activeSection !== 'funil'"
+          [class.bg-white]="activeSection !== 'funil'" [class.text-gray-800]="activeSection !== 'funil'"
+          [attr.aria-selected]="activeSection === 'funil'" role="tab" (click)="setSection('funil')">
+          <div class="flex items-center gap-3">
+            <span
+              class="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl border text-sm font-bold shadow-sm text-amber-800"
+              [class.border-white]="activeSection === 'funil'" [class.bg-white]="activeSection === 'funil'"
+              [class.text-amber-800]="activeSection === 'funil'" [class.border-amber-100]="activeSection !== 'funil'"
+              [class.bg-amber-50]="activeSection !== 'funil'">
+              4
+            </span>
+
+            <div>
+              <p class="font-semibold">Funil</p>
+              <p class="mt-1 text-xs" [class.text-white]="activeSection === 'funil'"
+                [class.text-gray-500]="activeSection !== 'funil'">
+                Fluxo de propostas
+              </p>
+            </div>
+          </div>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEEDBACK GLOBAL -->
+  @if (actionMessage) {
+  <div
+    class="fixed bottom-5 left-1/2 z-50 w-[calc(100%-2rem)] max-w-md -translate-x-1/2 rounded-3xl border border-green-100 bg-green-50 px-5 py-4 text-sm font-medium text-green-700 shadow-xl shadow-green-900/10 sm:right-5 sm:left-auto sm:translate-x-0"
+    role="status" aria-live="polite">
+    <div class="flex items-start gap-3">
+      <span class="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-green-100 text-green-700">
+        ✓
+      </span>
+      <p>{{ actionMessage }}</p>
+    </div>
+  </div>
+  }
+
+  <!-- VISÃO DIÁRIA -->
+  @if (activeSection === 'visao') {
+  <section class="px-4 py-16 sm:px-6 lg:px-10 lg:py-20">
+    <div class="mx-auto max-w-7xl">
+
+      <div class="mb-10 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+        <div>
+          <span
+            class="mb-4 inline-flex rounded-full bg-white px-4 py-2 text-xs font-semibold uppercase tracking-[0.22em] text-amber-800 shadow-sm">
+            Painel diário
+          </span>
+
+          <h2 class="text-4xl font-light leading-tight tracking-[-0.04em] text-gray-950"
+            style="font-family: 'DM Serif Display', Georgia, serif">
+            Prioridades do corretor para hoje.
+          </h2>
+
+          <p class="mt-4 max-w-2xl text-sm leading-7 text-gray-500">
+            Visualize rapidamente leads pendentes, visitas do dia e propostas que exigem acompanhamento.
+          </p>
+        </div>
+
+        <button type="button"
+          class="inline-flex min-h-11 items-center justify-center rounded-full bg-amber-700 px-6 py-2.5 text-sm font-semibold text-white shadow-lg shadow-amber-900/20 transition-all hover:-translate-y-0.5 hover:bg-amber-800"
+          (click)="setSection('atendimentos')">
+          Ir para atendimentos
+        </button>
+      </div>
+
+      <div class="grid grid-cols-1 gap-6 lg:grid-cols-3">
+
+        <!-- LEADS PENDENTES -->
+        <article class="rounded-[2rem] border border-amber-100 bg-white p-6 shadow-sm">
+          <div class="flex items-center justify-between gap-4">
+            <h3 class="text-xl font-semibold text-gray-950">Leads pendentes</h3>
+            <span class="rounded-full bg-amber-50 px-3 py-1 text-xs font-semibold text-amber-800">
+              {{ pendingLeads.length }}
+            </span>
+          </div>
+
+          <div class="mt-5 space-y-4">
+            @for (lead of pendingLeads; track lead.id) {
+            <div class="rounded-3xl border border-gray-100 bg-gray-50 p-4">
+              <div class="flex items-start justify-between gap-4">
+                <div>
+                  <p class="font-semibold text-gray-950">{{ lead.client }}</p>
+                  <p class="mt-1 text-sm text-gray-500">{{ lead.interest }}</p>
+                </div>
+
+                <span class="rounded-full px-3 py-1 text-xs font-semibold" [class.bg-red-50]="lead.priority === 'Alta'"
+                  [class.text-red-700]="lead.priority === 'Alta'" [class.bg-amber-50]="lead.priority === 'Média'"
+                  [class.text-amber-800]="lead.priority === 'Média'" [class.bg-gray-100]="lead.priority === 'Baixa'"
+                  [class.text-gray-700]="lead.priority === 'Baixa'">
+                  {{ lead.priority }}
+                </span>
+              </div>
+
+              <p class="mt-3 text-sm text-gray-500">{{ lead.propertyFocus }}</p>
+
+              <button type="button"
+                class="mt-4 inline-flex min-h-10 items-center justify-center rounded-full bg-amber-700 px-4 py-2 text-xs font-semibold text-white transition-all hover:bg-amber-800"
+                (click)="startLeadAttendance(lead)">
+                Iniciar atendimento
+              </button>
+            </div>
+            }
+          </div>
+        </article>
+
+        <!-- VISITAS DE HOJE -->
+        <article class="rounded-[2rem] border border-amber-100 bg-white p-6 shadow-sm">
+          <div class="flex items-center justify-between gap-4">
+            <h3 class="text-xl font-semibold text-gray-950">Visitas de hoje</h3>
+            <span class="rounded-full bg-green-50 px-3 py-1 text-xs font-semibold text-green-700">
+              {{ todayVisits.length }}
+            </span>
+          </div>
+
+          <div class="mt-5 space-y-4">
+            @for (visit of todayVisits; track visit.id) {
+            <div class="rounded-3xl border border-gray-100 bg-gray-50 p-4">
+              <p class="font-semibold text-gray-950">{{ visit.client }}</p>
+              <p class="mt-1 text-sm text-gray-500">{{ visit.property }}</p>
+
+              <div class="mt-4 rounded-2xl bg-white p-3">
+                <p class="text-xs text-gray-400">Horário</p>
+                <p class="text-lg font-semibold text-gray-950">{{ visit.hour }}</p>
+              </div>
+
+              <div class="mt-4 grid grid-cols-1 gap-2 sm:grid-cols-2">
+                <button type="button"
+                  class="inline-flex min-h-10 items-center justify-center rounded-full bg-green-600 px-4 py-2 text-xs font-semibold text-white transition-all hover:bg-green-700"
+                  (click)="markVisitDone(visit)">
+                  Realizada
+                </button>
+
+                <button type="button"
+                  class="inline-flex min-h-10 items-center justify-center rounded-full border border-red-200 bg-red-50 px-4 py-2 text-xs font-semibold text-red-700 transition-all hover:bg-red-100"
+                  (click)="cancelVisit(visit)">
+                  Cancelar
+                </button>
+              </div>
+            </div>
+            }
+          </div>
+        </article>
+
+        <!-- PROPOSTAS ATIVAS -->
+        <article class="rounded-[2rem] border border-amber-100 bg-white p-6 shadow-sm">
+          <div class="flex items-center justify-between gap-4">
+            <h3 class="text-xl font-semibold text-gray-950">Propostas ativas</h3>
+            <span class="rounded-full bg-amber-50 px-3 py-1 text-xs font-semibold text-amber-800">
+              {{ activeProposals.length }}
+            </span>
+          </div>
+
+          <div class="mt-5 space-y-4">
+            @for (proposal of activeProposals; track proposal.id) {
+            <div class="rounded-3xl border border-gray-100 bg-gray-50 p-4">
+              <div class="flex items-start justify-between gap-4">
+                <div>
+                  <p class="font-semibold text-gray-950">{{ proposal.client }}</p>
+                  <p class="mt-1 text-sm text-gray-500">{{ proposal.property }}</p>
+                </div>
+
+                <span class="rounded-full bg-amber-100 px-3 py-1 text-xs font-semibold text-amber-800">
+                  {{ proposal.stage }}
+                </span>
+              </div>
+
+              <p class="mt-4 text-sm text-gray-500">Valor</p>
+              <p class="text-lg font-semibold text-gray-950">{{ proposal.value }}</p>
+
+              <button type="button" class="mt-4 text-sm font-semibold text-amber-800 underline-offset-4 hover:underline"
+                (click)="setSection('funil')">
+                Ver no funil
+              </button>
+            </div>
+            }
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+  }
+
+  <!-- PERFIL -->
+  @if (activeSection === 'perfil') {
+  <section class="px-4 py-16 sm:px-6 lg:px-10 lg:py-20">
+    <div class="mx-auto grid max-w-7xl grid-cols-1 gap-8 lg:grid-cols-12">
+
+      <aside class="lg:col-span-4">
+        <div class="sticky top-32 rounded-[2rem] border border-amber-100 bg-white p-6 shadow-sm">
+          <span
+            class="mb-4 inline-flex rounded-full bg-amber-50 px-4 py-2 text-xs font-semibold uppercase tracking-[0.22em] text-amber-800">
+            Perfil profissional
+          </span>
+
+          <h2 class="text-3xl font-light leading-tight tracking-[-0.04em] text-gray-950 sm:text-4xl"
+            style="font-family: 'DM Serif Display', Georgia, serif">
+            Atualize seus dados de corretor.
+          </h2>
+
+          <p class="mt-5 text-sm leading-7 text-gray-500">
+            Dados corretos ajudam na identificação do corretor, no atendimento ao cliente e na segurança da conta.
+          </p>
+
+          <div class="mt-6 rounded-3xl bg-amber-50/70 p-4">
+            <p class="text-sm font-semibold text-gray-950">Dica de segurança</p>
+            <p class="mt-1 text-sm leading-6 text-gray-500">
+              Altere sua senha periodicamente e mantenha seu telefone profissional atualizado.
+            </p>
+          </div>
+        </div>
+      </aside>
+
+      <div class="grid gap-6 lg:col-span-8">
+
+        <article class="rounded-[2rem] border border-gray-200 bg-white p-6 shadow-sm lg:p-8">
+          <div class="flex flex-col gap-3 border-b border-gray-100 pb-6 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <h3 class="text-xl font-semibold text-gray-950">Informações profissionais</h3>
+              <p class="mt-1 text-sm text-gray-500">Esses dados aparecem na área administrativa e nos atendimentos.</p>
+            </div>
+
+            @if (profileSuccess) {
+            <span class="inline-flex rounded-full bg-green-50 px-3 py-1.5 text-xs font-semibold text-green-700"
+              role="status">
+              Perfil salvo
+            </span>
+            }
+          </div>
+
+          <div class="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
+            <div>
+              <label class="mb-1.5 block text-sm font-semibold text-gray-700">Nome completo</label>
+              <input type="text"
+                class="h-12 w-full rounded-2xl border border-gray-200 bg-gray-50 px-4 text-sm outline-none transition-all focus:border-amber-700 focus:bg-white focus:ring-4 focus:ring-amber-700/10"
+                [value]="profile.nome" (input)="profile.nome = $any($event.target).value" />
+            </div>
+
+            <div>
+              <label class="mb-1.5 block text-sm font-semibold text-gray-700">E-mail</label>
+              <input type="email"
+                class="h-12 w-full rounded-2xl border border-gray-200 bg-gray-50 px-4 text-sm outline-none transition-all focus:border-amber-700 focus:bg-white focus:ring-4 focus:ring-amber-700/10"
+                [value]="profile.email" (input)="profile.email = $any($event.target).value" />
+            </div>
+
+            <div>
+              <label class="mb-1.5 block text-sm font-semibold text-gray-700">Telefone profissional</label>
+              <input type="tel"
+                class="h-12 w-full rounded-2xl border border-gray-200 bg-gray-50 px-4 text-sm outline-none transition-all focus:border-amber-700 focus:bg-white focus:ring-4 focus:ring-amber-700/10"
+                [value]="profile.telefone" (input)="profile.telefone = $any($event.target).value" />
+            </div>
+
+            <div>
+              <label class="mb-1.5 block text-sm font-semibold text-gray-700">CRECI</label>
+              <input type="text"
+                class="h-12 w-full rounded-2xl border border-gray-200 bg-gray-50 px-4 text-sm outline-none transition-all focus:border-amber-700 focus:bg-white focus:ring-4 focus:ring-amber-700/10"
+                [value]="profile.creci" (input)="profile.creci = $any($event.target).value" />
+            </div>
+
+            <div class="sm:col-span-2">
+              <label class="mb-1.5 block text-sm font-semibold text-gray-700">Especialidade</label>
+              <select
+                class="h-12 w-full rounded-2xl border border-gray-200 bg-gray-50 px-4 text-sm outline-none transition-all focus:border-amber-700 focus:bg-white focus:ring-4 focus:ring-amber-700/10"
+                [value]="profile.especialidade" (change)="profile.especialidade = $any($event.target).value">
+                <option>Imóveis residenciais</option>
+                <option>Imóveis comerciais</option>
+                <option>Locação</option>
+                <option>Alto padrão</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="mt-7 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <p class="text-xs text-gray-400">Revise os dados profissionais antes de salvar.</p>
+
+            <button type="button"
+              class="inline-flex min-h-12 items-center justify-center rounded-full bg-amber-700 px-7 py-3 text-sm font-semibold text-white shadow-lg shadow-amber-900/20 transition-all hover:-translate-y-0.5 hover:bg-amber-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-700 focus-visible:ring-offset-4"
+              (click)="updateProfile()">
+              Salvar alterações
+            </button>
+          </div>
+        </article>
+
+        <article class="rounded-[2rem] border border-gray-200 bg-white p-6 shadow-sm lg:p-8">
+          <div class="border-b border-gray-100 pb-6">
+            <h3 class="text-xl font-semibold text-gray-950">Alterar senha</h3>
+            <p class="mt-1 text-sm text-gray-500">Confirme sua senha atual antes de definir uma nova.</p>
+          </div>
+
+          <div class="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-3">
+            <div>
+              <label class="mb-1.5 block text-sm font-semibold text-gray-700">Senha atual</label>
+              <input type="password"
+                class="h-12 w-full rounded-2xl border border-gray-200 bg-gray-50 px-4 text-sm outline-none transition-all focus:border-amber-700 focus:bg-white focus:ring-4 focus:ring-amber-700/10"
+                [value]="password.atual" (input)="password.atual = $any($event.target).value" />
+            </div>
+
+            <div>
+              <label class="mb-1.5 block text-sm font-semibold text-gray-700">Nova senha</label>
+              <input type="password"
+                class="h-12 w-full rounded-2xl border border-gray-200 bg-gray-50 px-4 text-sm outline-none transition-all focus:border-amber-700 focus:bg-white focus:ring-4 focus:ring-amber-700/10"
+                [value]="password.nova" (input)="password.nova = $any($event.target).value" />
+            </div>
+
+            <div>
+              <label class="mb-1.5 block text-sm font-semibold text-gray-700">Confirmar senha</label>
+              <input type="password"
+                class="h-12 w-full rounded-2xl border border-gray-200 bg-gray-50 px-4 text-sm outline-none transition-all focus:border-amber-700 focus:bg-white focus:ring-4 focus:ring-amber-700/10"
+                [value]="password.confirmar" (input)="password.confirmar = $any($event.target).value" />
+            </div>
+          </div>
+
+          @if (passwordError) {
+          <p class="mt-5 rounded-2xl border border-red-100 bg-red-50 px-4 py-3 text-sm font-medium text-red-600"
+            role="alert">
+            {{ passwordError }}
+          </p>
+          }
+
+          <div class="mt-7 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            @if (passwordSuccess) {
+            <p class="text-sm font-medium text-green-600" role="status">
+              Senha alterada com sucesso.
+            </p>
+            } @else {
+            <p class="text-xs text-gray-400">A alteração só será feita após validação dos campos.</p>
+            }
+
+            <button type="button"
+              class="inline-flex min-h-12 items-center justify-center rounded-full border border-gray-300 bg-white px-7 py-3 text-sm font-semibold text-gray-800 transition-all hover:-translate-y-0.5 hover:border-amber-700 hover:bg-amber-700 hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-700 focus-visible:ring-offset-4"
+              (click)="updatePassword()">
+              Alterar senha
+            </button>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+  }
+
+  <!-- ATENDIMENTOS -->
+  @if (activeSection === 'atendimentos') {
+  <section class="px-4 py-16 sm:px-6 lg:px-10 lg:py-20">
+    <div class="mx-auto max-w-7xl">
+
+      <div class="mb-8 rounded-[2rem] border border-amber-100 bg-white p-6 shadow-sm lg:p-8">
+        <div class="grid grid-cols-1 gap-6 lg:grid-cols-12 lg:items-end">
+          <div class="lg:col-span-7">
+            <span
+              class="mb-4 inline-flex rounded-full bg-amber-50 px-4 py-2 text-xs font-semibold uppercase tracking-[0.22em] text-amber-800">
+              Atendimentos
+            </span>
+
+            <h2 class="text-4xl font-light leading-tight tracking-[-0.04em] text-gray-950"
+              style="font-family: 'DM Serif Display', Georgia, serif">
+              Clientes, imóveis focados, leads e visitas.
+            </h2>
+
+            <p class="mt-4 max-w-2xl text-sm leading-7 text-gray-500">
+              Encontre rapidamente o cliente, acompanhe o imóvel de interesse e registre o avanço do atendimento.
+            </p>
+          </div>
+
+          <div class="lg:col-span-5">
+            <label class="mb-2 block text-sm font-semibold text-gray-700">Buscar atendimento</label>
+            <input type="text" placeholder="Cliente, telefone, imóvel ou interesse..."
+              class="h-12 w-full rounded-2xl border border-gray-200 bg-gray-50 px-5 text-sm outline-none transition-all focus:border-amber-700 focus:bg-white focus:ring-4 focus:ring-amber-700/10"
+              [value]="atendimentoSearchTerm" (input)="atendimentoSearchTerm = $any($event.target).value"
+              aria-label="Buscar atendimento" />
+          </div>
+        </div>
+
+        <div
+          class="mt-6 flex flex-col gap-4 border-t border-gray-100 pt-6 lg:flex-row lg:items-center lg:justify-between">
+          <div class="flex flex-wrap gap-2" role="group" aria-label="Filtrar leads por status">
+            @for (filter of leadFilters; track filter) {
+            <button type="button"
+              class="rounded-full border px-4 py-2 text-sm font-medium transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-700 focus-visible:ring-offset-2"
+              [class.border-amber-700]="activeLeadFilter === filter" [class.bg-amber-700]="activeLeadFilter === filter"
+              [class.text-white]="activeLeadFilter === filter" [class.border-gray-200]="activeLeadFilter !== filter"
+              [class.bg-white]="activeLeadFilter !== filter" [class.text-gray-700]="activeLeadFilter !== filter"
+              [attr.aria-pressed]="activeLeadFilter === filter" (click)="activeLeadFilter = filter">
+              {{ filter }}
+            </button>
+            }
+          </div>
+
+          <div class="flex items-center gap-3">
+            <p class="text-sm text-gray-500" role="status">
+              {{ filteredLeads.length }} atendimento(s)
+            </p>
+
+            @if (activeLeadFilter !== 'Todos' || atendimentoSearchTerm) {
+            <button type="button" class="text-sm font-semibold text-amber-800 underline-offset-4 hover:underline"
+              (click)="clearLeadFilters()">
+              Limpar filtros
+            </button>
+            }
+          </div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 gap-6 lg:grid-cols-12">
+
+        <div class="space-y-4 lg:col-span-7">
+          @for (lead of filteredLeads; track lead.id) {
+          <article
+            class="rounded-[2rem] border bg-white p-5 shadow-sm transition-all hover:-translate-y-0.5 hover:border-amber-200 hover:shadow-xl hover:shadow-amber-900/10"
+            [class.border-amber-700]="selectedLeadId === lead.id" [class.border-gray-200]="selectedLeadId !== lead.id">
+            <div class="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+              <div>
+                <div class="flex flex-wrap items-center gap-2">
+                  <h3 class="text-lg font-semibold text-gray-950">{{ lead.client }}</h3>
+
+                  <span class="rounded-full px-3 py-1 text-xs font-semibold"
+                    [class.bg-amber-50]="lead.status === 'Pendente'" [class.text-amber-800]="lead.status === 'Pendente'"
+                    [class.bg-blue-50]="lead.status === 'Em atendimento'"
+                    [class.text-blue-700]="lead.status === 'Em atendimento'"
+                    [class.bg-green-50]="lead.status === 'Convertido'"
+                    [class.text-green-700]="lead.status === 'Convertido'">
+                    {{ lead.status }}
+                  </span>
+                </div>
+
+                <p class="mt-2 text-sm text-gray-500">{{ lead.phone }}</p>
+                <p class="mt-3 text-sm font-medium text-gray-950">{{ lead.interest }}</p>
+                <p class="mt-1 text-sm text-gray-500">{{ lead.propertyFocus }}</p>
+              </div>
+
+              <span class="rounded-full px-3 py-1 text-xs font-semibold" [class.bg-red-50]="lead.priority === 'Alta'"
+                [class.text-red-700]="lead.priority === 'Alta'" [class.bg-amber-50]="lead.priority === 'Média'"
+                [class.text-amber-800]="lead.priority === 'Média'" [class.bg-gray-100]="lead.priority === 'Baixa'"
+                [class.text-gray-700]="lead.priority === 'Baixa'">
+                Prioridade {{ lead.priority }}
+              </span>
+            </div>
+
+            <div class="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-3">
+              <button type="button"
+                class="inline-flex min-h-10 items-center justify-center rounded-full border border-gray-300 bg-white px-4 py-2 text-xs font-semibold text-gray-800 transition-all hover:border-amber-700 hover:bg-amber-700 hover:text-white"
+                (click)="selectLead(lead)">
+                Ver detalhes
+              </button>
+
+              <button type="button"
+                class="inline-flex min-h-10 items-center justify-center rounded-full bg-amber-700 px-4 py-2 text-xs font-semibold text-white transition-all hover:bg-amber-800"
+                (click)="startLeadAttendance(lead)">
+                Atender
+              </button>
+
+              <button type="button"
+                class="inline-flex min-h-10 items-center justify-center rounded-full bg-green-600 px-4 py-2 text-xs font-semibold text-white transition-all hover:bg-green-700"
+                (click)="convertLead(lead)">
+                Converter
+              </button>
+            </div>
+          </article>
+          }
+        </div>
+
+        <aside class="lg:col-span-5">
+          <div class="sticky top-32 rounded-[2rem] border border-amber-100 bg-white p-6 shadow-sm">
+            <span
+              class="mb-4 inline-flex rounded-full bg-amber-50 px-4 py-2 text-xs font-semibold uppercase tracking-[0.22em] text-amber-800">
+              Detalhe do atendimento
+            </span>
+
+            @if (selectedLead) {
+            <h3 class="text-3xl font-light leading-tight tracking-[-0.04em] text-gray-950"
+              style="font-family: 'DM Serif Display', Georgia, serif">
+              {{ selectedLead.client }}
+            </h3>
+
+            <div class="mt-6 space-y-4">
+              <div class="rounded-3xl bg-gray-50 p-4">
+                <p class="text-xs text-gray-400">Telefone</p>
+                <p class="mt-1 font-semibold text-gray-950">{{ selectedLead.phone }}</p>
+              </div>
+
+              <div class="rounded-3xl bg-gray-50 p-4">
+                <p class="text-xs text-gray-400">Interesse</p>
+                <p class="mt-1 font-semibold text-gray-950">{{ selectedLead.interest }}</p>
+              </div>
+
+              <div class="rounded-3xl bg-gray-50 p-4">
+                <p class="text-xs text-gray-400">Imóvel focado</p>
+                <p class="mt-1 font-semibold text-gray-950">{{ selectedLead.propertyFocus }}</p>
+              </div>
+
+              <div class="rounded-3xl bg-gray-50 p-4">
+                <p class="text-xs text-gray-400">Origem</p>
+                <p class="mt-1 font-semibold text-gray-950">{{ selectedLead.source }}</p>
+              </div>
+            </div>
+
+            <div class="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2">
+              <button type="button"
+                class="inline-flex min-h-11 items-center justify-center rounded-full bg-amber-700 px-5 py-2.5 text-sm font-semibold text-white transition-all hover:bg-amber-800"
+                (click)="startLeadAttendance(selectedLead)">
+                Iniciar
+              </button>
+
+              <button type="button"
+                class="inline-flex min-h-11 items-center justify-center rounded-full bg-green-600 px-5 py-2.5 text-sm font-semibold text-white transition-all hover:bg-green-700"
+                (click)="convertLead(selectedLead)">
+                Converter
+              </button>
+            </div>
+            } @else {
+            <p class="text-sm text-gray-500">Selecione um atendimento para visualizar os detalhes.</p>
+            }
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+  }
+
+  <!-- FUNIL -->
+  @if (activeSection === 'funil') {
+  <section class="px-4 py-16 sm:px-6 lg:px-10 lg:py-20">
+    <div class="mx-auto max-w-7xl">
+
+      <div class="mb-10">
+        <span
+          class="mb-4 inline-flex rounded-full bg-white px-4 py-2 text-xs font-semibold uppercase tracking-[0.22em] text-amber-800 shadow-sm">
+          Funil de propostas
+        </span>
+
+        <h2 class="text-4xl font-light leading-tight tracking-[-0.04em] text-gray-950"
+          style="font-family: 'DM Serif Display', Georgia, serif">
+          Acompanhe o avanço de cada negociação.
+        </h2>
+
+        <p class="mt-4 max-w-2xl text-sm leading-7 text-gray-500">
+          Mova propostas entre etapas para manter previsibilidade, controle e clareza sobre cada oportunidade.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 gap-5 xl:grid-cols-5">
+        @for (stage of proposalStages; track stage) {
+        <section class="rounded-[2rem] border border-amber-100 bg-white p-5 shadow-sm">
+          <div class="mb-5 flex items-center justify-between gap-3">
+            <h3 class="font-semibold text-gray-950">{{ stage }}</h3>
+
+            <span class="rounded-full bg-amber-50 px-3 py-1 text-xs font-semibold text-amber-800">
+              {{ getProposalsByStage(stage).length }}
+            </span>
+          </div>
+
+          <div class="space-y-4">
+            @for (proposal of getProposalsByStage(stage); track proposal.id) {
+            <article class="rounded-3xl border border-gray-100 bg-gray-50 p-4">
+              <p class="font-semibold text-gray-950">{{ proposal.client }}</p>
+              <p class="mt-1 text-sm text-gray-500">{{ proposal.property }}</p>
+
+              <div class="mt-4 rounded-2xl bg-white p-3">
+                <p class="text-xs text-gray-400">Valor</p>
+                <p class="text-base font-semibold text-gray-950">{{ proposal.value }}</p>
+              </div>
+
+              <p class="mt-3 text-xs text-gray-400">
+                Atualizado: {{ proposal.lastUpdate }}
+              </p>
+
+              <div class="mt-4 grid grid-cols-2 gap-2">
+                <button type="button"
+                  class="inline-flex min-h-10 items-center justify-center rounded-full border px-3 py-2 text-xs font-semibold transition-all"
+                  [class.border-gray-200]="!canMoveProposal(proposal, -1)"
+                  [class.bg-gray-100]="!canMoveProposal(proposal, -1)"
+                  [class.text-gray-400]="!canMoveProposal(proposal, -1)"
+                  [class.cursor-not-allowed]="!canMoveProposal(proposal, -1)"
+                  [class.border-gray-300]="canMoveProposal(proposal, -1)"
+                  [class.bg-white]="canMoveProposal(proposal, -1)" [class.text-gray-800]="canMoveProposal(proposal, -1)"
+                  [class.hover:border-amber-700]="canMoveProposal(proposal, -1)"
+                  [class.hover:bg-amber-700]="canMoveProposal(proposal, -1)"
+                  [class.hover:text-white]="canMoveProposal(proposal, -1)" [disabled]="!canMoveProposal(proposal, -1)"
+                  (click)="moveProposal(proposal, -1)">
+                  Voltar
+                </button>
+
+                <button type="button"
+                  class="inline-flex min-h-10 items-center justify-center rounded-full px-3 py-2 text-xs font-semibold transition-all"
+                  [class.bg-gray-200]="!canMoveProposal(proposal, 1)"
+                  [class.text-gray-400]="!canMoveProposal(proposal, 1)"
+                  [class.cursor-not-allowed]="!canMoveProposal(proposal, 1)"
+                  [class.bg-amber-700]="canMoveProposal(proposal, 1)" [class.text-white]="canMoveProposal(proposal, 1)"
+                  [class.hover:bg-amber-800]="canMoveProposal(proposal, 1)" [disabled]="!canMoveProposal(proposal, 1)"
+                  (click)="moveProposal(proposal, 1)">
+                  Avançar
+                </button>
+              </div>
+            </article>
+            }
+
+            @if (getProposalsByStage(stage).length === 0) {
+            <div class="rounded-3xl border border-dashed border-amber-200 bg-amber-50/50 p-5 text-center">
+              <p class="text-sm text-gray-500">Nenhuma proposta nesta etapa.</p>
+            </div>
+            }
+          </div>
+        </section>
+        }
+      </div>
+    </div>
+  </section>
+  }
+</main>
+
+<app-footer></app-footer>

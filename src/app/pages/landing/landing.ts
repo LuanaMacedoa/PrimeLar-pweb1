@@ -48,9 +48,6 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
   /* ── Estado geral ───────────────────────────────────────── */
   showBackToTop = false;
   activeSection = 'inicio';
-  windowWidth = isPlatformBrowser(inject(PLATFORM_ID))
-    ? window.innerWidth
-    : 1200;
 
   /* ── Estado: carrossél de regiões ───────────────────────── */
   activeRegionIndex = 0;
@@ -74,7 +71,6 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
   };
   formSubmitting = false;
   formSuccess = false;
-  formError = false;
 
   /* ══════════════════════════════════════════════════════════
      DADOS
@@ -258,25 +254,6 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
     return this.properties.filter((p) => p.type === this.activeFilter);
   }
 
-  /** H5 – Error prevention: bloqueia submit enquanto inválido */
-  get formValid(): boolean {
-    return (
-      this.form.nome.value.trim().length >= 3 &&
-      this.form.telefone.value.replace(/\D/g, '').length >= 10 &&
-      !!this.form.interesse.value
-    );
-  }
-
-  /** H1 – Status: label de posição do carrossél de regiões */
-  get regionStatusLabel(): string {
-    return `Região ${this.activeRegionIndex + 1} de ${this.locations.length}`;
-  }
-
-  /** H1 – Status: label de posição do carrossél de depoimentos */
-  get testimonialStatusLabel(): string {
-    return `Depoimento ${this.activeTestimonialIndex + 1} de ${this.testimonials.length}`;
-  }
-
   /* ══════════════════════════════════════════════════════════
      HOST LISTENERS
   ══════════════════════════════════════════════════════════ */
@@ -285,12 +262,6 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
   @HostListener('window:scroll')
   onWindowScroll(): void {
     this.showBackToTop = window.scrollY > 400;
-  }
-
-  /** H7 – Efficiency: largura da janela para layout responsivo */
-  @HostListener('window:resize')
-  onResize(): void {
-    this.windowWidth = window.innerWidth;
   }
 
   /* ══════════════════════════════════════════════════════════
@@ -304,11 +275,14 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
     // Dynamically import AOS and GSAP only in the browser.
     Promise.all([import('aos'), import('gsap'), import('gsap/ScrollTrigger')])
       .then(([AOSModule, gsapModule, ScrollTriggerModule]) => {
-        const AOSLib = (AOSModule && (AOSModule as any).default) ? (AOSModule as any).default : AOSModule;
-        const gsapLib = (gsapModule && (gsapModule as any).gsap) ? (gsapModule as any).gsap : gsapModule;
-        const ScrollTrigger = (ScrollTriggerModule && (ScrollTriggerModule as any).ScrollTrigger)
-          ? (ScrollTriggerModule as any).ScrollTrigger
-          : (ScrollTriggerModule as any).default ?? ScrollTriggerModule;
+        const AOSLib =
+          AOSModule && (AOSModule as any).default ? (AOSModule as any).default : AOSModule;
+        const gsapLib =
+          gsapModule && (gsapModule as any).gsap ? (gsapModule as any).gsap : gsapModule;
+        const ScrollTrigger =
+          ScrollTriggerModule && (ScrollTriggerModule as any).ScrollTrigger
+            ? (ScrollTriggerModule as any).ScrollTrigger
+            : ((ScrollTriggerModule as any).default ?? ScrollTriggerModule);
 
         // Store reference for later use in animations
         (this as any).gsapLib = gsapLib;
@@ -428,8 +402,7 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
         val.trim().length < 3 ? 'Informe seu nome completo (mínimo 3 caracteres)' : '';
     } else if (field === 'telefone') {
       const digits = val.replace(/\D/g, '');
-      this.form.telefone.error =
-        digits.length < 10 ? 'Informe um telefone válido com DDD' : '';
+      this.form.telefone.error = digits.length < 10 ? 'Informe um telefone válido com DDD' : '';
     } else if (field === 'interesse') {
       this.form.interesse.error = !val ? 'Selecione uma opção para continuar' : '';
     }
@@ -448,36 +421,35 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
   }
 
   /** H5 – Error prevention: valida todos antes de enviar */
- async onSubmit() {
-  this.formSubmitting = true;
-  this.formSuccess = false;
+  async onSubmit() {
+    this.formSubmitting = true;
+    this.formSuccess = false;
 
- 
-  if (!this.form.nome.value || !this.form.telefone.value || !this.form.interesse.value) {
+    if (!this.form.nome.value || !this.form.telefone.value || !this.form.interesse.value) {
+      this.formSubmitting = false;
+      return;
+    }
+
+    const ok = await this.atendimento.criarAtendimento({
+      nome: this.form.nome.value,
+      telefone: this.form.telefone.value,
+      interesse: this.form.interesse.value,
+    });
+
     this.formSubmitting = false;
-    return;
+
+    if (!ok) {
+      this.form.nome.error = 'Erro ao enviar solicitação';
+      this.form.nome.touched = true;
+      return;
+    }
+
+    this.formSuccess = true;
+
+    this.form.nome.value = '';
+    this.form.telefone.value = '';
+    this.form.interesse.value = '';
   }
-
-  const ok = await this.atendimento.criarAtendimento({
-    nome: this.form.nome.value,
-    telefone: this.form.telefone.value,
-    interesse: this.form.interesse.value,
-  });
-
-  this.formSubmitting = false;
-
-  if (!ok) {
-    this.form.nome.error = 'Erro ao enviar solicitação';
-    this.form.nome.touched = true;
-    return;
-  }
-
-  this.formSuccess = true;
-
-  this.form.nome.value = '';
-  this.form.telefone.value = '';
-  this.form.interesse.value = '';
-}
 
   /** H3 – User control: permite refazer o envio */
   resetForm(): void {
@@ -487,11 +459,10 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
       interesse: { value: '', touched: false, error: '' },
     };
     this.formSuccess = false;
-    this.formError = false;
   }
 
   async carregarImoveis(): Promise<void> {
-  this.properties = await this.imovelService.getImoveis();
+    this.properties = await this.imovelService.getImoveis();
   }
 
   /** H3 – User control: volta ao topo suavemente */
@@ -523,7 +494,9 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
   }
 
   private initGsapAnimations(): void {
-    const gsapLib = (this as any).gsapLib ?? (typeof (window as any).gsap !== 'undefined' ? (window as any).gsap : null);
+    const gsapLib =
+      (this as any).gsapLib ??
+      (typeof (window as any).gsap !== 'undefined' ? (window as any).gsap : null);
     if (!gsapLib) return;
 
     gsapLib.registerPlugin?.(gsapLib.ScrollTrigger ?? (gsapLib as any).ScrollTrigger);
@@ -539,8 +512,8 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
       });
 
       /* Stats: contador animado */
-      (this.host.nativeElement.querySelectorAll('.stat-number') as NodeListOf<HTMLElement>)
-        .forEach((el) => {
+      (this.host.nativeElement.querySelectorAll('.stat-number') as NodeListOf<HTMLElement>).forEach(
+        (el) => {
           const value = Number(el.dataset['value'] ?? 0);
           const prefix = el.dataset['prefix'] ?? '';
           const suffix = el.dataset['suffix'] ?? '';
@@ -555,7 +528,8 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
               el.textContent = `${prefix}${Math.round(counter.v)}${suffix}`;
             },
           });
-        });
+        },
+      );
     }, this.host.nativeElement);
   }
 }
