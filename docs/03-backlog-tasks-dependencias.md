@@ -20,6 +20,7 @@
 ## Epico 1 - Fundacao da plataforma
 
 ### Funcionalidade 1.1 - Base tecnica
+
 - Task T1.1.1
   - Objetivo: criar a base inicial do backend.
   - Descricao: iniciar o projeto Spring Boot com Maven, profiles e estrutura simples para crescer depois.
@@ -37,6 +38,7 @@
   - Dependencia: T1.1.1.
 
 ### Funcionalidade 1.2 - Observabilidade basica
+
 - Task T1.2.1
   - Objetivo: registrar eventos tecnicos da aplicacao.
   - Descricao: configurar logging estruturado e correlacao de requisicoes.
@@ -51,6 +53,7 @@
 ## Epico 2 - Seguranca e autenticacao
 
 ### Funcionalidade 2.1 - Login e logout
+
 - Task T2.1.1
   - Objetivo: autenticar o usuario com seguranca.
   - Descricao: implementar endpoint de login com validacao, emissao de JWT e retorno do perfil.
@@ -63,6 +66,7 @@
   - Dependencia: T2.1.1.
 
 ### Funcionalidade 2.2 - Recuperacao de senha planejada
+
 - Task T2.2.1
   - Objetivo: desenhar o fluxo de recuperacao de acesso.
   - Descricao: modelar a solicitacao de redefinicao de senha e a confirmacao.
@@ -75,6 +79,7 @@
   - Dependencia: T4.1.1, T4.3.1.
 
 ### Funcionalidade 2.3 - Protecao de credenciais
+
 - Task T2.3.1
   - Objetivo: proteger as senhas armazenadas.
   - Descricao: migrar o armazenamento para BCrypt e remover texto puro.
@@ -89,6 +94,7 @@
 ## Epico 3 - Autorizacao e acesso
 
 ### Funcionalidade 3.1 - RBAC
+
 - Task T3.1.1
   - Objetivo: definir papeis e permissoes.
   - Descricao: criar a base de roles e permissions para controlar o acesso.
@@ -101,6 +107,7 @@
   - Dependencia: T3.1.1, T2.1.1.
 
 ### Funcionalidade 3.2 - Protecao contra acesso indevido
+
 - Task T3.2.1
   - Objetivo: evitar acesso a dados de terceiros.
   - Descricao: impedir Broken Access Control e IDOR com checagem de propriedade e escopo.
@@ -115,6 +122,7 @@
 ## Epico 4 - Modelo de dados
 
 ### Funcionalidade 4.1 - Usuarios e perfis
+
 - Task T4.1.1
   - Objetivo: criar o nucleo de acesso do sistema.
   - Descricao: modelar usuario, role, permission e seus relacionamentos.
@@ -127,6 +135,7 @@
   - Dependencia: T4.1.1.
 
 ### Funcionalidade 4.2 - Operacao imobiliaria
+
 - Task T4.2.1
   - Objetivo: representar os dados do negocio imobiliario.
   - Descricao: criar entidades de imovel, lead, visita, proposta e favorito.
@@ -139,6 +148,7 @@
   - Dependencia: T4.1.1.
 
 ### Funcionalidade 4.3 - Persistencia
+
 - Task T4.3.1
   - Objetivo: garantir a integridade do banco.
   - Descricao: definir chaves estrangeiras, indices e restricoes de integridade.
@@ -151,6 +161,7 @@
   - Dependencia: T4.3.1.
 
 ### Funcionalidade 4.4 - Validacao de entrada
+
 - Task T4.4.1
   - Objetivo: separar contrato de entrada e saida.
   - Descricao: definir DTOs de request e response para os recursos centrais.
@@ -165,6 +176,7 @@
 ## Epico 5 - API REST core
 
 ### Funcionalidade 5.1 - CRUD completo
+
 - Task T5.1.1
   - Objetivo: expor operacoes de usuario.
   - Descricao: criar GET, GET por ID, POST, PUT/PATCH e DELETE para usuarios.
@@ -177,6 +189,7 @@
   - Dependencia: T4.2.1, T4.4.1, T4.3.1.
 
 ### Funcionalidade 5.2 - Consultas
+
 - Task T5.2.1
   - Objetivo: melhorar busca e listagem.
   - Descricao: implementar filtros, paginacao e ordenacao.
@@ -191,6 +204,7 @@
 ## Epico 6 - Integracao Angular
 
 ### Funcionalidade 6.1 - Consumo autenticado
+
 - Task T6.1.1
   - Objetivo: centralizar o acesso ao backend.
   - Descricao: criar services Angular tipados para cada recurso da API.
@@ -203,6 +217,7 @@
   - Dependencia: T2.1.1, T2.1.2.
 
 ### Funcionalidade 6.2 - Navegacao protegida
+
 - Task T6.2.1
   - Objetivo: proteger rotas por perfil.
   - Descricao: criar guards por autenticacao e por role.
@@ -215,6 +230,7 @@
   - Dependencia: T6.2.1.
 
 ### Funcionalidade 6.3 - Formularios
+
 - Task T6.3.1
   - Objetivo: modernizar a entrada de dados.
   - Descricao: migrar telas de cadastro e edicao para Reactive Forms.
@@ -229,6 +245,7 @@
 ## Epico 7 - Modulo administrativo
 
 ### Funcionalidade 7.1 - Dashboard
+
 - Task T7.1.1
   - Objetivo: oferecer uma visao geral ao administrador.
   - Descricao: criar visao geral de metricas e atalhos administrativos.
@@ -236,6 +253,7 @@
   - Dependencia: T6.2.2, T5.2.1.
 
 ### Funcionalidade 7.2 - Usuarios e permissoes
+
 - Task T7.2.1
   - Objetivo: permitir a gestao de usuarios.
   - Descricao: criar tela de listar, cadastrar, editar e remover usuarios.
@@ -248,6 +266,7 @@
   - Dependencia: T3.1.1, T5.1.1.
 
 ### Funcionalidade 7.3 - Gestao operacional
+
 - Task T7.3.1
   - Objetivo: administrar os recursos do negocio.
   - Descricao: criar telas de imoveis, corretores, clientes e logs.
@@ -262,6 +281,7 @@
 ## Epico 8 - Modulo do corretor
 
 ### Funcionalidade 8.1 - Dashboard e perfil
+
 - Task T8.1.1
   - Objetivo: dar visao operacional ao corretor.
   - Descricao: criar dashboard com atividades, leads e propostas.
@@ -274,6 +294,7 @@
   - Dependencia: T5.1.1, T2.3.1.
 
 ### Funcionalidade 8.2 - Gestao comercial
+
 - Task T8.2.1
   - Objetivo: operar a carteira de atendimento.
   - Descricao: criar telas para clientes, imoveis, leads e visitas.
@@ -288,6 +309,7 @@
 ## Epico 9 - Modulo do cliente
 
 ### Funcionalidade 9.1 - Autoatendimento
+
 - Task T9.1.1
   - Objetivo: permitir a manutencao dos dados pessoais.
   - Descricao: criar perfil, edicao de dados e alteracao de senha.
@@ -300,6 +322,7 @@
   - Dependencia: T5.1.2.
 
 ### Funcionalidade 9.2 - Navegacao de consulta
+
 - Task T9.2.1
   - Objetivo: permitir a consulta dos imoveis.
   - Descricao: criar listagem e busca de imoveis com filtros.
@@ -314,6 +337,7 @@
 ## Epico 10 - Seguranca avancada e qualidade
 
 ### Funcionalidade 10.1 - Hardening
+
 - Task T10.1.1
   - Objetivo: reforcar a seguranca da API.
   - Descricao: configurar CORS, headers de seguranca e preparar para HTTPS.
@@ -326,6 +350,7 @@
   - Dependencia: T1.2.1, T5.1.1.
 
 ### Funcionalidade 10.2 - Validacao e resiliencia
+
 - Task T10.2.1
   - Objetivo: impedir entrada invalida.
   - Descricao: validar entrada com Bean Validation e mensagens padronizadas.
@@ -338,6 +363,7 @@
   - Dependencia: T1.2.2.
 
 ### Funcionalidade 10.3 - Testes
+
 - Task T10.3.1
   - Objetivo: validar o backend.
   - Descricao: criar testes unitarios e de integracao para o backend.
@@ -352,6 +378,7 @@
 ## Epico 11 - Deploy e evolucao futura
 
 ### Funcionalidade 11.1 - Entrega
+
 - Task T11.1.1
   - Objetivo: preparar a publicacao.
   - Descricao: preparar o build de producao e as variaveis de ambiente.
@@ -364,6 +391,7 @@
   - Dependencia: T11.1.1.
 
 ### Funcionalidade 11.2 - Extensibilidade
+
 - Task T11.2.1
   - Objetivo: deixar o sistema pronto para evoluir.
   - Descricao: reservar pontos de extensao para notificacoes, email e integracoes externas.
@@ -374,5 +402,3 @@
   - Descricao: definir contrato para futura recuperacao de senha completa e alertas.
   - Classificacao: seguranca de dados.
   - Dependencia: T2.2.1, T2.2.2.
-
-
