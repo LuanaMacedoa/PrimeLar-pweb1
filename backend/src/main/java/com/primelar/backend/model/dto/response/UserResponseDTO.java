@@ -1,5 +1,3 @@
 package com.primelar.backend.model.dto.response;
 
-public class UserResponseDTO {
-
-}
+public record UserResponseDTO(String name, String token) {}

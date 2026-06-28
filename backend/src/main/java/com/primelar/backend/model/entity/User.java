@@ -41,7 +41,7 @@ public class User implements UserDetails{
     private String email;
 
     @Column(name="password_hash", nullable=false, length=255)
-    private String passwordHash;
+    private String password;
 
     @Column(name="created_ad", nullable=false)
     private LocalDateTime createdAd;
@@ -61,7 +61,7 @@ public class User implements UserDetails{
 
     @Override
     public String getPassword() {
-        return passwordHash;
+        return password;
     }
 
     @Override
