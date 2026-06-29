@@ -1,13 +1,12 @@
 package com.primelar.backend.controller;
 
+import java.time.LocalDateTime;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import java.time.LocalDateTime;
-import java.util.List;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,7 +44,7 @@ class UserControllerTest {
         userRepository.deleteAll();
 
         adminUser = new User();
-        adminUser.setName("Admin");
+        adminUser.setFirstname("Admin");
         adminUser.setLastname("User");
         adminUser.setEmail("admin@primelar.com");
         adminUser.setPassword(passwordEncoder.encode("adminPass123"));
@@ -55,7 +54,7 @@ class UserControllerTest {
         userRepository.save(adminUser);
 
         normalUser = new User();
-        normalUser.setName("Normal");
+        normalUser.setFirstname("Normal");
         normalUser.setLastname("User");
         normalUser.setEmail("user@primelar.com");
         normalUser.setPassword(passwordEncoder.encode("userPass123"));
@@ -68,7 +67,7 @@ class UserControllerTest {
     @Test
     void shouldCreateUserAndEncryptPassword() {
         UserRequestDTO request = new UserRequestDTO();
-        request.setName("New");
+        request.setFirstname("New");
         request.setLastname("Corretor");
         request.setEmail("corretor@primelar.com");
         request.setPassword("securePassword123");
@@ -80,7 +79,7 @@ class UserControllerTest {
         UserResponseDTO response = responseEntity.getBody();
         assertNotNull(response);
         assertNotNull(response.id());
-        assertEquals("New", response.name());
+        assertEquals("New", response.firstname());
         assertEquals(UserRole.CORRETOR, response.role());
 
         User createdUser = userRepository.findById(response.id()).orElseThrow();
@@ -100,7 +99,7 @@ class UserControllerTest {
     @Test
     void shouldUpdateUserAndEncryptNewPassword() {
         UserUpdateRequestDTO request = new UserUpdateRequestDTO();
-        request.setName("UpdatedName");
+        request.setFirstname("UpdatedName");
         request.setLastname("UpdatedLastName");
         request.setEmail("user@primelar.com");
         request.setPassword("newSecurePassword123");
@@ -112,7 +111,7 @@ class UserControllerTest {
 
         UserResponseDTO response = responseEntity.getBody();
         assertNotNull(response);
-        assertEquals("UpdatedName", response.name());
+        assertEquals("UpdatedName", response.firstname());
 
         User updatedUser = userRepository.findById(normalUser.getId()).orElseThrow();
         assertTrue(passwordEncoder.matches("newSecurePassword123", updatedUser.getPassword()));

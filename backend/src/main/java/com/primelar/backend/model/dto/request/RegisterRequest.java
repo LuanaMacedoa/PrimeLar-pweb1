@@ -9,7 +9,7 @@ import lombok.Data;
 public class RegisterRequest {
     @NotBlank(message="Nome é obrigatório")
     @Size(min=3, max=100, message="Nome deve ter entre 3 a 100 caracteres")
-    private String name;
+    private String firstname;
 
     @NotBlank(message="Sobrenome é obrigatório")
     @Size(min=3, max=100, message="Sobrenome deve ter entre 3 a 100 caracteres")

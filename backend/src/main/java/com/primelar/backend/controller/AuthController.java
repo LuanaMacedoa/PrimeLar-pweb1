@@ -1,22 +1,28 @@
 package com.primelar.backend.controller;
 
+
+
+import java.time.LocalDateTime;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 import com.primelar.backend.config.security.TokenService;
-import com.primelar.backend.model.dto.auth.ForgotPasswordRequest;
-import com.primelar.backend.model.dto.auth.ResetPasswordRequest;
+import com.primelar.backend.model.dto.request.RegisterRequest;
+import com.primelar.backend.model.dto.response.RegisterResponse;
 import com.primelar.backend.model.entity.User;
 import com.primelar.backend.model.enums.UserRole;
 import com.primelar.backend.repository.UserRepository;
 import com.primelar.backend.service.PasswordResetService;
 
 import jakarta.validation.Valid;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.*;
-
-import java.time.LocalDateTime;
 
 @SuppressWarnings("hiding")
 @RestController
@@ -72,48 +78,30 @@ public class AuthController<ForgotPasswordRequest, ResetPasswordRequest> {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestBody @Valid RegisterRequest dados) {
-
+    public ResponseEntity<RegisterResponse> register(@RequestBody @Valid RegisterRequest dados) {
         // Verifica se o e-mail já está em uso
-        if (userRepository.findByEmail(dados.email()).isPresent()) {
-            return ResponseEntity.status(HttpStatus.CONFLICT)
-                .body("E-mail já cadastrado.");
+        if (userRepository.findByEmail(dados.getEmail()).isPresent()) {
+            throw new RuntimeException("E-mail já cadastrado.");  // Ou retorne erro
+            // Ou use ResponseEntity:
+            // return ResponseEntity.status(HttpStatus.CONFLICT).build();
         }
 
         // Cria o novo usuário
         User novoUsuario = new User();
-        novoUsuario.setName(dados.name());
-        novoUsuario.setLastname(dados.lastname());
-        novoUsuario.setEmail(dados.email());
-        novoUsuario.setPassword(passwordEncoder.encode(dados.password())); // senha com hash
+        novoUsuario.setFirstname(dados.getFirstname());
+        novoUsuario.setLastname(dados.getLastname());
+        novoUsuario.setEmail(dados.getEmail());
+        novoUsuario.setPassword(passwordEncoder.encode(dados.getPassword()));
         novoUsuario.setCreatedAd(LocalDateTime.now());
         novoUsuario.setActive(true);
-        novoUsuario.setRole(UserRole.USER); // role padrão ao cadastrar
+        novoUsuario.setRole(UserRole.USER);
 
         userRepository.save(novoUsuario);
 
+        // Gera token e retorna
+        String token = tokenService.generateToken(novoUsuario);
         return ResponseEntity.status(HttpStatus.CREATED)
-            .body("Usuário cadastrado com sucesso.");
-    }
-
-    @PostMapping("/refresh")
-    public ResponseEntity<?> refresh(@RequestBody RefreshRequest dados) {
-
-        String email = tokenService.validateToken(dados.refreshToken());
-
-        if (email == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                .body("Refresh token inválido ou expirado.");
-        }
-
-        // Busca o usuário pelo e-mail extraído do token
-        User user = userRepository.findByEmail(email)
-            .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
-
-        // Gera novo access token
-        String novoAccessToken = tokenService.generateToken(user);
-
-        return ResponseEntity.ok(new LoginResponse(novoAccessToken, dados.refreshToken()));
+            .body(new RegisterResponse(novoUsuario.getFirstname(), token));
     }
 
     @PostMapping("/forgot-password")
@@ -140,8 +128,6 @@ public class AuthController<ForgotPasswordRequest, ResetPasswordRequest> {
     }
 
     record LoginRequest(String email, String password) {}
-
-    record RegisterRequest(String name, String lastname, String email, String password) {}
 
     record RefreshRequest(String refreshToken) {}
 

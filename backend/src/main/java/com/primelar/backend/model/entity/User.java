@@ -4,7 +4,6 @@ import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 
-import org.jspecify.annotations.Nullable;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -13,6 +12,8 @@ import com.primelar.backend.model.enums.UserRole;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -33,7 +34,7 @@ public class User implements UserDetails{
     private Long id;
 
     @Column(nullable=false)
-    private String name;
+    private String firstname;
 
     @Column
     private String lastname;
@@ -50,6 +51,7 @@ public class User implements UserDetails{
     @Column(nullable=false)
     private Boolean active;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable=false)
     private UserRole role;
     
