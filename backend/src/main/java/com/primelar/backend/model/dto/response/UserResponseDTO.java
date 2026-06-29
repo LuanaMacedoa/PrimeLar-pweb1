@@ -3,7 +3,7 @@ import com.primelar.backend.model.enums.UserRole;
 
 public record UserResponseDTO(
     Long id,
-    String name,
+    String firstname,
     String lastname,
     String email,
     Boolean active,

@@ -51,7 +51,7 @@ class AuthControllerTest {
         userRepository.deleteAll();
 
         testUser = new User();
-        testUser.setName("John");
+        testUser.setFirstname("John");
         testUser.setLastname("Doe");
         testUser.setEmail("john.doe@example.com");
         testUser.setPassword(passwordEncoder.encode("oldPassword123"));

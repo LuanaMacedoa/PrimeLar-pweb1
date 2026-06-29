@@ -1,6 +1,7 @@
 package com.primelar.backend.model.dto.request;
 
 import com.primelar.backend.model.enums.UserRole;
+
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -11,7 +12,7 @@ import lombok.Data;
 public class UserRequestDTO {
     @NotBlank(message="Nome é obrigatório")
     @Size(min=3, max=100, message="Nome deve ter entre 3 a 100 caracteres")
-    private String name;
+    private String firstname;
 
     @NotBlank(message="Sobrenome é obrigatório")
     @Size(min=3, max=100, message="Sobrenome deve ter entre 3 a 100 caracteres")

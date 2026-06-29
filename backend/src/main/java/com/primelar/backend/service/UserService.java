@@ -4,7 +4,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,6 +13,8 @@ import com.primelar.backend.model.dto.request.UserUpdateRequestDTO;
 import com.primelar.backend.model.dto.response.UserResponseDTO;
 import com.primelar.backend.model.entity.User;
 import com.primelar.backend.repository.UserRepository;
+
+import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class UserService {
@@ -47,7 +48,7 @@ public class UserService {
         }
 
         User user = new User();
-        user.setName(request.getName());
+        user.setFirstname(request.getFirstname());
         user.setLastname(request.getLastname());
         user.setEmail(request.getEmail());
         user.setPassword(passwordEncoder.encode(request.getPassword()));
@@ -70,7 +71,7 @@ public class UserService {
             }
         });
 
-        user.setName(request.getName());
+        user.setFirstname(request.getFirstname());
         user.setLastname(request.getLastname());
         user.setEmail(request.getEmail());
         user.setRole(request.getRole());
@@ -97,7 +98,7 @@ public class UserService {
     private UserResponseDTO convertToDTO(User user) {
         return new UserResponseDTO(
                 user.getId(),
-                user.getName(),
+                user.getFirstname(),
                 user.getLastname(),
                 user.getEmail(),
                 user.getActive(),

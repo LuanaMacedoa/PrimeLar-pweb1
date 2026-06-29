@@ -13,18 +13,18 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.primelar.backend.config.security.TokenService;
 import com.primelar.backend.model.dto.request.LoginRequest;
-import com.primelar.backend.model.dto.request.RegisterRequest;
 import com.primelar.backend.model.dto.request.PasswordResetRequest;
+import com.primelar.backend.model.dto.request.RegisterRequest;
 import com.primelar.backend.model.dto.request.ResetPasswordRequest;
 import com.primelar.backend.model.dto.response.LoginResponse;
-import com.primelar.backend.model.dto.response.RegisterResponse;
 import com.primelar.backend.model.dto.response.PasswordResetResponse;
+import com.primelar.backend.model.dto.response.RegisterResponse;
 import com.primelar.backend.model.dto.response.ResetPasswordResponse;
-import com.primelar.backend.model.entity.User;
 import com.primelar.backend.model.entity.PasswordResetToken;
+import com.primelar.backend.model.entity.User;
 import com.primelar.backend.model.enums.UserRole;
-import com.primelar.backend.repository.UserRepository;
 import com.primelar.backend.repository.PasswordResetTokenRepository;
+import com.primelar.backend.repository.UserRepository;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -43,7 +43,7 @@ public class AuthController {
         User user = this.repository.findByEmail(body.getEmail()).orElseThrow(() -> new RuntimeException("User not found"));
         if(passwordEncoder.matches(body.getPassword(), user.getPassword())) {
             String token = this.tokenService.generateToken(user);
-            return ResponseEntity.ok(new LoginResponse(user.getName(), token));
+            return ResponseEntity.ok(new LoginResponse(user.getFirstname(), token));
         }
         return ResponseEntity.badRequest().build();
     }
@@ -57,7 +57,7 @@ public class AuthController {
             User newUser = new User();
             newUser.setPassword(passwordEncoder.encode(body.getPassword()));
             newUser.setEmail(body.getEmail());
-            newUser.setName(body.getName());
+            newUser.setFirstname(body.getFirstname());
             newUser.setLastname(body.getLastname());
             newUser.setCreatedAd(LocalDateTime.now());
             newUser.setActive(true);
@@ -65,7 +65,7 @@ public class AuthController {
             this.repository.save(newUser);
 
             String token = this.tokenService.generateToken(newUser);
-            return ResponseEntity.ok(new RegisterResponse(newUser.getName(), token));
+            return ResponseEntity.ok(new RegisterResponse(newUser.getFirstname(), token));
         }
         return ResponseEntity.badRequest().build();
     }
