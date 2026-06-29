@@ -68,7 +68,7 @@ public class AuthController {
     @PostMapping("/register")
     public ResponseEntity<RegisterResponse> register(@RequestBody @Valid RegisterRequest dados) {
         if (userRepository.findByEmail(dados.getEmail()).isPresent()) {
-            throw new RuntimeException("E-mail já cadastrado.");
+            throw new IllegalArgumentException("E-mail já cadastrado.");
         }
 
         User novoUsuario = new User();
@@ -104,11 +104,7 @@ public class AuthController {
     
     @PostMapping("/reset-password")
     public ResponseEntity<String> resetPassword(@RequestBody @Valid ResetPasswordRequest request) {
-        try {
-            passwordResetService.confirmarReset(request.token(), request.novaSenha());
-            return ResponseEntity.ok("Senha redefinida com sucesso!");
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-        }
+        passwordResetService.confirmarReset(request.token(), request.novaSenha());
+        return ResponseEntity.ok("Senha redefinida com sucesso!");
     }
 }

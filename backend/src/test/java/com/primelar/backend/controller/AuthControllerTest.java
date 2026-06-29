@@ -3,7 +3,6 @@ package com.primelar.backend.controller;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.time.LocalDateTime;
-import java.util.Optional;
 import java.util.Set;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -106,7 +105,7 @@ class AuthControllerTest {
     }
 
     @Test
-    void shouldReturnBadRequestForExpiredToken() {
+    void shouldThrowForExpiredToken() {
         PasswordResetToken expiredToken = new PasswordResetToken();
         expiredToken.setToken("token-expirado-123");
         expiredToken.setUser(testUser);
@@ -116,8 +115,8 @@ class AuthControllerTest {
 
         ResetPasswordRequest request = new ResetPasswordRequest("token-expirado-123", "qualquerSenha");
 
-        ResponseEntity<String> response = authController.resetPassword(request);
-
-        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        // GlobalExceptionHandler mapeia IllegalArgumentException → 400 em chamadas HTTP reais.
+        // Em testes diretos ao controller, a exceção propaga normalmente.
+        assertThrows(IllegalArgumentException.class, () -> authController.resetPassword(request));
     }
 }
