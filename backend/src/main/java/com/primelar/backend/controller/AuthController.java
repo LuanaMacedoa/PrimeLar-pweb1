@@ -1,113 +1,149 @@
 package com.primelar.backend.controller;
 
-import java.time.LocalDateTime;
-import java.util.Optional;
-import java.util.UUID;
-
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.primelar.backend.config.security.TokenService;
-import com.primelar.backend.model.dto.request.LoginRequest;
-import com.primelar.backend.model.dto.request.RegisterRequest;
-import com.primelar.backend.model.dto.request.PasswordResetRequest;
-import com.primelar.backend.model.dto.request.ResetPasswordRequest;
-import com.primelar.backend.model.dto.response.LoginResponse;
-import com.primelar.backend.model.dto.response.RegisterResponse;
-import com.primelar.backend.model.dto.response.PasswordResetResponse;
-import com.primelar.backend.model.dto.response.ResetPasswordResponse;
+import com.primelar.backend.model.dto.auth.ForgotPasswordRequest;
+import com.primelar.backend.model.dto.auth.ResetPasswordRequest;
 import com.primelar.backend.model.entity.User;
-import com.primelar.backend.model.entity.PasswordResetToken;
 import com.primelar.backend.model.enums.UserRole;
 import com.primelar.backend.repository.UserRepository;
-import com.primelar.backend.repository.PasswordResetTokenRepository;
+import com.primelar.backend.service.PasswordResetService;
 
 import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
+
+@SuppressWarnings("hiding")
 @RestController
 @RequestMapping("/auth")
-@RequiredArgsConstructor
-public class AuthController {
-    private final UserRepository repository;
-    private final PasswordEncoder passwordEncoder;
-    private final TokenService tokenService;
-    private final PasswordResetTokenRepository passwordResetTokenRepository;
+public class AuthController<ForgotPasswordRequest, ResetPasswordRequest> {
 
-    @PostMapping("/login")
-    public ResponseEntity login(@RequestBody LoginRequest body){
-        User user = this.repository.findByEmail(body.getEmail()).orElseThrow(() -> new RuntimeException("User not found"));
-        if(passwordEncoder.matches(body.getPassword(), user.getPassword())) {
-            String token = this.tokenService.generateToken(user);
-            return ResponseEntity.ok(new LoginResponse(user.getName(), token));
-        }
-        return ResponseEntity.badRequest().build();
+    // Gerencia autenticação (verifica email + senha via Spring Security)
+    private final AuthenticationManager authenticationManager;
+
+    // Gera e valida tokens JWT
+    private final TokenService tokenService;
+
+    // Acessa o banco de dados de usuários
+    private final UserRepository userRepository;
+
+    // Faz o hash da senha (BCrypt)
+    private final PasswordEncoder passwordEncoder;
+
+    // Lógica de forgot/reset password
+    private final PasswordResetService passwordResetService;
+
+    public AuthController(
+        AuthenticationManager authenticationManager,
+        TokenService tokenService,
+        UserRepository userRepository,
+        PasswordEncoder passwordEncoder,
+        PasswordResetService passwordResetService
+    ) {
+        this.authenticationManager = authenticationManager;
+        this.tokenService = tokenService;
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
+        this.passwordResetService = passwordResetService;
     }
 
+    @PostMapping("/login")
+    public ResponseEntity<LoginResponse> login(@RequestBody @Valid LoginRequest dados) {
+
+        // Cria as credenciais e autentica via Spring Security
+        var credenciais = new UsernamePasswordAuthenticationToken(
+            dados.email(), dados.password()
+        );
+        var auth = authenticationManager.authenticate(credenciais);
+
+        // Pega o usuário autenticado
+        User user = (User) auth.getPrincipal();
+
+        // Gera os dois tokens
+        String accessToken = tokenService.generateToken(user);
+        String refreshToken = tokenService.generateRefreshToken(user);
+
+        return ResponseEntity.ok(new LoginResponse(accessToken, refreshToken));
+    }
 
     @PostMapping("/register")
-    public ResponseEntity register(@RequestBody RegisterRequest body){
-        Optional<User> user = this.repository.findByEmail(body.getEmail());
+    public ResponseEntity<String> register(@RequestBody @Valid RegisterRequest dados) {
 
-        if(user.isEmpty()) {
-            User newUser = new User();
-            newUser.setPassword(passwordEncoder.encode(body.getPassword()));
-            newUser.setEmail(body.getEmail());
-            newUser.setName(body.getName());
-            newUser.setLastname(body.getLastname());
-            newUser.setCreatedAd(LocalDateTime.now());
-            newUser.setActive(true);
-            newUser.setRole(UserRole.USER);
-            this.repository.save(newUser);
-
-            String token = this.tokenService.generateToken(newUser);
-            return ResponseEntity.ok(new RegisterResponse(newUser.getName(), token));
+        // Verifica se o e-mail já está em uso
+        if (userRepository.findByEmail(dados.email()).isPresent()) {
+            return ResponseEntity.status(HttpStatus.CONFLICT)
+                .body("E-mail já cadastrado.");
         }
-        return ResponseEntity.badRequest().build();
+
+        // Cria o novo usuário
+        User novoUsuario = new User();
+        novoUsuario.setName(dados.name());
+        novoUsuario.setLastname(dados.lastname());
+        novoUsuario.setEmail(dados.email());
+        novoUsuario.setPassword(passwordEncoder.encode(dados.password())); // senha com hash
+        novoUsuario.setCreatedAd(LocalDateTime.now());
+        novoUsuario.setActive(true);
+        novoUsuario.setRole(UserRole.USER); // role padrão ao cadastrar
+
+        userRepository.save(novoUsuario);
+
+        return ResponseEntity.status(HttpStatus.CREATED)
+            .body("Usuário cadastrado com sucesso.");
+    }
+
+    @PostMapping("/refresh")
+    public ResponseEntity<?> refresh(@RequestBody RefreshRequest dados) {
+
+        String email = tokenService.validateToken(dados.refreshToken());
+
+        if (email == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                .body("Refresh token inválido ou expirado.");
+        }
+
+        // Busca o usuário pelo e-mail extraído do token
+        User user = userRepository.findByEmail(email)
+            .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+
+        // Gera novo access token
+        String novoAccessToken = tokenService.generateToken(user);
+
+        return ResponseEntity.ok(new LoginResponse(novoAccessToken, dados.refreshToken()));
     }
 
     @PostMapping("/forgot-password")
-    public ResponseEntity<PasswordResetResponse> forgotPassword(@Valid @RequestBody PasswordResetRequest request) {
-        User user = repository.findByEmail(request.getEmail())
-                .orElseThrow(() -> new IllegalArgumentException("Usuário não encontrado"));
-
-        String token = UUID.randomUUID().toString();
-        PasswordResetToken resetToken = new PasswordResetToken();
-        resetToken.setToken(token);
-        resetToken.setUser(user);
-        resetToken.setExpiresAt(LocalDateTime.now().plusMinutes(15));
-        resetToken.setUsed(false);
-        passwordResetTokenRepository.save(resetToken);
-
-        System.out.println("Password reset token generated for " + user.getEmail() + ": " + token);
-
-        return ResponseEntity.ok(new PasswordResetResponse(token));
+    public ResponseEntity<String> forgotPassword(@RequestBody ForgotPasswordRequest request) {
+        // Resposta genérica por segurança (não revela se e-mail existe)
+        try {
+            passwordResetService.solicitarReset(((LoginRequest) request).email());
+        } catch (Exception ignored) {
+            // Mesmo se o e-mail não existir, retornamos a mesma mensagem
+        }
+        return ResponseEntity.ok(
+            "Se o e-mail estiver cadastrado, você receberá um link em breve."
+        );
     }
-
+    
     @PostMapping("/reset-password")
-    public ResponseEntity<ResetPasswordResponse> resetPassword(@Valid @RequestBody ResetPasswordRequest request) {
-        PasswordResetToken resetToken = passwordResetTokenRepository.findByToken(request.getToken())
-                .orElseThrow(() -> new IllegalArgumentException("Token inválido ou inexistente"));
-
-        if (resetToken.getUsed()) {
-            throw new IllegalArgumentException("Este token já foi utilizado");
+    public ResponseEntity<String> resetPassword(@RequestBody com.primelar.backend.model.dto.auth.ResetPasswordRequest  request) {
+        try {
+            passwordResetService.confirmarReset(request.token(), request.novaSenha());
+            return ResponseEntity.ok("Senha redefinida com sucesso!");
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
-
-        if (resetToken.getExpiresAt().isBefore(LocalDateTime.now())) {
-            throw new IllegalArgumentException("Token expirado");
-        }
-
-        User user = resetToken.getUser();
-        user.setPassword(passwordEncoder.encode(request.getNewPassword()));
-        repository.save(user);
-
-        resetToken.setUsed(true);
-        passwordResetTokenRepository.save(resetToken);
-
-        return ResponseEntity.ok(new ResetPasswordResponse("Senha redefinida com sucesso"));
     }
+
+    record LoginRequest(String email, String password) {}
+
+    record RegisterRequest(String name, String lastname, String email, String password) {}
+
+    record RefreshRequest(String refreshToken) {}
+
+    record LoginResponse(String accessToken, String refreshToken) {}
 }

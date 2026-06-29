@@ -21,4 +21,19 @@ export const routes: Routes = [
     path: 'admin',
     loadComponent: () => import('./pages/admin/admin').then((m) => m.AdminComponent),
   },
+
+  {
+    path: 'auth/esqueci-senha',
+    loadComponent: () =>
+      import('./pages/auth/forgot-password.component')
+        .then(m => m.ForgotPasswordComponent)
+  },
+
+  {
+    path: 'auth/redefinir-senha', // acessado via /auth/redefinir-senha?token=abc123
+    loadComponent: () =>
+      import('./pages/auth/reset-password.component')
+        .then(m => m.ResetPasswordComponent)
+  },
+
 ];
