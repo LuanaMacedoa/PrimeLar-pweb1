@@ -2,6 +2,7 @@ package com.primelar.backend.controller;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -19,8 +20,10 @@ import org.springframework.transaction.annotation.Transactional;
 import com.primelar.backend.model.dto.request.UserRequestDTO;
 import com.primelar.backend.model.dto.request.UserUpdateRequestDTO;
 import com.primelar.backend.model.dto.response.UserResponseDTO;
+import com.primelar.backend.model.entity.Role;
 import com.primelar.backend.model.entity.User;
 import com.primelar.backend.model.enums.UserRole;
+import com.primelar.backend.repository.RoleRepository;
 import com.primelar.backend.repository.UserRepository;
 
 @SpringBootTest
@@ -34,6 +37,9 @@ class UserControllerTest {
     private UserRepository userRepository;
 
     @Autowired
+    private RoleRepository roleRepository;
+
+    @Autowired
     private PasswordEncoder passwordEncoder;
 
     private User adminUser;
@@ -43,6 +49,11 @@ class UserControllerTest {
     void setUp() {
         userRepository.deleteAll();
 
+        Role adminRole = roleRepository.findByName("ADMIN")
+                .orElseThrow(() -> new IllegalStateException("Role ADMIN não encontrada — verifique DataInitializer"));
+        Role userRole = roleRepository.findByName("USER")
+                .orElseThrow(() -> new IllegalStateException("Role USER não encontrada — verifique DataInitializer"));
+
         adminUser = new User();
         adminUser.setFirstname("Admin");
         adminUser.setLastname("User");
@@ -50,7 +61,7 @@ class UserControllerTest {
         adminUser.setPassword(passwordEncoder.encode("adminPass123"));
         adminUser.setCreatedAd(LocalDateTime.now());
         adminUser.setActive(true);
-        adminUser.setRole(UserRole.ADMIN);
+        adminUser.setRoles(Set.of(adminRole));
         userRepository.save(adminUser);
 
         normalUser = new User();
@@ -60,7 +71,7 @@ class UserControllerTest {
         normalUser.setPassword(passwordEncoder.encode("userPass123"));
         normalUser.setCreatedAd(LocalDateTime.now());
         normalUser.setActive(true);
-        normalUser.setRole(UserRole.USER);
+        normalUser.setRoles(Set.of(userRole));
         userRepository.save(normalUser);
     }
 
@@ -80,7 +91,7 @@ class UserControllerTest {
         assertNotNull(response);
         assertNotNull(response.id());
         assertEquals("New", response.firstname());
-        assertEquals(UserRole.CORRETOR, response.role());
+        assertTrue(response.roles().contains("CORRETOR"));
 
         User createdUser = userRepository.findById(response.id()).orElseThrow();
         assertTrue(passwordEncoder.matches("securePassword123", createdUser.getPassword()));
@@ -90,7 +101,7 @@ class UserControllerTest {
     void shouldGetAllUsers() {
         ResponseEntity<List<UserResponseDTO>> responseEntity = userController.getAll();
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-        
+
         List<UserResponseDTO> users = responseEntity.getBody();
         assertNotNull(users);
         assertTrue(users.size() >= 2);

@@ -19,8 +19,9 @@ import com.primelar.backend.model.dto.auth.ForgotPasswordRequest;
 import com.primelar.backend.model.dto.auth.ResetPasswordRequest;
 import com.primelar.backend.model.dto.response.LoginResponse;
 import com.primelar.backend.model.dto.response.RegisterResponse;
+import com.primelar.backend.model.entity.Role;
 import com.primelar.backend.model.entity.User;
-import com.primelar.backend.model.enums.UserRole;
+import com.primelar.backend.repository.RoleRepository;
 import com.primelar.backend.repository.UserRepository;
 import com.primelar.backend.service.PasswordResetService;
 
@@ -33,6 +34,7 @@ public class AuthController {
     private final AuthenticationManager authenticationManager;
     private final TokenService tokenService;
     private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
     private final PasswordResetService passwordResetService;
 
@@ -40,12 +42,14 @@ public class AuthController {
         AuthenticationManager authenticationManager,
         TokenService tokenService,
         UserRepository userRepository,
+        RoleRepository roleRepository,
         PasswordEncoder passwordEncoder,
         PasswordResetService passwordResetService
     ) {
         this.authenticationManager = authenticationManager;
         this.tokenService = tokenService;
         this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
         this.passwordResetService = passwordResetService;
     }
@@ -74,7 +78,10 @@ public class AuthController {
         novoUsuario.setPassword(passwordEncoder.encode(dados.getPassword()));
         novoUsuario.setCreatedAd(LocalDateTime.now());
         novoUsuario.setActive(true);
-        novoUsuario.setRole(UserRole.USER);
+
+        Role userRole = roleRepository.findByName("USER")
+            .orElseThrow(() -> new RuntimeException("Role USER não encontrada."));
+        novoUsuario.setRoles(new java.util.HashSet<>(java.util.Set.of(userRole)));
 
         userRepository.save(novoUsuario);
 
