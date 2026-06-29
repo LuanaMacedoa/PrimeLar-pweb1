@@ -1,30 +1,86 @@
 import { isPlatformBrowser } from '@angular/common';
 import { Injectable, PLATFORM_ID, inject, signal } from '@angular/core';
-import { DatabaseService } from './database-service';
+import { HttpClient } from '@angular/common/http';
+import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { environment } from '../environments/environment';
+
+export interface AuthTokens {
+  accessToken: string;
+  refreshToken: string;
+}
 
 export interface Usuario {
   id: number;
   nome: string;
   sobrenome?: string;
   email: string;
-  senha?: string;
+  role?: string; 
   inativo?: boolean;
 }
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  private readonly db = inject(DatabaseService);
-  private readonly platformId = inject(PLATFORM_ID);
+  private readonly API = environment.supabaseUrl;
+  private http = inject(HttpClient);
+  private platformId = inject(PLATFORM_ID);
   private readonly storageKey = 'primelar:user';
 
+  private accessToken: string | null = null;
+  private refreshToken: string | null = null;
+
+  private isLoggedIn$ = new BehaviorSubject<boolean>(false);
+  isAuthenticated$ = this.isLoggedIn$.asObservable();
+  
   user = signal<Usuario | null>(this.loadUser());
+
+  login(credentials: { email: string; password: string }): Observable<AuthTokens> {
+    // A  validaçaõ passou para o back e vai retorna o JWT, antes tava fazendo o tratamento tudo na url.
+    return this.http.post<AuthTokens>(`${this.API}/auth/login`, credentials).pipe(
+      tap(tokens => {
+        this.setTokens(tokens);
+      })
+    );
+  }
+
+  logout(): void {
+    // fala para o back invalidar os token atual, no caso que for necessário
+    this.http.post(`${this.API}/auth/logout`, {}).subscribe({
+      next: () => this.clearLocalSession(),
+      error: () => this.clearLocalSession() 
+    });
+  }
+
+  // metodo para limpara o estado atual
+  private clearLocalSession(): void {
+    this.accessToken = null;
+    this.refreshToken = null;
+    this.isLoggedIn$.next(false);
+    this.user.set(null);
+    this.persistUser(null);
+  }
+
+  refresh(): Observable<AuthTokens> {
+    return this.http.post<AuthTokens>(`${this.API}/auth/refresh`, {
+      refreshToken: this.refreshToken
+    }).pipe(
+      tap(tokens => this.setTokens(tokens))
+    );
+  }
+
+  getAccessToken(): string | null {
+    return this.accessToken;
+  }
+
+  private setTokens(tokens: AuthTokens): void {
+    this.accessToken = tokens.accessToken;
+    this.refreshToken = tokens.refreshToken;
+    this.isLoggedIn$.next(true);
+  }
 
   private loadUser(): Usuario | null {
     if (!isPlatformBrowser(this.platformId)) return null;
-
     const rawUser = sessionStorage.getItem(this.storageKey);
     if (!rawUser) return null;
-
     try {
       return JSON.parse(rawUser) as Usuario;
     } catch {
@@ -35,81 +91,10 @@ export class AuthService {
 
   private persistUser(user: Usuario | null): void {
     if (!isPlatformBrowser(this.platformId)) return;
-
     if (!user) {
       sessionStorage.removeItem(this.storageKey);
       return;
     }
-
     sessionStorage.setItem(this.storageKey, JSON.stringify(user));
-  }
-
-  async getUsuario(email: string) {
-    const { data, error } = await this.db.supabase
-      .from('usuario')
-      .select('*')
-      .eq('email', email)
-      .single();
-
-    if (error) {
-      console.error('Supabase select error (getUsuario):', error);
-      return null;
-    }
-
-    return data;
-  }
-
-  async login(email: string, senha: string) {
-    const user = await this.getUsuario(email);
-
-    if (!user) return false;
-
-    if (user.inativo) return false;
-
-    if (user.senha !== senha) return false;
-
-    this.user.set(user);
-    this.persistUser(user);
-    return true;
-  }
-
-  async register(data: {
-    nome: string;
-    sobrenome: string;
-    email: string;
-    senha: string;
-  }) {
-    const { data: inserted, error } = await this.db.supabase
-      .from('usuario')
-      .insert([{ ...data, inativo: false }])
-      .select()
-      .single();
-
-    if (error) {
-      console.error('Supabase insert error (register):', error);
-      return false;
-    }
-
-    this.user.set(inserted);
-    this.persistUser(inserted);
-    return true;
-  }
-
-  logout() {
-    this.user.set(null);
-    this.persistUser(null);
-  }
-
-  async deactivateAccount(): Promise<boolean> {
-    const currentUser = this.user();
-    if (!currentUser) return false;
-
-    const { error } = await this.db.supabase
-      .from('usuario')
-      .update({ inativo: true })
-      .eq('id', currentUser.id);
-
-    this.logout();
-    return !error;
   }
 }

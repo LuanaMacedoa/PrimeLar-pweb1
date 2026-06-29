@@ -2,11 +2,13 @@ package com.primelar.backend.config.security;
 
 import java.io.IOException;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import com.primelar.backend.repository.TokenRevogadoRepository;
 import com.primelar.backend.repository.UserRepository;
 
 import jakarta.servlet.FilterChain;
@@ -16,6 +18,8 @@ import jakarta.servlet.http.HttpServletResponse;
 
 @Component
 public class SecurityFilter extends OncePerRequestFilter{
+
+    @Autowired private TokenRevogadoRepository tokenRepository;
     
     final TokenService tokenService;
     final UserRepository userRepository;
@@ -25,10 +29,16 @@ public class SecurityFilter extends OncePerRequestFilter{
         this.userRepository = userRepository;
     }
 
-    @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         var token = this.recoverToken(request);
-        if(token != null){
+        
+        if (token != null) {
+            if (tokenRepository.existsByToken(token)) {
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                response.getWriter().write("Token invalido.");
+                return; 
+            }
+
             var email = tokenService.validateToken(token);
             if (email != null) {
                 userRepository.findByEmail(email).ifPresent(user -> {
@@ -37,6 +47,7 @@ public class SecurityFilter extends OncePerRequestFilter{
                 });
             }
         }
+
         filterChain.doFilter(request, response);
     }
 
