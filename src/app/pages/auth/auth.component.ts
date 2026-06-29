@@ -1,92 +1,98 @@
-import { CommonModule, DOCUMENT } from '@angular/common';
-import { Component, inject, signal } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
-import { NavbarComponent } from '../../components/layout/navbar/navbar.component';
-import { AuthService } from '../../../service/auth.service';
+import { isPlatformBrowser } from '@angular/common';
+import { Injectable, PLATFORM_ID, inject, signal } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { environment } from '../../../environments/environment';
 
-@Component({
-  selector: 'app-auth',
-  standalone: true,
-  imports: [CommonModule, FormsModule, NavbarComponent],
-  templateUrl: './auth.html',
-})
-export class AuthComponent {
-  private readonly documentRef = inject(DOCUMENT);
-  private readonly router = inject(Router);
-  private auth = inject(AuthService);
+export interface AuthTokens {
+  accessToken: string;
+  refreshToken: string;
+}
+
+export interface Usuario {
+  id: number;
+  nome: string;
+  sobrenome?: string;
+  email: string;
+  role?: string;
+  inativo?: boolean;
+}
+
+@Injectable({ providedIn: 'root' })
+export class AuthService {
+  private readonly API = environment.supabaseUrl;
+  private http = inject(HttpClient);
+  private platformId = inject(PLATFORM_ID);
+  private readonly storageKey = 'primelar:user';
+
+  private accessToken: string | null = null;
+  private refreshToken: string | null = null;
+
+  private isLoggedIn$ = new BehaviorSubject<boolean>(false);
+  isAuthenticated$ = this.isLoggedIn$.asObservable();
   
+  user = signal<Usuario | null>(this.loadUser());
 
-  readonly activeTab = signal<'login' | 'register'>('login');
 
-  loginData = {
-    email: '',
-    password: '',
-  };
-
-  registerData = {
-    firstName: '',
-    lastName: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
-  };
-
-  feedback = signal<string | null>(null);
-  loading = signal(false);
-
-  goTo(tab: 'login' | 'register'): void {
-    (this.documentRef.activeElement as HTMLElement | null)?.blur();
-    this.activeTab.set(tab);
-
-    setTimeout(() => {
-      const targetId = tab === 'login' ? 'login-email' : 'reg-name';
-      this.documentRef.getElementById(targetId)?.focus();
-    }, 0);
+  login(credentials: { email: string; password: string }): Observable<AuthTokens> {
+    return this.http.post<AuthTokens>(`${this.API}/auth/login`, credentials).pipe(
+      tap(tokens => {
+        this.setTokens(tokens);
+      })
+    );
   }
 
-  async onLogin() {
-    this.feedback.set(null);
-    this.loading.set(true);
+  logout(): void {
+    this.http.post(`${this.API}/auth/logout`, {}).subscribe({
+      next: () => this.clearLocalSession(),
+      error: () => this.clearLocalSession()
+    });
+  }
 
-    const ok = await this.auth.login(
-      this.loginData.email,
-      this.loginData.password,
+  private clearLocalSession(): void {
+    this.accessToken = null;
+    this.refreshToken = null;
+    this.isLoggedIn$.next(false);
+    this.user.set(null);
+    this.persistUser(null);
+  }
+
+  refresh(): Observable<AuthTokens> {
+    return this.http.post<AuthTokens>(`${this.API}/auth/refresh`, {
+      refreshToken: this.refreshToken
+    }).pipe(
+      tap(tokens => this.setTokens(tokens))
     );
+  }
 
-    this.loading.set(false);
+  getAccessToken(): string | null {
+    return this.accessToken;
+  }
 
-    if (!ok) {
-      this.feedback.set('Email ou senha inválidos.');
+  private setTokens(tokens: AuthTokens): void {
+    this.accessToken = tokens.accessToken;
+    this.refreshToken = tokens.refreshToken;
+    this.isLoggedIn$.next(true);
+  }
+
+  private loadUser(): Usuario | null {
+    if (!isPlatformBrowser(this.platformId)) return null;
+    const rawUser = sessionStorage.getItem(this.storageKey);
+    if (!rawUser) return null;
+    try {
+      return JSON.parse(rawUser) as Usuario;
+    } catch {
+      sessionStorage.removeItem(this.storageKey);
+      return null;
+    }
+  }
+
+  private persistUser(user: Usuario | null): void {
+    if (!isPlatformBrowser(this.platformId)) return;
+    if (!user) {
+      sessionStorage.removeItem(this.storageKey);
       return;
     }
-
-    await this.router.navigateByUrl('/');
-    window.location.reload();
+    sessionStorage.setItem(this.storageKey, JSON.stringify(user));
   }
-
-  async onRegister() {
-     this.feedback.set(null);
-  this.loading.set(true);
-
-
-  if (this.registerData.password !== this.registerData.confirmPassword) {
-    this.loading.set(false);
-    this.feedback.set('As senhas não coincidem.');
-    return;
-  }
-
-  const ok = await this.auth.register({
-    nome: this.registerData.firstName,
-    sobrenome: this.registerData.lastName,
-    email: this.registerData.email,
-    senha: this.registerData.password,
-  });
-
-  this.loading.set(false);
-
-  this.feedback.set(
-    ok ? 'Usuário criado com sucesso.' : 'Erro ao criar usuário.'
-  );
-}
 }

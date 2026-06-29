@@ -4,9 +4,15 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-
-@Table(name = "token_revogado")
-
+@Table(
+    name = "token_revogado",
+    uniqueConstraints = {
+        @UniqueConstraint(name = "uk_token_revogado_token", columnNames = "token")
+    },
+    indexes = {
+        @Index(name = "idx_token_revogado_expiracao", columnList = "data_expiracao")
+    }
+)
 public class TokenRevogado {
 
     @Id
@@ -16,7 +22,7 @@ public class TokenRevogado {
     @Column(nullable = false, length = 1000, unique = true)
     private String token;
 
-    @Column(name = "data_expiracao")
+    @Column(name = "data_expiracao", nullable = false)
     private LocalDateTime dataExpiracao;
 
     public TokenRevogado() {
@@ -27,13 +33,27 @@ public class TokenRevogado {
         this.dataExpiracao = dataExpiracao;
     }
 
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    public Long getId() {
+        return id;
+    }
 
-    public String getToken() { return token; }
-    public void setToken(String token) { this.token = token; }
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-    public LocalDateTime getDataExpiracao() { return dataExpiracao; }
-    public void setDataExpiracao(LocalDateTime dataExpiracao) { this.dataExpiracao = dataExpiracao; }
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public LocalDateTime getDataExpiracao() {
+        return dataExpiracao;
+    }
+
+    public void setDataExpiracao(LocalDateTime dataExpiracao) {
+        this.dataExpiracao = dataExpiracao;
+    }
 }
-    

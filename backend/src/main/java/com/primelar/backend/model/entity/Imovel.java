@@ -8,7 +8,15 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "imoveis")
+@Table(
+    name = "imoveis",
+    indexes = {
+        @Index(name = "idx_imovel_cidade", columnList = "cidade"),
+        @Index(name = "idx_imovel_bairro", columnList = "bairro"),
+        @Index(name = "idx_imovel_preco", columnList = "preco"),
+        @Index(name = "idx_imovel_cidade_bairro", columnList = "cidade,bairro")
+    })
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -17,7 +25,7 @@ public class Imovel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    @Column(nullable = false)
+    @Column(nullable = false, length = 150)
     private String titulo;
 
     @Column(columnDefinition = "TEXT")

@@ -17,13 +17,23 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Index;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity(name = "users")
-@Table(name = "users")
+@Table(
+    name = "users",
+     uniqueConstraints = {
+        @UniqueConstraint(name = "uk_users_email", columnNames = "email")
+    },
+    indexes = {
+        @Index(name = "idx_users_role", columnList = "role"),
+        @Index(name = "idx_users_active", columnList = "active")
+    })
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

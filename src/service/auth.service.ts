@@ -20,6 +20,9 @@ export interface Usuario {
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
+  register(arg0: { nome: string; sobrenome: string; email: string; senha: string; }) {
+    throw new Error('Method not implemented.');
+  }
   private readonly API = environment.supabaseUrl;
   private http = inject(HttpClient);
   private platformId = inject(PLATFORM_ID);
@@ -33,7 +36,7 @@ export class AuthService {
   
   user = signal<Usuario | null>(this.loadUser());
 
-  login(credentials: { email: string; password: string }): Observable<AuthTokens> {
+  login(email: string, password: string, credentials: { email: string; password: string; }): Observable<AuthTokens> {
     // A  validaçaõ passou para o back e vai retorna o JWT, antes tava fazendo o tratamento tudo na url.
     return this.http.post<AuthTokens>(`${this.API}/auth/login`, credentials).pipe(
       tap(tokens => {
