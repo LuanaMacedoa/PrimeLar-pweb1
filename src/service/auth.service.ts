@@ -1,7 +1,7 @@
 import { isPlatformBrowser } from '@angular/common';
 import { Injectable, PLATFORM_ID, inject, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { BehaviorSubject, Observable, tap, lastValueFrom } from 'rxjs';
 import { environment } from '../environments/environment';
 
 export interface AuthTokens {
@@ -20,7 +20,7 @@ export interface Usuario {
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  private readonly API = environment.supabaseUrl;
+  private readonly API = environment.supabaseUrl || 'http://localhost:8080';
   private http = inject(HttpClient);
   private platformId = inject(PLATFORM_ID);
   private readonly storageKey = 'primelar:user';
@@ -33,30 +33,82 @@ export class AuthService {
   
   user = signal<Usuario | null>(this.loadUser());
 
-  login(credentials: { email: string; password: string }): Observable<AuthTokens> {
-    // A  validaçaõ passou para o back e vai retorna o JWT, antes tava fazendo o tratamento tudo na url.
-    return this.http.post<AuthTokens>(`${this.API}/auth/login`, credentials).pipe(
-      tap(tokens => {
-        this.setTokens(tokens);
-      })
-    );
+  async login(email: string, password: string): Promise<boolean> {
+    try {
+      const response = await lastValueFrom(
+        this.http.post<{ name: string; token: string }>(`${this.API}/auth/login`, { email, password })
+      );
+      if (response && response.token) {
+        this.accessToken = response.token;
+        this.isLoggedIn$.next(true);
+        const usuario: Usuario = {
+          id: 0,
+          nome: response.name,
+          email: email,
+          role: 'USER'
+        };
+        this.user.set(usuario);
+        this.persistUser(usuario);
+        return true;
+      }
+      return false;
+    } catch (error) {
+      console.error('Login error:', error);
+      return false;
+    }
   }
 
   logout(): void {
-    // fala para o back invalidar os token atual, no caso que for necessário
-    this.http.post(`${this.API}/auth/logout`, {}).subscribe({
-      next: () => this.clearLocalSession(),
-      error: () => this.clearLocalSession() 
-    });
+    this.clearLocalSession();
   }
 
-  // metodo para limpara o estado atual
   private clearLocalSession(): void {
     this.accessToken = null;
     this.refreshToken = null;
     this.isLoggedIn$.next(false);
     this.user.set(null);
     this.persistUser(null);
+  }
+
+  async register(data: {
+    nome: string;
+    sobrenome: string;
+    email: string;
+    senha: string;
+  }): Promise<boolean> {
+    try {
+      const payload = {
+        firstname: data.nome,
+        lastname: data.sobrenome,
+        email: data.email,
+        password: data.senha
+      };
+      const response = await lastValueFrom(
+        this.http.post<{ name: string; token: string }>(`${this.API}/auth/register`, payload)
+      );
+      if (response && response.token) {
+        this.accessToken = response.token;
+        this.isLoggedIn$.next(true);
+        const usuario: Usuario = {
+          id: 0,
+          nome: response.name,
+          email: data.email,
+          role: 'USER'
+        };
+        this.user.set(usuario);
+        this.persistUser(usuario);
+        return true;
+      }
+      return false;
+    } catch (error) {
+      console.error('Registration error:', error);
+      return false;
+    }
+  }
+
+  async deactivateAccount(): Promise<boolean> {
+    this.logout();
+    return true;
   }
 
   refresh(): Observable<AuthTokens> {
