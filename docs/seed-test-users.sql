@@ -48,3 +48,9 @@ WHERE u.email IN ('maria@primelar.com', 'carlos@primelar.com', 'ana@primelar.com
 INSERT INTO corretor_profiles (user_id, creci, telefone, bio)
 SELECT u.id, 'SP-12345', '(11) 98765-4321', 'Especialista em imóveis residenciais.'
 FROM users u WHERE u.email = 'roberto@primelar.com';
+
+-- Consultas gerais
+select * from users;
+select * from cliente_profiles;
+select * from corretor_profiles;
+select * from user_roles;
