@@ -21,6 +21,7 @@ import com.primelar.backend.model.dto.response.LoginResponse;
 import com.primelar.backend.model.dto.response.RegisterResponse;
 import com.primelar.backend.model.entity.Role;
 import com.primelar.backend.model.entity.User;
+import com.primelar.backend.model.enums.UserRole;
 import com.primelar.backend.repository.RoleRepository;
 import com.primelar.backend.repository.UserRepository;
 import com.primelar.backend.service.PasswordResetService;
@@ -79,8 +80,10 @@ public class AuthController {
         novoUsuario.setCreatedAd(LocalDateTime.now());
         novoUsuario.setActive(true);
 
-        Role userRole = roleRepository.findByName("USER")
-            .orElseThrow(() -> new RuntimeException("Role USER não encontrada."));
+        UserRole selectedRole = dados.getRole() != null ? dados.getRole() : UserRole.USER;
+
+        Role userRole = roleRepository.findByName(selectedRole.name())
+            .orElseThrow(() -> new RuntimeException("Role " + selectedRole.name() + " não encontrada."));
         novoUsuario.setRoles(new java.util.HashSet<>(java.util.Set.of(userRole)));
 
         userRepository.save(novoUsuario);

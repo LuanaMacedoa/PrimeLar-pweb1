@@ -4,12 +4,20 @@ import java.time.LocalDateTime;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "password_reset_tokens")
-@Data
+@Table(
+    name = "password_reset_tokens",
+    uniqueConstraints = {
+        @UniqueConstraint(name = "uk_password_reset_token", columnNames = "token")
+    },
+    indexes = {
+        @Index(name = "idx_password_reset_user_id", columnList = "user_id"),
+        @Index(name = "idx_password_reset_expires_at", columnList = "expiresAt"),
+        @Index(name = "idx_password_reset_used", columnList = "used")
+    }
+)
 @NoArgsConstructor
 @AllArgsConstructor
 public class PasswordResetToken {
@@ -18,11 +26,14 @@ public class PasswordResetToken {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false, unique = true, length = 255)
     private String token;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @JoinColumn(
+        name = "user_id", 
+        nullable = false,
+        foreignKey = @ForeignKey(name = "fk_password_reset_user"))
     private User user;
 
     @Column(nullable = false)
