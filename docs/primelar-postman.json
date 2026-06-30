@@ -35,12 +35,12 @@
             "body": {
               "mode": "raw",
               "options": { "raw": { "language": "json" } },
-              "raw": "{\n  \"email\": \"usuario@email.com\",\n  \"password\": \"senha1234\"\n}"
+              "raw": "{\n  \"email\": \"maria@primelar.com\",\n  \"password\": \"Senha@123\"\n}"
             }
           }
         },
         {
-          "name": "Registrar — Cliente (USER)",
+          "name": "Registrar (sempre cria USER)",
           "request": {
             "method": "POST",
             "url": {
@@ -54,26 +54,7 @@
             "body": {
               "mode": "raw",
               "options": { "raw": { "language": "json" } },
-              "raw": "{\n  \"firstname\": \"João\",\n  \"lastname\": \"Silva\",\n  \"email\": \"joao@email.com\",\n  \"password\": \"senha1234\",\n  \"role\": \"USER\"\n}"
-            }
-          }
-        },
-        {
-          "name": "Registrar — Corretor",
-          "request": {
-            "method": "POST",
-            "url": {
-              "raw": "{{base_url}}/auth/register",
-              "host": ["{{base_url}}"],
-              "path": ["auth", "register"]
-            },
-            "header": [
-              { "key": "Content-Type", "value": "application/json" }
-            ],
-            "body": {
-              "mode": "raw",
-              "options": { "raw": { "language": "json" } },
-              "raw": "{\n  \"firstname\": \"Maria\",\n  \"lastname\": \"Oliveira\",\n  \"email\": \"maria.corretor@email.com\",\n  \"password\": \"senha1234\",\n  \"role\": \"CORRETOR\"\n}"
+              "raw": "{\n  \"firstname\": \"João\",\n  \"lastname\": \"Silva\",\n  \"email\": \"joao@email.com\",\n  \"password\": \"Senha@123\"\n}"
             }
           }
         },
