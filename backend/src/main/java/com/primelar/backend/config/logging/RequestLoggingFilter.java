@@ -11,12 +11,21 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.Set;
 
 @Component
-@Order(2) // roda depois do CorrelationIdFilter 
+@Order(2)
 public class RequestLoggingFilter extends OncePerRequestFilter {
 
     private static final Logger log = LoggerFactory.getLogger(RequestLoggingFilter.class);
+
+    // Rotas que envolvem credenciais ou tokens — não logar para não facilitar mapeamento de alvos
+    private static final Set<String> SENSITIVE_PATHS = Set.of(
+        "/auth/login",
+        "/auth/register",
+        "/auth/reset-password",
+        "/auth/forgot-password"
+    );
 
     @Override
     protected void doFilterInternal(
@@ -25,17 +34,18 @@ public class RequestLoggingFilter extends OncePerRequestFilter {
         FilterChain filterChain
     ) throws ServletException, IOException {
 
-        long inicio = System.currentTimeMillis();
+        if (SENSITIVE_PATHS.contains(request.getRequestURI())) {
+            filterChain.doFilter(request, response);
+            return;
+        }
 
-        // Loga o início da requisição
+        long inicio = System.currentTimeMillis();
         log.info(">>> REQUEST  {} {}", request.getMethod(), request.getRequestURI());
 
         try {
             filterChain.doFilter(request, response);
         } finally {
             long duracao = System.currentTimeMillis() - inicio;
-
-            // Loga o fim com status HTTP e tempo de resposta
             log.info("<<< RESPONSE {} {} | status={} | {}ms",
                 request.getMethod(),
                 request.getRequestURI(),
