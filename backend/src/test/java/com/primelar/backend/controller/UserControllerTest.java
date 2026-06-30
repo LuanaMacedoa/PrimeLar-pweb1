@@ -1,0 +1,138 @@
+package com.primelar.backend.controller;
+
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Set;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.primelar.backend.model.dto.request.UserRequestDTO;
+import com.primelar.backend.model.dto.request.UserUpdateRequestDTO;
+import com.primelar.backend.model.dto.response.UserResponseDTO;
+import com.primelar.backend.model.entity.Role;
+import com.primelar.backend.model.entity.User;
+import com.primelar.backend.model.enums.UserRole;
+import com.primelar.backend.repository.RoleRepository;
+import com.primelar.backend.repository.UserRepository;
+
+@SpringBootTest
+@Transactional
+class UserControllerTest {
+
+    @Autowired
+    private UserController userController;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private RoleRepository roleRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    private User adminUser;
+    private User normalUser;
+
+    @BeforeEach
+    void setUp() {
+        userRepository.deleteAll();
+
+        Role adminRole = roleRepository.findByName("ADMIN")
+                .orElseThrow(() -> new IllegalStateException("Role ADMIN não encontrada — verifique DataInitializer"));
+        Role userRole = roleRepository.findByName("USER")
+                .orElseThrow(() -> new IllegalStateException("Role USER não encontrada — verifique DataInitializer"));
+
+        adminUser = new User();
+        adminUser.setFirstname("Admin");
+        adminUser.setLastname("User");
+        adminUser.setEmail("admin@primelar.com");
+        adminUser.setPassword(passwordEncoder.encode("adminPass123"));
+        adminUser.setCreatedAd(LocalDateTime.now());
+        adminUser.setActive(true);
+        adminUser.setRoles(Set.of(adminRole));
+        userRepository.save(adminUser);
+
+        normalUser = new User();
+        normalUser.setFirstname("Normal");
+        normalUser.setLastname("User");
+        normalUser.setEmail("user@primelar.com");
+        normalUser.setPassword(passwordEncoder.encode("userPass123"));
+        normalUser.setCreatedAd(LocalDateTime.now());
+        normalUser.setActive(true);
+        normalUser.setRoles(Set.of(userRole));
+        userRepository.save(normalUser);
+    }
+
+    @Test
+    void shouldCreateUserAndEncryptPassword() {
+        UserRequestDTO request = new UserRequestDTO();
+        request.setFirstname("New");
+        request.setLastname("Corretor");
+        request.setEmail("corretor@primelar.com");
+        request.setPassword("securePassword123");
+        request.setRole(UserRole.CORRETOR);
+
+        ResponseEntity<UserResponseDTO> responseEntity = userController.create(request);
+        assertEquals(HttpStatus.CREATED, responseEntity.getStatusCode());
+
+        UserResponseDTO response = responseEntity.getBody();
+        assertNotNull(response);
+        assertNotNull(response.id());
+        assertEquals("New", response.firstname());
+        assertTrue(response.roles().contains("CORRETOR"));
+
+        User createdUser = userRepository.findById(response.id()).orElseThrow();
+        assertTrue(passwordEncoder.matches("securePassword123", createdUser.getPassword()));
+    }
+
+    @Test
+    void shouldGetAllUsers() {
+        ResponseEntity<List<UserResponseDTO>> responseEntity = userController.getAll();
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+
+        List<UserResponseDTO> users = responseEntity.getBody();
+        assertNotNull(users);
+        assertTrue(users.size() >= 2);
+    }
+
+    @Test
+    void shouldUpdateUserAndEncryptNewPassword() {
+        UserUpdateRequestDTO request = new UserUpdateRequestDTO();
+        request.setFirstname("UpdatedName");
+        request.setLastname("UpdatedLastName");
+        request.setEmail("user@primelar.com");
+        request.setPassword("newSecurePassword123");
+        request.setRole(UserRole.USER);
+        request.setActive(true);
+
+        ResponseEntity<UserResponseDTO> responseEntity = userController.update(normalUser.getId(), request);
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+
+        UserResponseDTO response = responseEntity.getBody();
+        assertNotNull(response);
+        assertEquals("UpdatedName", response.firstname());
+
+        User updatedUser = userRepository.findById(normalUser.getId()).orElseThrow();
+        assertTrue(passwordEncoder.matches("newSecurePassword123", updatedUser.getPassword()));
+    }
+
+    @Test
+    void shouldDeleteUser() {
+        ResponseEntity<Void> responseEntity = userController.delete(normalUser.getId());
+        assertEquals(HttpStatus.NO_CONTENT, responseEntity.getStatusCode());
+
+        assertFalse(userRepository.findById(normalUser.getId()).isPresent());
+    }
+}

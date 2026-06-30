@@ -9,7 +9,11 @@ import lombok.NoArgsConstructor;
 @Table(
     name = "favoritos",
     uniqueConstraints = {
-        @UniqueConstraint(columnNames = {"user_id", "imovel_id"})
+        @UniqueConstraint(name = "uk_favorito_user_imovel", columnNames = {"user_id", "imovel_id"})
+    },
+    indexes = {
+        @Index(name = "idx_favoritos_user_id", columnList = "user_id"),
+        @Index(name = "idx_favoritos_imovel_id", columnList = "imovel_id")
     }
 )
 @Data
@@ -21,11 +25,19 @@ public class Favorito {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @JoinColumn(
+        name = "user_id",
+        nullable = false,
+        foreignKey = @ForeignKey(name = "fk_favorito_user")
+    )
     private User user;
 
-    @ManyToOne
-    @JoinColumn(name = "imovel_id")
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @JoinColumn(
+        name = "imovel_id",
+        nullable = false,
+        foreignKey = @ForeignKey(name = "fk_favorito_imovel")
+    )
     private Imovel imovel;
 }

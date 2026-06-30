@@ -1,3 +1,12 @@
 package com.primelar.backend.model.dto.response;
 
-public record UserResponseDTO(String name, String token) {}
+import java.util.Set;
+
+public record UserResponseDTO(
+    Long id,
+    String firstname,
+    String lastname,
+    String email,
+    Boolean active,
+    Set<String> roles
+) {}

@@ -54,4 +54,9 @@ public class TokenService {
     private Instant generateExpirationDate(){
         return LocalDateTime.now().plusHours(8).toInstant(ZoneOffset.of("-3"));
     }
+
+    public String generateRefreshToken(User user) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'generateRefreshToken'");
+    }
 }
