@@ -2,11 +2,13 @@ package com.primelar.backend.controller;
 
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.primelar.backend.model.dto.request.FavoritoRequest;
 import com.primelar.backend.model.dto.response.FavoritoResponseDTO;
+import com.primelar.backend.service.FavoritoService;
 
 import jakarta.validation.Valid;
 
@@ -14,28 +16,26 @@ import jakarta.validation.Valid;
 @RequestMapping("/favoritos")
 public class FavoritoController {
 
+    private final FavoritoService favoritoService;
+
+    public FavoritoController(FavoritoService favoritoService) {
+        this.favoritoService = favoritoService;
+    }
+
     @GetMapping
     public ResponseEntity<List<FavoritoResponseDTO>> listarFavoritos() {
-
-        // TODO: implementar
-
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(favoritoService.listarFavoritos());
     }
 
     @PostMapping
     public ResponseEntity<FavoritoResponseDTO> favoritar(
             @Valid @RequestBody FavoritoRequest request) {
-
-        // TODO: implementar
-
-        return ResponseEntity.ok().build();
+        return ResponseEntity.status(HttpStatus.CREATED).body(favoritoService.favoritar(request.getImovelId()));
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> desfavoritar(@PathVariable Long id) {
-
-        // TODO: implementar
-
+    @DeleteMapping("/{imovelId}")
+    public ResponseEntity<Void> desfavoritar(@PathVariable Long imovelId) {
+        favoritoService.desfavoritar(imovelId);
         return ResponseEntity.noContent().build();
     }
 
