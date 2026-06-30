@@ -20,11 +20,11 @@ TRUNCATE TABLE users RESTART IDENTITY CASCADE;
 -- -----------------------------------------------------------------------------
 
 INSERT INTO users (active, created_ad, email, firstname, lastname, password_hash) VALUES
-    (true, NOW(), 'maria@primelar.com',   'Maria',   'Souza',    '$2a$10$gtj6san1ZfQYUmqk3qMYe.fWHeWtuL1ji6y7m7KnxZvmtAAkIzACm'),
-    (true, NOW(), 'carlos@primelar.com',  'Carlos',  'Lima',     '$2a$10$gtj6san1ZfQYUmqk3qMYe.fWHeWtuL1ji6y7m7KnxZvmtAAkIzACm'),
-    (true, NOW(), 'ana@primelar.com',     'Ana',     'Costa',    '$2a$10$gtj6san1ZfQYUmqk3qMYe.fWHeWtuL1ji6y7m7KnxZvmtAAkIzACm'),
-    (true, NOW(), 'roberto@primelar.com', 'Roberto', 'Dias',     '$2a$10$gtj6san1ZfQYUmqk3qMYe.fWHeWtuL1ji6y7m7KnxZvmtAAkIzACm'),
-    (true, NOW(), 'admin@primelar.com',   'Admin',   'PrimeLar', '$2a$10$nccxj1v6ZYMvJs./CZGyJeVZkTu0d0JExkzhTjRjuE2GkJR0u9DMa');
+    (true, NOW(), 'maria@primelar.com',   'Maria',   'Souza',    '$2a$10$lokD42libr3hGhGYcg9XeurVUnds5nilbFJsebYCKp9VIZqNd7GAa'),
+    (true, NOW(), 'carlos@primelar.com',  'Carlos',  'Lima',     '$2a$10$MM639QS4noGLjYhel2QtxepTnyFsrc23VOXc9389svisdwtryXDTG'),
+    (true, NOW(), 'ana@primelar.com',     'Ana',     'Costa',    '$2a$10$woVer/ZKuDHEB3GlBXoE..IdyHxPbkhjlROz690U.P2daWziul/GW'),
+    (true, NOW(), 'roberto@primelar.com', 'Roberto', 'Dias',     '$2a$10$32tTpcFEzcWD5DR/4bPLv.OLn9Hq7RnEjZtyXrUKKg5AvTSZcbFw.'),
+    (true, NOW(), 'admin@primelar.com',   'Admin',   'PrimeLar', '$2a$10$.ShbxPaTIM6LIRm28Ky1w.puo.yxiJXazeNt/i9kqeBWyUYuJr.Tm');
 
 -- Roles
 INSERT INTO user_roles (user_id, role_id)
