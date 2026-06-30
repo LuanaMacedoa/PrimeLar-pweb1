@@ -1,4 +1,6 @@
 import { Routes } from '@angular/router';
+import { authGuard } from './guards/auth.guard';
+import { roleGuard } from './guards/role.guard';
 
 export const routes: Routes = [
   {
@@ -11,14 +13,20 @@ export const routes: Routes = [
   },
   {
     path: 'cliente',
+    canActivate: [authGuard, roleGuard],
+    data: { roles: ['USER'] },
     loadComponent: () => import('./pages/cliente/cliente').then((m) => m.ClienteComponent),
   },
   {
     path: 'corretor',
+    canActivate: [authGuard, roleGuard],
+    data: { roles: ['CORRETOR'] },
     loadComponent: () => import('./pages/corretor/corretor').then((m) => m.CorretorComponent),
   },
   {
     path: 'admin',
+    canActivate: [authGuard, roleGuard],
+    data: { roles: ['ADMIN'] },
     loadComponent: () => import('./pages/admin/admin').then((m) => m.AdminComponent),
   },
 
