@@ -24,8 +24,11 @@ import com.primelar.backend.model.entity.User;
 import com.primelar.backend.model.enums.UserRole;
 import com.primelar.backend.repository.RoleRepository;
 import com.primelar.backend.repository.UserRepository;
+import com.primelar.backend.service.ClienteProfileService;
+import com.primelar.backend.service.CorretorProfileService;
 import com.primelar.backend.service.PasswordResetService;
 
+import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 
 @RestController
@@ -38,6 +41,8 @@ public class AuthController {
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
     private final PasswordResetService passwordResetService;
+    private final ClienteProfileService clienteProfileService;
+    private final CorretorProfileService corretorProfileService;
 
     public AuthController(
         AuthenticationManager authenticationManager,
@@ -45,7 +50,9 @@ public class AuthController {
         UserRepository userRepository,
         RoleRepository roleRepository,
         PasswordEncoder passwordEncoder,
-        PasswordResetService passwordResetService
+        PasswordResetService passwordResetService,
+        ClienteProfileService clienteProfileService,
+        CorretorProfileService corretorProfileService
     ) {
         this.authenticationManager = authenticationManager;
         this.tokenService = tokenService;
@@ -53,6 +60,8 @@ public class AuthController {
         this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
         this.passwordResetService = passwordResetService;
+        this.clienteProfileService = clienteProfileService;
+        this.corretorProfileService = corretorProfileService;
     }
 
     @PostMapping("/login")
@@ -66,6 +75,7 @@ public class AuthController {
         return ResponseEntity.ok(new LoginResponse(user.getFirstname(), token));
     }
 
+    @Transactional
     @PostMapping("/register")
     public ResponseEntity<RegisterResponse> register(@RequestBody @Valid RegisterRequest dados) {
         if (userRepository.findByEmail(dados.getEmail()).isPresent()) {
@@ -87,6 +97,12 @@ public class AuthController {
         novoUsuario.setRoles(new java.util.HashSet<>(java.util.Set.of(userRole)));
 
         userRepository.save(novoUsuario);
+
+        if (selectedRole == UserRole.CORRETOR) {
+            corretorProfileService.criarPerfilVazio(novoUsuario);
+        } else {
+            clienteProfileService.criarPerfilVazio(novoUsuario);
+        }
 
         String token = tokenService.generateToken(novoUsuario);
         return ResponseEntity.status(HttpStatus.CREATED)
