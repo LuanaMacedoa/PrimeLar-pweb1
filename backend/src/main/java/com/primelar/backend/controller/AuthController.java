@@ -1,10 +1,14 @@
 package com.primelar.backend.controller;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,10 +17,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.primelar.backend.config.security.TokenService;
-import com.primelar.backend.model.dto.request.LoginRequest;
-import com.primelar.backend.model.dto.request.RegisterRequest;
 import com.primelar.backend.model.dto.auth.ForgotPasswordRequest;
 import com.primelar.backend.model.dto.auth.ResetPasswordRequest;
+import com.primelar.backend.model.dto.request.LoginRequest;
+import com.primelar.backend.model.dto.request.RegisterRequest;
 import com.primelar.backend.model.dto.response.LoginResponse;
 import com.primelar.backend.model.dto.response.RegisterResponse;
 import com.primelar.backend.model.entity.Role;
@@ -71,8 +75,23 @@ public class AuthController {
         );
         var auth = authenticationManager.authenticate(credenciais);
         User user = (User) auth.getPrincipal();
+
+        if (Boolean.FALSE.equals(user.getActive())) {
+            throw new BadCredentialsException("Conta desativada. Entre em contato com o suporte.");
+        }
+
+        Instant expiresAt = tokenService.expiresAt();
         String token = tokenService.generateToken(user);
-        return ResponseEntity.ok(new LoginResponse(user.getFirstname(), token));
+        Set<String> roles = user.getRoles().stream().map(Role::getName).collect(Collectors.toSet());
+
+        return ResponseEntity.ok(new LoginResponse(
+            user.getId(),
+            user.getFirstname(),
+            user.getEmail(),
+            roles,
+            token,
+            expiresAt
+        ));
     }
 
     @Transactional
@@ -104,9 +123,18 @@ public class AuthController {
             clienteProfileService.criarPerfilVazio(novoUsuario);
         }
 
+        Instant expiresAt = tokenService.expiresAt();
         String token = tokenService.generateToken(novoUsuario);
-        return ResponseEntity.status(HttpStatus.CREATED)
-            .body(new RegisterResponse(novoUsuario.getFirstname(), token));
+        Set<String> roles = novoUsuario.getRoles().stream().map(Role::getName).collect(Collectors.toSet());
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(new RegisterResponse(
+            novoUsuario.getId(),
+            novoUsuario.getFirstname(),
+            novoUsuario.getEmail(),
+            roles,
+            token,
+            expiresAt
+        ));
     }
 
     @PostMapping("/forgot-password")
@@ -116,11 +144,9 @@ public class AuthController {
         } catch (Exception ignored) {
             // Mesmo se o e-mail não existir, retornamos a mesma mensagem
         }
-        return ResponseEntity.ok(
-            "Se o e-mail estiver cadastrado, você receberá um link em breve."
-        );
+        return ResponseEntity.ok("Se o e-mail estiver cadastrado, você receberá um link em breve.");
     }
-    
+
     @PostMapping("/reset-password")
     public ResponseEntity<String> resetPassword(@RequestBody @Valid ResetPasswordRequest request) {
         passwordResetService.confirmarReset(request.token(), request.novaSenha());

@@ -1,21 +1,25 @@
 import { isPlatformBrowser } from '@angular/common';
 import { Injectable, PLATFORM_ID, inject, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable, tap, lastValueFrom } from 'rxjs';
+import { lastValueFrom } from 'rxjs';
 import { environment } from '../environments/environment';
-
-export interface AuthTokens {
-  accessToken: string;
-  refreshToken: string;
-}
 
 export interface Usuario {
   id: number;
   nome: string;
   sobrenome?: string;
   email: string;
-  role?: string; 
+  roles: string[];
   inativo?: boolean;
+}
+
+interface AuthApiResponse {
+  id: number;
+  name: string;
+  email: string;
+  roles: string[];
+  token: string;
+  expiresAt: string;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -24,50 +28,28 @@ export class AuthService {
   private http = inject(HttpClient);
   private platformId = inject(PLATFORM_ID);
   private readonly storageKey = 'primelar:user';
+  private readonly tokenKey = 'primelar:token';
 
-  private accessToken: string | null = null;
-  private refreshToken: string | null = null;
-
-  private isLoggedIn$ = new BehaviorSubject<boolean>(false);
-  isAuthenticated$ = this.isLoggedIn$.asObservable();
-  
   user = signal<Usuario | null>(this.loadUser());
 
-  async login(email: string, password: string): Promise<boolean> {
+  get isLoggedIn(): boolean {
+    return this.user() !== null && this.getAccessToken() !== null;
+  }
+
+  async login(email: string, password: string): Promise<string | null> {
     try {
       const response = await lastValueFrom(
-        this.http.post<{ name: string; token: string }>(`${this.API}/auth/login`, { email, password })
+        this.http.post<AuthApiResponse>(`${this.API}/auth/login`, { email, password })
       );
-      if (response && response.token) {
-        this.accessToken = response.token;
-        this.isLoggedIn$.next(true);
-        const usuario: Usuario = {
-          id: 0,
-          nome: response.name,
-          email: email,
-          role: 'USER'
-        };
-        this.user.set(usuario);
-        this.persistUser(usuario);
-        return true;
+      if (response?.token) {
+        this.applySession(response);
+        return response.roles[0] ?? 'USER';
       }
-      return false;
+      return null;
     } catch (error) {
       console.error('Login error:', error);
-      return false;
+      return null;
     }
-  }
-
-  logout(): void {
-    this.clearLocalSession();
-  }
-
-  private clearLocalSession(): void {
-    this.accessToken = null;
-    this.refreshToken = null;
-    this.isLoggedIn$.next(false);
-    this.user.set(null);
-    this.persistUser(null);
   }
 
   async register(data: {
@@ -75,35 +57,34 @@ export class AuthService {
     sobrenome: string;
     email: string;
     senha: string;
-  }): Promise<boolean> {
+  }): Promise<string | null> {
     try {
       const payload = {
         firstname: data.nome,
         lastname: data.sobrenome,
         email: data.email,
-        password: data.senha
+        password: data.senha,
       };
       const response = await lastValueFrom(
-        this.http.post<{ name: string; token: string }>(`${this.API}/auth/register`, payload)
+        this.http.post<AuthApiResponse>(`${this.API}/auth/register`, payload)
       );
-      if (response && response.token) {
-        this.accessToken = response.token;
-        this.isLoggedIn$.next(true);
-        const usuario: Usuario = {
-          id: 0,
-          nome: response.name,
-          email: data.email,
-          role: 'USER'
-        };
-        this.user.set(usuario);
-        this.persistUser(usuario);
-        return true;
+      if (response?.token) {
+        this.applySession(response);
+        return response.roles[0] ?? 'USER';
       }
-      return false;
+      return null;
     } catch (error) {
       console.error('Registration error:', error);
-      return false;
+      return null;
     }
+  }
+
+  logout(): void {
+    if (isPlatformBrowser(this.platformId)) {
+      sessionStorage.removeItem(this.storageKey);
+      sessionStorage.removeItem(this.tokenKey);
+    }
+    this.user.set(null);
   }
 
   async deactivateAccount(): Promise<boolean> {
@@ -111,30 +92,31 @@ export class AuthService {
     return true;
   }
 
-  refresh(): Observable<AuthTokens> {
-    return this.http.post<AuthTokens>(`${this.API}/auth/refresh`, {
-      refreshToken: this.refreshToken
-    }).pipe(
-      tap(tokens => this.setTokens(tokens))
-    );
-  }
-
   getAccessToken(): string | null {
-    return this.accessToken;
+    if (!isPlatformBrowser(this.platformId)) return null;
+    return sessionStorage.getItem(this.tokenKey);
   }
 
-  private setTokens(tokens: AuthTokens): void {
-    this.accessToken = tokens.accessToken;
-    this.refreshToken = tokens.refreshToken;
-    this.isLoggedIn$.next(true);
+  private applySession(response: AuthApiResponse): void {
+    const usuario: Usuario = {
+      id: response.id,
+      nome: response.name,
+      email: response.email,
+      roles: response.roles,
+    };
+    this.user.set(usuario);
+    this.persistUser(usuario);
+    if (isPlatformBrowser(this.platformId)) {
+      sessionStorage.setItem(this.tokenKey, response.token);
+    }
   }
 
   private loadUser(): Usuario | null {
     if (!isPlatformBrowser(this.platformId)) return null;
-    const rawUser = sessionStorage.getItem(this.storageKey);
-    if (!rawUser) return null;
+    const raw = sessionStorage.getItem(this.storageKey);
+    if (!raw) return null;
     try {
-      return JSON.parse(rawUser) as Usuario;
+      return JSON.parse(raw) as Usuario;
     } catch {
       sessionStorage.removeItem(this.storageKey);
       return null;

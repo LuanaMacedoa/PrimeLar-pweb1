@@ -33,9 +33,9 @@ export class AuthComponent {
 
   protected async onLogin(): Promise<void> {
     this.feedback.set('');
-    const ok = await this.authService.login(this.loginData.email, this.loginData.password);
-    if (ok) {
-      this.router.navigateByUrl('/cliente');
+    const role = await this.authService.login(this.loginData.email, this.loginData.password);
+    if (role !== null) {
+      this.router.navigateByUrl(this.routeByRole(role));
     } else {
       this.feedback.set('E-mail ou senha inválidos.');
     }
@@ -47,16 +47,22 @@ export class AuthComponent {
       this.feedback.set('As senhas não coincidem.');
       return;
     }
-    const ok = await this.authService.register({
+    const role = await this.authService.register({
       nome: this.registerData.firstName,
       sobrenome: this.registerData.lastName,
       email: this.registerData.email,
       senha: this.registerData.password,
     });
-    if (ok) {
-      this.router.navigateByUrl('/cliente');
+    if (role !== null) {
+      this.router.navigateByUrl(this.routeByRole(role));
     } else {
       this.feedback.set('Erro ao criar conta. Tente novamente.');
     }
+  }
+
+  private routeByRole(role: string): string {
+    if (role === 'CORRETOR') return '/corretor';
+    if (role === 'ADMIN') return '/admin';
+    return '/cliente';
   }
 }

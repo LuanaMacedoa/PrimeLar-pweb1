@@ -16,47 +16,38 @@ import com.primelar.backend.model.entity.User;
 @Service
 public class TokenService {
 
+    private static final int TOKEN_HOURS = 8;
+
     @Value("${api.security.token.secret}")
     public String secret;
 
-    public String generateToken(User user){
+    public String generateToken(User user) {
         try {
             Algorithm algorithm = Algorithm.HMAC256(secret);
-
-            String token = JWT.create()
-            .withIssuer("login-auth-token")
-            .withSubject(user.getEmail())
-            .withExpiresAt(this.generateExpirationDate())
-            .sign(algorithm);
-
-            return token;
-            
+            return JWT.create()
+                    .withIssuer("login-auth-token")
+                    .withSubject(user.getEmail())
+                    .withExpiresAt(expiresAt())
+                    .sign(algorithm);
         } catch (JWTCreationException exception) {
-            throw new RuntimeException("Error  while authenticating");
+            throw new RuntimeException("Erro ao gerar token de autenticação");
         }
     }
 
-    public String validateToken(String token){
-        try{
+    public String validateToken(String token) {
+        try {
             Algorithm algorithm = Algorithm.HMAC256(secret);
-
             return JWT.require(algorithm)
                     .withIssuer("login-auth-token")
                     .build()
                     .verify(token)
                     .getSubject();
-        } catch(JWTVerificationException exception){
+        } catch (JWTVerificationException exception) {
             return null;
         }
-
     }
 
-    private Instant generateExpirationDate(){
-        return LocalDateTime.now().plusHours(8).toInstant(ZoneOffset.of("-3"));
-    }
-
-    public String generateRefreshToken(User user) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'generateRefreshToken'");
+    public Instant expiresAt() {
+        return LocalDateTime.now().plusHours(TOKEN_HOURS).toInstant(ZoneOffset.of("-3"));
     }
 }
