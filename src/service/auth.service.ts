@@ -20,7 +20,7 @@ export interface Usuario {
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  private readonly API = environment.supabaseUrl || 'http://localhost:8080';
+  private readonly API = environment.apiUrl;
   private http = inject(HttpClient);
   private platformId = inject(PLATFORM_ID);
   private readonly storageKey = 'primelar:user';

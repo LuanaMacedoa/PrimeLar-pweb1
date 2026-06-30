@@ -1,5 +1,4 @@
 export const environment = {
   production: true,
-  supabaseUrl: '',
-  supabaseKey: '',
+  apiUrl: 'http://localhost:8080',
 };
