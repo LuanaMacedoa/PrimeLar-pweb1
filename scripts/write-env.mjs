@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
-const outputPath = path.join(process.cwd(), 'src/environments/environment.runtime.ts');
+const outputPath = path.join(process.cwd(), 'src/environments/environment.ts');
 
 const existingContent = fs.existsSync(outputPath)
   ? fs.readFileSync(outputPath, 'utf8')
@@ -20,7 +20,7 @@ const supabaseUrl = process.env.SUPABASE_URL?.trim() || 'https://gwwzahbscsijbeh
 const supabaseKey = process.env.SUPABASE_KEY?.trim() || 'REPLACE_WITH_SUPABASE_ANON_KEY';
 
 const content = `export const environment = {
-  production: false,
+  production: true,
   supabaseUrl: '${supabaseUrl}',
   supabaseKey: '${supabaseKey}',
 };
