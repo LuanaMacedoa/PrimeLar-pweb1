@@ -13,7 +13,7 @@ FROM eclipse-temurin:21-jre-alpine
 
 WORKDIR /app
 
-RUN addgroup -S spring && adduser -S spring -G spring
+RUN addgroup -S spring && adduser -S spring -G spring && mkdir -p /app/logs && chown spring:spring /app/logs
 
 USER spring:spring
 
