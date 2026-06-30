@@ -1,3 +1,13 @@
 package com.primelar.backend.model.dto.response;
 
-public record LoginResponse(String name, String token) {}
+import java.time.Instant;
+import java.util.Set;
+
+public record LoginResponse(
+    Long id,
+    String name,
+    String email,
+    Set<String> roles,
+    String token,
+    Instant expiresAt
+) {}

@@ -1,15 +1,9 @@
-import { Injectable } from '@angular/core';
-import { createClient, SupabaseClient } from '@supabase/supabase-js';
+import { Injectable, inject } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../environments/environment';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable({ providedIn: 'root' })
 export class DatabaseService {
-  private readonly apiUrl = 'https://gwwzahbscsijbehvxlgz.supabase.co';
-  private readonly apiKey = 'sb_publishable_mX-d5Z2qs5uApfiUBUxjGg_pLrJw11H';
-
-  public supabase: SupabaseClient = createClient(
-    this.apiUrl,
-    this.apiKey
-  );
+  readonly http = inject(HttpClient);
+  readonly apiUrl = environment.apiUrl;
 }

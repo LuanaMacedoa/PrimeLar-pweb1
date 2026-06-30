@@ -1,70 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
 
-    <!-- Importa as configurações padrão do Spring Boot -->
     <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
 
-    <!-- ═══════════════════════════════════════════════════ -->
-    <!-- APPENDER DE CONSOLE — exibe logs no terminal        -->
-    <!-- ═══════════════════════════════════════════════════ -->
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
-            <!--
-                Formato estruturado com correlationId:
-                [DATA HORA] [NIVEL] [correlationId] [CLASSE] - MENSAGEM
-
-                %X{correlationId} = pega o valor do MDC com chave "correlationId"
-                %X{httpMethod}    = método HTTP (GET, POST...)
-                %X{requestURI}    = caminho da requisição
-            -->
-            <pattern>
-                %d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level [corrId=%X{correlationId}] [%X{httpMethod} %X{requestURI}] %logger{36} - %msg%n
-            </pattern>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level [corrId=%X{correlationId}] [%X{httpMethod} %X{requestURI}] %logger{36} - %msg%n</pattern>
             <charset>UTF-8</charset>
         </encoder>
     </appender>
 
-    <!-- ═══════════════════════════════════════════════════ -->
-    <!-- APPENDER DE ARQUIVO — salva logs em arquivo         -->
-    <!-- ═══════════════════════════════════════════════════ -->
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <!-- Caminho do arquivo de log -->
         <file>logs/primelar.log</file>
-
-        <!-- Política de rotação: cria novo arquivo todo dia ou quando passar de 10MB -->
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <fileNamePattern>logs/primelar.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
             <timeBasedFileNamingAndTriggeringPolicy
                 class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
                 <maxFileSize>10MB</maxFileSize>
             </timeBasedFileNamingAndTriggeringPolicy>
-            <!-- Mantém logs dos últimos 30 dias -->
             <maxHistory>30</maxHistory>
+            <totalSizeCap>500MB</totalSizeCap>
         </rollingPolicy>
-
         <encoder>
-            <!-- Mesmo formato do console, com correlationId -->
-            <pattern>
-                %d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level [corrId=%X{correlationId}] [%X{httpMethod} %X{requestURI}] %logger{36} - %msg%n
-            </pattern>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level [corrId=%X{correlationId}] [%X{httpMethod} %X{requestURI}] %logger{36} - %msg%n</pattern>
             <charset>UTF-8</charset>
         </encoder>
     </appender>
 
-    <!-- ═══════════════════════════════════════════════════ -->
-    <!-- NÍVEIS DE LOG POR PACOTE                            -->
-    <!-- ═══════════════════════════════════════════════════ -->
+    <!-- Desenvolvimento: logs detalhados -->
+    <springProfile name="!prod">
+        <logger name="com.primelar.backend" level="DEBUG"/>
+        <logger name="org.hibernate.SQL" level="DEBUG"/>
+        <logger name="org.springframework.security" level="INFO"/>
+    </springProfile>
 
-    <!-- Seu código: DEBUG para ver tudo durante desenvolvimento -->
-    <logger name="com.primelar.backend" level="DEBUG"/>
+    <!-- Produção: sem queries SQL, sem detalhes internos -->
+    <springProfile name="prod">
+        <logger name="com.primelar.backend" level="INFO"/>
+        <logger name="org.hibernate.SQL" level="WARN"/>
+        <logger name="org.springframework.security" level="WARN"/>
+    </springProfile>
 
-    <!-- Spring Security: INFO para não poluir com mensagens internas -->
-    <logger name="org.springframework.security" level="INFO"/>
-
-    <!-- Hibernate/JPA: mostra as queries SQL -->
-    <logger name="org.hibernate.SQL" level="DEBUG"/>
-
-    <!-- Root: nível padrão para todo o resto -->
     <root level="INFO">
         <appender-ref ref="CONSOLE"/>
         <appender-ref ref="FILE"/>
