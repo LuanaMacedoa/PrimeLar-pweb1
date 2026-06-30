@@ -1,6 +1,6 @@
 import { isPlatformBrowser } from '@angular/common';
 import { Injectable, PLATFORM_ID, inject, signal } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { lastValueFrom } from 'rxjs';
 import { environment } from '../environments/environment';
 
@@ -36,20 +36,19 @@ export class AuthService {
     return this.user() !== null && this.getAccessToken() !== null;
   }
 
-  async login(email: string, password: string): Promise<string | null> {
-    try {
-      const response = await lastValueFrom(
-        this.http.post<AuthApiResponse>(`${this.API}/auth/login`, { email, password })
-      );
-      if (response?.token) {
-        this.applySession(response);
-        return response.roles[0] ?? 'USER';
-      }
-      return null;
-    } catch (error) {
-      console.error('Login error:', error);
-      return null;
+  async login(email: string, password: string): Promise<string> {
+    const response = await lastValueFrom(
+      this.http.post<AuthApiResponse>(`${this.API}/auth/login`, { email, password })
+    ).catch((error: unknown) => {
+      throw new Error(this.extractMessage(error, 'E-mail ou senha inválidos.'));
+    });
+
+    if (!response?.token) {
+      throw new Error('Resposta inválida do servidor.');
     }
+
+    this.applySession(response);
+    return response.roles[0] ?? 'USER';
   }
 
   async register(data: {
@@ -57,26 +56,33 @@ export class AuthService {
     sobrenome: string;
     email: string;
     senha: string;
-  }): Promise<string | null> {
-    try {
-      const payload = {
-        firstname: data.nome,
-        lastname: data.sobrenome,
-        email: data.email,
-        password: data.senha,
-      };
-      const response = await lastValueFrom(
-        this.http.post<AuthApiResponse>(`${this.API}/auth/register`, payload)
-      );
-      if (response?.token) {
-        this.applySession(response);
-        return response.roles[0] ?? 'USER';
-      }
-      return null;
-    } catch (error) {
-      console.error('Registration error:', error);
-      return null;
+  }): Promise<string> {
+    const payload = {
+      firstname: data.nome,
+      lastname: data.sobrenome,
+      email: data.email,
+      password: data.senha,
+    };
+
+    const response = await lastValueFrom(
+      this.http.post<AuthApiResponse>(`${this.API}/auth/register`, payload)
+    ).catch((error: unknown) => {
+      throw new Error(this.extractMessage(error, 'Erro ao criar conta. Tente novamente.'));
+    });
+
+    if (!response?.token) {
+      throw new Error('Resposta inválida do servidor.');
     }
+
+    this.applySession(response);
+    return response.roles[0] ?? 'USER';
+  }
+
+  private extractMessage(error: unknown, fallback: string): string {
+    if (error instanceof HttpErrorResponse) {
+      return error.error?.message ?? fallback;
+    }
+    return fallback;
   }
 
   logout(): void {

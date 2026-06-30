@@ -27,9 +27,9 @@ import com.primelar.backend.model.entity.Role;
 import com.primelar.backend.model.entity.User;
 import com.primelar.backend.model.enums.UserRole;
 import com.primelar.backend.repository.RoleRepository;
+
 import com.primelar.backend.repository.UserRepository;
 import com.primelar.backend.service.ClienteProfileService;
-import com.primelar.backend.service.CorretorProfileService;
 import com.primelar.backend.service.PasswordResetService;
 
 import jakarta.transaction.Transactional;
@@ -46,7 +46,6 @@ public class AuthController {
     private final PasswordEncoder passwordEncoder;
     private final PasswordResetService passwordResetService;
     private final ClienteProfileService clienteProfileService;
-    private final CorretorProfileService corretorProfileService;
 
     public AuthController(
         AuthenticationManager authenticationManager,
@@ -55,8 +54,7 @@ public class AuthController {
         RoleRepository roleRepository,
         PasswordEncoder passwordEncoder,
         PasswordResetService passwordResetService,
-        ClienteProfileService clienteProfileService,
-        CorretorProfileService corretorProfileService
+        ClienteProfileService clienteProfileService
     ) {
         this.authenticationManager = authenticationManager;
         this.tokenService = tokenService;
@@ -65,7 +63,6 @@ public class AuthController {
         this.passwordEncoder = passwordEncoder;
         this.passwordResetService = passwordResetService;
         this.clienteProfileService = clienteProfileService;
-        this.corretorProfileService = corretorProfileService;
     }
 
     @PostMapping("/login")
@@ -109,19 +106,13 @@ public class AuthController {
         novoUsuario.setCreatedAd(LocalDateTime.now());
         novoUsuario.setActive(true);
 
-        UserRole selectedRole = dados.getRole() != null ? dados.getRole() : UserRole.USER;
-
-        Role userRole = roleRepository.findByName(selectedRole.name())
-            .orElseThrow(() -> new RuntimeException("Role " + selectedRole.name() + " não encontrada."));
+        Role userRole = roleRepository.findByName(UserRole.USER.name())
+            .orElseThrow(() -> new RuntimeException("Role USER não encontrada."));
         novoUsuario.setRoles(new java.util.HashSet<>(java.util.Set.of(userRole)));
 
         userRepository.save(novoUsuario);
 
-        if (selectedRole == UserRole.CORRETOR) {
-            corretorProfileService.criarPerfilVazio(novoUsuario);
-        } else {
-            clienteProfileService.criarPerfilVazio(novoUsuario);
-        }
+        clienteProfileService.criarPerfilVazio(novoUsuario);
 
         Instant expiresAt = tokenService.expiresAt();
         String token = tokenService.generateToken(novoUsuario);

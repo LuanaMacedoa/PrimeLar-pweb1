@@ -1,0 +1,477 @@
+{
+  "info": {
+    "name": "PrimeLar API",
+    "description": "Coleção completa da API REST do PrimeLar",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8080",
+      "type": "string"
+    },
+    {
+      "key": "token",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "url": {
+              "raw": "{{base_url}}/auth/login",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "login"]
+            },
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "options": { "raw": { "language": "json" } },
+              "raw": "{\n  \"email\": \"usuario@email.com\",\n  \"password\": \"senha1234\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Registrar — Cliente (USER)",
+          "request": {
+            "method": "POST",
+            "url": {
+              "raw": "{{base_url}}/auth/register",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "register"]
+            },
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "options": { "raw": { "language": "json" } },
+              "raw": "{\n  \"firstname\": \"João\",\n  \"lastname\": \"Silva\",\n  \"email\": \"joao@email.com\",\n  \"password\": \"senha1234\",\n  \"role\": \"USER\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Registrar — Corretor",
+          "request": {
+            "method": "POST",
+            "url": {
+              "raw": "{{base_url}}/auth/register",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "register"]
+            },
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "options": { "raw": { "language": "json" } },
+              "raw": "{\n  \"firstname\": \"Maria\",\n  \"lastname\": \"Oliveira\",\n  \"email\": \"maria.corretor@email.com\",\n  \"password\": \"senha1234\",\n  \"role\": \"CORRETOR\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Esqueci a senha",
+          "request": {
+            "method": "POST",
+            "url": {
+              "raw": "{{base_url}}/auth/forgot-password",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "forgot-password"]
+            },
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "options": { "raw": { "language": "json" } },
+              "raw": "{\n  \"email\": \"usuario@email.com\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Redefinir senha",
+          "request": {
+            "method": "POST",
+            "url": {
+              "raw": "{{base_url}}/auth/reset-password",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "reset-password"]
+            },
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "options": { "raw": { "language": "json" } },
+              "raw": "{\n  \"token\": \"TOKEN_RECEBIDO_NO_EMAIL\",\n  \"novaSenha\": \"novaSenha1234\"\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Password Reset (rota alternativa)",
+      "item": [
+        {
+          "name": "Esqueci a senha",
+          "request": {
+            "method": "POST",
+            "url": {
+              "raw": "{{base_url}}/password/forgot",
+              "host": ["{{base_url}}"],
+              "path": ["password", "forgot"]
+            },
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "options": { "raw": { "language": "json" } },
+              "raw": "{\n  \"email\": \"usuario@email.com\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Redefinir senha",
+          "request": {
+            "method": "POST",
+            "url": {
+              "raw": "{{base_url}}/password/reset",
+              "host": ["{{base_url}}"],
+              "path": ["password", "reset"]
+            },
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "options": { "raw": { "language": "json" } },
+              "raw": "{\n  \"token\": \"TOKEN_RECEBIDO_NO_EMAIL\",\n  \"newPassword\": \"novaSenha1234\"\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Imóveis",
+      "item": [
+        {
+          "name": "Listar todos",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/imoveis",
+              "host": ["{{base_url}}"],
+              "path": ["imoveis"]
+            },
+            "header": []
+          }
+        },
+        {
+          "name": "Buscar por ID",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/imoveis/1",
+              "host": ["{{base_url}}"],
+              "path": ["imoveis", "1"]
+            },
+            "header": []
+          }
+        },
+        {
+          "name": "Cadastrar (ADMIN)",
+          "request": {
+            "method": "POST",
+            "url": {
+              "raw": "{{base_url}}/imoveis",
+              "host": ["{{base_url}}"],
+              "path": ["imoveis"]
+            },
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "options": { "raw": { "language": "json" } },
+              "raw": "{\n  \"titulo\": \"Apartamento 3 quartos Centro\",\n  \"descricao\": \"Apartamento amplo com varanda, próximo ao metrô.\",\n  \"preco\": 350000.00,\n  \"cidade\": \"São Paulo\",\n  \"bairro\": \"Centro\",\n  \"endereco\": \"Rua das Flores, 100, Apto 42\",\n  \"quartos\": 3,\n  \"banheiros\": 2,\n  \"vagas\": 1,\n  \"caminhoImagem\": \"https://exemplo.com/imagem.jpg\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Atualizar (ADMIN)",
+          "request": {
+            "method": "PUT",
+            "url": {
+              "raw": "{{base_url}}/imoveis/1",
+              "host": ["{{base_url}}"],
+              "path": ["imoveis", "1"]
+            },
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "options": { "raw": { "language": "json" } },
+              "raw": "{\n  \"titulo\": \"Apartamento 3 quartos Centro — Atualizado\",\n  \"descricao\": \"Descrição atualizada.\",\n  \"preco\": 370000.00,\n  \"cidade\": \"São Paulo\",\n  \"bairro\": \"Centro\",\n  \"endereco\": \"Rua das Flores, 100, Apto 42\",\n  \"quartos\": 3,\n  \"banheiros\": 2,\n  \"vagas\": 2,\n  \"caminhoImagem\": \"https://exemplo.com/imagem-nova.jpg\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Excluir (ADMIN)",
+          "request": {
+            "method": "DELETE",
+            "url": {
+              "raw": "{{base_url}}/imoveis/1",
+              "host": ["{{base_url}}"],
+              "path": ["imoveis", "1"]
+            },
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Favoritos",
+      "item": [
+        {
+          "name": "Listar meus favoritos",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/favoritos",
+              "host": ["{{base_url}}"],
+              "path": ["favoritos"]
+            },
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ]
+          }
+        },
+        {
+          "name": "Favoritar imóvel",
+          "request": {
+            "method": "POST",
+            "url": {
+              "raw": "{{base_url}}/favoritos",
+              "host": ["{{base_url}}"],
+              "path": ["favoritos"]
+            },
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "options": { "raw": { "language": "json" } },
+              "raw": "{\n  \"imovelId\": 1\n}"
+            }
+          }
+        },
+        {
+          "name": "Desfavoritar imóvel",
+          "request": {
+            "method": "DELETE",
+            "url": {
+              "raw": "{{base_url}}/favoritos/1",
+              "host": ["{{base_url}}"],
+              "path": ["favoritos", "1"]
+            },
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Clientes (perfil)",
+      "item": [
+        {
+          "name": "Ver meu perfil",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/clientes/perfil",
+              "host": ["{{base_url}}"],
+              "path": ["clientes", "perfil"]
+            },
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ]
+          }
+        },
+        {
+          "name": "Atualizar meu perfil",
+          "request": {
+            "method": "PUT",
+            "url": {
+              "raw": "{{base_url}}/clientes/perfil",
+              "host": ["{{base_url}}"],
+              "path": ["clientes", "perfil"]
+            },
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "options": { "raw": { "language": "json" } },
+              "raw": "{\n  \"telefone\": \"(11) 91234-5678\",\n  \"cpf\": \"123.456.789-00\",\n  \"preferencias\": \"Apartamentos, 2 quartos, próximo a metrô\"\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Corretores (perfil)",
+      "item": [
+        {
+          "name": "Ver perfil público por ID",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/corretores/1",
+              "host": ["{{base_url}}"],
+              "path": ["corretores", "1"]
+            },
+            "header": []
+          }
+        },
+        {
+          "name": "Ver meu perfil (CORRETOR)",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/corretores/perfil",
+              "host": ["{{base_url}}"],
+              "path": ["corretores", "perfil"]
+            },
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ]
+          }
+        },
+        {
+          "name": "Atualizar meu perfil (CORRETOR)",
+          "request": {
+            "method": "PUT",
+            "url": {
+              "raw": "{{base_url}}/corretores/perfil",
+              "host": ["{{base_url}}"],
+              "path": ["corretores", "perfil"]
+            },
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "options": { "raw": { "language": "json" } },
+              "raw": "{\n  \"creci\": \"123456-SP\",\n  \"telefone\": \"(11) 98765-4321\",\n  \"bio\": \"Corretor com 10 anos de experiência no mercado imobiliário paulistano.\"\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Usuários — Admin",
+      "item": [
+        {
+          "name": "Listar todos",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/users",
+              "host": ["{{base_url}}"],
+              "path": ["users"]
+            },
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ]
+          }
+        },
+        {
+          "name": "Buscar por ID",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/users/1",
+              "host": ["{{base_url}}"],
+              "path": ["users", "1"]
+            },
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ]
+          }
+        },
+        {
+          "name": "Criar usuário",
+          "request": {
+            "method": "POST",
+            "url": {
+              "raw": "{{base_url}}/users",
+              "host": ["{{base_url}}"],
+              "path": ["users"]
+            },
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "options": { "raw": { "language": "json" } },
+              "raw": "{\n  \"firstname\": \"Carlos\",\n  \"lastname\": \"Mendes\",\n  \"email\": \"carlos@email.com\",\n  \"password\": \"senha1234\",\n  \"role\": \"USER\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Atualizar usuário",
+          "request": {
+            "method": "PUT",
+            "url": {
+              "raw": "{{base_url}}/users/1",
+              "host": ["{{base_url}}"],
+              "path": ["users", "1"]
+            },
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "options": { "raw": { "language": "json" } },
+              "raw": "{\n  \"firstname\": \"Carlos\",\n  \"lastname\": \"Mendes\",\n  \"email\": \"carlos.novo@email.com\",\n  \"password\": \"novaSenha1234\",\n  \"role\": \"USER\",\n  \"active\": true\n}"
+            }
+          }
+        },
+        {
+          "name": "Excluir usuário",
+          "request": {
+            "method": "DELETE",
+            "url": {
+              "raw": "{{base_url}}/users/1",
+              "host": ["{{base_url}}"],
+              "path": ["users", "1"]
+            },
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

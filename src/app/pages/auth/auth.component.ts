@@ -12,10 +12,11 @@ import { AuthService } from '../../../service/auth.service';
 })
 export class AuthComponent {
   private authService = inject(AuthService);
-  private router = inject(Router);
+  protected router = inject(Router);
 
   protected activeTab = signal<'login' | 'register'>('login');
   protected feedback = signal<string>('');
+  protected isLoading = signal<boolean>(false);
 
   protected loginData = { email: '', password: '' };
   protected registerData = {
@@ -33,11 +34,14 @@ export class AuthComponent {
 
   protected async onLogin(): Promise<void> {
     this.feedback.set('');
-    const role = await this.authService.login(this.loginData.email, this.loginData.password);
-    if (role !== null) {
+    this.isLoading.set(true);
+    try {
+      const role = await this.authService.login(this.loginData.email, this.loginData.password);
       this.router.navigateByUrl(this.routeByRole(role));
-    } else {
-      this.feedback.set('E-mail ou senha inválidos.');
+    } catch (err) {
+      this.feedback.set(err instanceof Error ? err.message : 'E-mail ou senha inválidos.');
+    } finally {
+      this.isLoading.set(false);
     }
   }
 
@@ -47,16 +51,19 @@ export class AuthComponent {
       this.feedback.set('As senhas não coincidem.');
       return;
     }
-    const role = await this.authService.register({
-      nome: this.registerData.firstName,
-      sobrenome: this.registerData.lastName,
-      email: this.registerData.email,
-      senha: this.registerData.password,
-    });
-    if (role !== null) {
+    this.isLoading.set(true);
+    try {
+      const role = await this.authService.register({
+        nome: this.registerData.firstName,
+        sobrenome: this.registerData.lastName,
+        email: this.registerData.email,
+        senha: this.registerData.password,
+      });
       this.router.navigateByUrl(this.routeByRole(role));
-    } else {
-      this.feedback.set('Erro ao criar conta. Tente novamente.');
+    } catch (err) {
+      this.feedback.set(err instanceof Error ? err.message : 'Erro ao criar conta. Tente novamente.');
+    } finally {
+      this.isLoading.set(false);
     }
   }
 
