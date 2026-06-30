@@ -1,7 +1,7 @@
 -- =============================================================================
 -- SEED DE USUÁRIOS PARA DESENVOLVIMENTO / TESTES
 -- Execute manualmente no banco: psql -h localhost -p 5433 -U primelar -d primelar
--- Senhas geradas com BCrypt custo 10 (compatível com Spring Security)
+-- Senhas geradas com BCrypt custo 10, prefixo $2a$ (compatível com Spring BCryptPasswordEncoder)
 -- =============================================================================
 
 -- Limpa usuários existentes (CASCADE remove user_roles, profiles, favoritos, tokens)
@@ -20,11 +20,11 @@ TRUNCATE TABLE users RESTART IDENTITY CASCADE;
 -- -----------------------------------------------------------------------------
 
 INSERT INTO users (active, created_ad, email, firstname, lastname, password_hash) VALUES
-    (true, NOW(), 'maria@primelar.com',   'Maria',   'Souza',    '$2b$10$UqMSZCbc2hGwsv2bavmP8O6WH9ktAuDGKICWECkLkzPXAJpdJ6dGq'),
-    (true, NOW(), 'carlos@primelar.com',  'Carlos',  'Lima',     '$2b$10$s1xwa6Z4DQnAb1VJUk7zr.2XWEpXE7zWZNl8/ZbKJQ3MRoq28QD36'),
-    (true, NOW(), 'ana@primelar.com',     'Ana',     'Costa',    '$2b$10$5PJA/vIOXbCSk2Pw6QUh3e/qaGV7VMMYDNS7E5fxEAUTUE4pZfPXG'),
-    (true, NOW(), 'roberto@primelar.com', 'Roberto', 'Dias',     '$2b$10$WroGJvdKlQskbh7pgqlBEuouBdHYrXOo13ZNirVlUh7gq/rMMEj9i'),
-    (true, NOW(), 'admin@primelar.com',   'Admin',   'PrimeLar', '$2b$10$YsULVqUteTmAr73IkEGFrugf1tP27v80X6d6X125HNQNYBKz/fKnC');
+    (true, NOW(), 'maria@primelar.com',   'Maria',   'Souza',    '$2a$10$gtj6san1ZfQYUmqk3qMYe.fWHeWtuL1ji6y7m7KnxZvmtAAkIzACm'),
+    (true, NOW(), 'carlos@primelar.com',  'Carlos',  'Lima',     '$2a$10$gtj6san1ZfQYUmqk3qMYe.fWHeWtuL1ji6y7m7KnxZvmtAAkIzACm'),
+    (true, NOW(), 'ana@primelar.com',     'Ana',     'Costa',    '$2a$10$gtj6san1ZfQYUmqk3qMYe.fWHeWtuL1ji6y7m7KnxZvmtAAkIzACm'),
+    (true, NOW(), 'roberto@primelar.com', 'Roberto', 'Dias',     '$2a$10$gtj6san1ZfQYUmqk3qMYe.fWHeWtuL1ji6y7m7KnxZvmtAAkIzACm'),
+    (true, NOW(), 'admin@primelar.com',   'Admin',   'PrimeLar', '$2a$10$nccxj1v6ZYMvJs./CZGyJeVZkTu0d0JExkzhTjRjuE2GkJR0u9DMa');
 
 -- Roles
 INSERT INTO user_roles (user_id, role_id)
