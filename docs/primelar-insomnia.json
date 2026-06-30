@@ -37,7 +37,7 @@
       "url": "{{ base_url }}/auth/login",
       "body": {
         "mimeType": "application/json",
-        "text": "{\n  \"email\": \"usuario@email.com\",\n  \"password\": \"senha1234\"\n}"
+        "text": "{\n  \"email\": \"maria@primelar.com\",\n  \"password\": \"Senha@123\"\n}"
       },
       "headers": [
         { "name": "Content-Type", "value": "application/json" }
@@ -47,27 +47,12 @@
       "_id": "req_register_user",
       "_type": "request",
       "parentId": "fld_auth",
-      "name": "Registrar — Cliente (USER)",
+      "name": "Registrar (sempre cria USER)",
       "method": "POST",
       "url": "{{ base_url }}/auth/register",
       "body": {
         "mimeType": "application/json",
-        "text": "{\n  \"firstname\": \"João\",\n  \"lastname\": \"Silva\",\n  \"email\": \"joao@email.com\",\n  \"password\": \"senha1234\",\n  \"role\": \"USER\"\n}"
-      },
-      "headers": [
-        { "name": "Content-Type", "value": "application/json" }
-      ]
-    },
-    {
-      "_id": "req_register_corretor",
-      "_type": "request",
-      "parentId": "fld_auth",
-      "name": "Registrar — Corretor",
-      "method": "POST",
-      "url": "{{ base_url }}/auth/register",
-      "body": {
-        "mimeType": "application/json",
-        "text": "{\n  \"firstname\": \"Maria\",\n  \"lastname\": \"Oliveira\",\n  \"email\": \"maria.corretor@email.com\",\n  \"password\": \"senha1234\",\n  \"role\": \"CORRETOR\"\n}"
+        "text": "{\n  \"firstname\": \"João\",\n  \"lastname\": \"Silva\",\n  \"email\": \"joao@email.com\",\n  \"password\": \"Senha@123\"\n}"
       },
       "headers": [
         { "name": "Content-Type", "value": "application/json" }
