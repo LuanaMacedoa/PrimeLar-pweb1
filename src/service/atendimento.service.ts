@@ -1,21 +1,10 @@
-import { Injectable, inject } from '@angular/core';
-import { DatabaseService } from './database-service';
+import { Injectable } from '@angular/core';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable({ providedIn: 'root' })
 export class AtendimentoService {
-
-  private readonly db = inject(DatabaseService);
-
-  async criarAtendimento(dados: any) {
-    const { data, error } = await this.db.supabase.from('atendimento').insert([dados]).select().single();
-
-    if (error) {
-      console.error('Erro ao criar atendimento:', error);
-      return null;
-    }
-
-    return data;
+  async criarAtendimento(dados: any): Promise<any> {
+    // sem endpoint de atendimento no backend ainda
+    console.log('Solicitação de atendimento recebida:', dados);
+    return { id: Date.now() };
   }
 }

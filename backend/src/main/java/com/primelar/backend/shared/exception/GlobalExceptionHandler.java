@@ -172,7 +172,8 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<StandardError> handleGenericException(Exception e, HttpServletRequest request) {
-        log.error("Exceção não tratada: {} - {}", e.getClass().getSimpleName(), e.getMessage(), e);
+        log.warn("Exceção não tratada: {} - {}", e.getClass().getSimpleName(), e.getMessage());
+        log.debug("Stack trace completo:", e);
 
         HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
         StandardError err = StandardError.builder()

@@ -1,98 +1,68 @@
-import { isPlatformBrowser } from '@angular/common';
-import { Injectable, PLATFORM_ID, inject, signal } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable, tap } from 'rxjs';
-import { environment } from '../../../environments/environment';
+import { Component, signal, inject } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
+import { NavbarComponent } from '../../components/layout/navbar/navbar.component';
+import { AuthService } from '../../../service/auth.service';
 
-export interface AuthTokens {
-  accessToken: string;
-  refreshToken: string;
-}
+@Component({
+  selector: 'app-auth',
+  standalone: true,
+  imports: [FormsModule, NavbarComponent],
+  templateUrl: './auth.html',
+})
+export class AuthComponent {
+  private authService = inject(AuthService);
+  private router = inject(Router);
 
-export interface Usuario {
-  id: number;
-  nome: string;
-  sobrenome?: string;
-  email: string;
-  role?: string;
-  inativo?: boolean;
-}
+  protected activeTab = signal<'login' | 'register'>('login');
+  protected feedback = signal<string>('');
 
-@Injectable({ providedIn: 'root' })
-export class AuthService {
-  private readonly API = environment.supabaseUrl;
-  private http = inject(HttpClient);
-  private platformId = inject(PLATFORM_ID);
-  private readonly storageKey = 'primelar:user';
+  protected loginData = { email: '', password: '' };
+  protected registerData = {
+    firstName: '',
+    lastName: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
+  };
 
-  private accessToken: string | null = null;
-  private refreshToken: string | null = null;
-
-  private isLoggedIn$ = new BehaviorSubject<boolean>(false);
-  isAuthenticated$ = this.isLoggedIn$.asObservable();
-  
-  user = signal<Usuario | null>(this.loadUser());
-
-
-  login(credentials: { email: string; password: string }): Observable<AuthTokens> {
-    return this.http.post<AuthTokens>(`${this.API}/auth/login`, credentials).pipe(
-      tap(tokens => {
-        this.setTokens(tokens);
-      })
-    );
+  protected goTo(tab: 'login' | 'register'): void {
+    this.activeTab.set(tab);
+    this.feedback.set('');
   }
 
-  logout(): void {
-    this.http.post(`${this.API}/auth/logout`, {}).subscribe({
-      next: () => this.clearLocalSession(),
-      error: () => this.clearLocalSession()
-    });
-  }
-
-  private clearLocalSession(): void {
-    this.accessToken = null;
-    this.refreshToken = null;
-    this.isLoggedIn$.next(false);
-    this.user.set(null);
-    this.persistUser(null);
-  }
-
-  refresh(): Observable<AuthTokens> {
-    return this.http.post<AuthTokens>(`${this.API}/auth/refresh`, {
-      refreshToken: this.refreshToken
-    }).pipe(
-      tap(tokens => this.setTokens(tokens))
-    );
-  }
-
-  getAccessToken(): string | null {
-    return this.accessToken;
-  }
-
-  private setTokens(tokens: AuthTokens): void {
-    this.accessToken = tokens.accessToken;
-    this.refreshToken = tokens.refreshToken;
-    this.isLoggedIn$.next(true);
-  }
-
-  private loadUser(): Usuario | null {
-    if (!isPlatformBrowser(this.platformId)) return null;
-    const rawUser = sessionStorage.getItem(this.storageKey);
-    if (!rawUser) return null;
-    try {
-      return JSON.parse(rawUser) as Usuario;
-    } catch {
-      sessionStorage.removeItem(this.storageKey);
-      return null;
+  protected async onLogin(): Promise<void> {
+    this.feedback.set('');
+    const role = await this.authService.login(this.loginData.email, this.loginData.password);
+    if (role !== null) {
+      this.router.navigateByUrl(this.routeByRole(role));
+    } else {
+      this.feedback.set('E-mail ou senha inválidos.');
     }
   }
 
-  private persistUser(user: Usuario | null): void {
-    if (!isPlatformBrowser(this.platformId)) return;
-    if (!user) {
-      sessionStorage.removeItem(this.storageKey);
+  protected async onRegister(): Promise<void> {
+    this.feedback.set('');
+    if (this.registerData.password !== this.registerData.confirmPassword) {
+      this.feedback.set('As senhas não coincidem.');
       return;
     }
-    sessionStorage.setItem(this.storageKey, JSON.stringify(user));
+    const role = await this.authService.register({
+      nome: this.registerData.firstName,
+      sobrenome: this.registerData.lastName,
+      email: this.registerData.email,
+      senha: this.registerData.password,
+    });
+    if (role !== null) {
+      this.router.navigateByUrl(this.routeByRole(role));
+    } else {
+      this.feedback.set('Erro ao criar conta. Tente novamente.');
+    }
+  }
+
+  private routeByRole(role: string): string {
+    if (role === 'CORRETOR') return '/corretor';
+    if (role === 'ADMIN') return '/admin';
+    return '/cliente';
   }
 }
