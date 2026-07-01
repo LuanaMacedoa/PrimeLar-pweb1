@@ -1,0 +1,145 @@
+<main class="min-h-screen bg-[#F8F6F2]">
+  <section class="border-b border-amber-100 bg-white px-4 py-8 sm:px-6 lg:px-10">
+    <div class="mx-auto flex max-w-7xl flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+      <div>
+        <a routerLink="/"
+          class="inline-flex min-h-11 items-center justify-center rounded-full border border-amber-200 bg-white px-5 py-2.5 text-sm font-semibold text-amber-800 transition-all hover:-translate-y-0.5 hover:border-amber-700 hover:bg-amber-700 hover:text-white">
+          Voltar para a página inicial
+        </a>
+
+        <h1 class="mt-8 text-4xl font-light tracking-[-0.04em] text-gray-950 sm:text-5xl"
+          style="font-family: 'DM Serif Display', Georgia, serif">
+          Imóveis cadastrados
+        </h1>
+        <p class="mt-4 max-w-2xl text-sm leading-7 text-gray-500 sm:text-base">
+          Consulte todos os imóveis disponíveis e abra qualquer item pelo seu ID para ver os detalhes completos.
+        </p>
+      </div>
+
+      @if (selectedImovel) {
+      <button type="button"
+        class="inline-flex min-h-11 items-center justify-center rounded-full border border-gray-300 bg-white px-5 py-2.5 text-sm font-semibold text-gray-800 transition-all hover:-translate-y-0.5 hover:border-amber-700 hover:bg-amber-700 hover:text-white"
+        (click)="voltarParaLista()">
+        Ver lista completa
+      </button>
+      }
+    </div>
+  </section>
+
+  <section class="px-4 py-12 sm:px-6 lg:px-10 lg:py-16">
+    <div class="mx-auto max-w-7xl">
+      @if (loading) {
+      <div class="rounded-[2rem] border border-amber-100 bg-white p-8 text-sm text-gray-500 shadow-sm">
+        Carregando imóveis...
+      </div>
+      } @else if (errorMessage) {
+      <div class="rounded-[2rem] border border-red-100 bg-red-50 p-8 text-sm text-red-700 shadow-sm">
+        {{ errorMessage }}
+      </div>
+      } @else {
+      @if (selectedImovel) {
+      <div class="grid grid-cols-1 gap-8 lg:grid-cols-12">
+        <article class="overflow-hidden rounded-[2rem] border border-amber-100 bg-white shadow-sm lg:col-span-7">
+          <div class="aspect-[16/10] bg-gray-100">
+            <img [src]="getDetailImage(selectedImovel.caminhoImagem)"
+              [alt]="selectedImovel.titulo" class="h-full w-full object-cover" />
+          </div>
+
+          <div class="p-7 lg:p-8">
+            <div class="flex flex-wrap items-center gap-3 text-xs font-semibold uppercase tracking-[0.18em] text-amber-800">
+              <span class="rounded-full bg-amber-50 px-3 py-1">ID {{ selectedImovel.id }}</span>
+              <span class="rounded-full bg-amber-50 px-3 py-1">{{ selectedImovel.cidade }}</span>
+              <span class="rounded-full bg-amber-50 px-3 py-1">{{ selectedImovel.bairro }}</span>
+            </div>
+
+            <h2 class="mt-5 text-3xl font-semibold tracking-[-0.04em] text-gray-950">
+              {{ selectedImovel.titulo }}
+            </h2>
+            <p class="mt-4 text-sm leading-7 text-gray-500">
+              {{ selectedImovel.descricao || 'Sem descrição cadastrada.' }}
+            </p>
+
+            <div class="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-3">
+              <div class="rounded-3xl bg-amber-50/60 p-4">
+                <p class="text-xs font-semibold uppercase tracking-[0.16em] text-amber-800">Preço</p>
+                <p class="mt-2 text-lg font-semibold text-gray-950">{{ formatCurrency(selectedImovel.preco) }}</p>
+              </div>
+              <div class="rounded-3xl bg-gray-50 p-4">
+                <p class="text-xs font-semibold uppercase tracking-[0.16em] text-gray-500">Quartos</p>
+                <p class="mt-2 text-lg font-semibold text-gray-950">{{ formatRooms(selectedImovel.quartos) }}</p>
+              </div>
+              <div class="rounded-3xl bg-gray-50 p-4">
+                <p class="text-xs font-semibold uppercase tracking-[0.16em] text-gray-500">Banheiros</p>
+                <p class="mt-2 text-lg font-semibold text-gray-950">{{ formatBathrooms(selectedImovel.banheiros) }}</p>
+              </div>
+            </div>
+
+            <div class="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
+              <div class="rounded-3xl bg-gray-50 p-4">
+                <p class="text-xs font-semibold uppercase tracking-[0.16em] text-gray-500">Vagas</p>
+                <p class="mt-2 text-lg font-semibold text-gray-950">{{ formatVacancies(selectedImovel.vagas) }}</p>
+              </div>
+              <div class="rounded-3xl bg-gray-50 p-4">
+                <p class="text-xs font-semibold uppercase tracking-[0.16em] text-gray-500">Endereço</p>
+                <p class="mt-2 text-sm font-medium text-gray-950">
+                  {{ selectedImovel.endereco || 'Não informado' }}
+                </p>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <aside class="lg:col-span-5">
+          <div class="rounded-[2rem] border border-amber-100 bg-white p-6 shadow-sm">
+            <span class="inline-flex rounded-full bg-amber-50 px-4 py-2 text-xs font-semibold uppercase tracking-[0.22em] text-amber-800">
+              Outros imóveis
+            </span>
+            <div class="mt-6 space-y-4">
+              @for (imovel of imoveis; track imovel.id) {
+              <a [routerLink]="['/imoveis', imovel.id]"
+                class="flex items-center gap-4 rounded-3xl border border-gray-100 bg-gray-50 p-4 transition-all hover:-translate-y-0.5 hover:border-amber-200 hover:bg-amber-50">
+                <img [src]="getImage(imovel)" [alt]="imovel.name" class="h-20 w-20 rounded-2xl object-cover" />
+                <div class="min-w-0">
+                  <p class="text-xs font-semibold uppercase tracking-[0.16em] text-amber-800">{{ imovel.category }}</p>
+                  <h3 class="mt-1 truncate text-sm font-semibold text-gray-950">{{ imovel.name }}</h3>
+                  <p class="mt-1 text-xs text-gray-500">{{ imovel.info }}</p>
+                  <p class="mt-2 text-sm font-semibold text-gray-950">{{ imovel.price }}</p>
+                </div>
+              </a>
+              }
+            </div>
+          </div>
+        </aside>
+      </div>
+      } @else {
+      <div class="grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-3">
+        @for (imovel of imoveis; track imovel.id) {
+        <a [routerLink]="['/imoveis', imovel.id]"
+          class="group overflow-hidden rounded-[2rem] border border-amber-100 bg-white shadow-sm transition-all hover:-translate-y-1 hover:shadow-xl">
+          <div class="aspect-[4/3] overflow-hidden bg-gray-100">
+            <img [src]="imovel.image" [alt]="imovel.alt"
+              class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" />
+          </div>
+
+          <div class="p-6">
+            <p class="text-xs font-semibold uppercase tracking-[0.18em] text-amber-800">{{ imovel.category }}</p>
+            <h2 class="mt-2 text-xl font-semibold text-gray-950">{{ imovel.name }}</h2>
+            <p class="mt-2 text-sm leading-6 text-gray-500">{{ imovel.info }}</p>
+
+            <div class="mt-5 flex items-center justify-between gap-3">
+              <span class="rounded-full bg-amber-50 px-3 py-1.5 text-xs font-semibold text-amber-800">
+                {{ imovel.badge }}
+              </span>
+              <strong class="text-base text-gray-950">{{ imovel.price }}</strong>
+            </div>
+          </div>
+        </a>
+        }
+      </div>
+      }
+      }
+    </div>
+  </section>
+
+  <app-footer></app-footer>
+</main>

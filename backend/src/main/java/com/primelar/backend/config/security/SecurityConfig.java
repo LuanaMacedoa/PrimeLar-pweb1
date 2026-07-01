@@ -48,6 +48,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/password/reset").permitAll()
                         // Imóveis — leitura pública, escrita apenas ADMIN
                         .requestMatchers(HttpMethod.GET, "/imoveis", "/imoveis/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/uploads/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/imoveis/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/imoveis/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/imoveis/**").hasRole("ADMIN")
