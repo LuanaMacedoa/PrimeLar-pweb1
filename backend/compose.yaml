@@ -1,18 +1,25 @@
+# Uso: desenvolvimento local do backend (sem Docker para o Spring Boot).
+# Sobe apenas o banco para rodar a aplicação direto pela IDE ou 'mvn spring-boot:run'.
+# Para subir tudo (banco + backend), use o docker-compose.yml na raiz do projeto.
+
 services:
   postgres:
-    image: postgres:latest
+    image: postgres:16-alpine
     container_name: backend-postgres
-
+    restart: unless-stopped
     environment:
       POSTGRES_DB: primelar
       POSTGRES_USER: primelar
-      POSTGRES_PASSWORD: secret
-
+      POSTGRES_PASSWORD: 123456
     ports:
       - "5433:5432"
-
     volumes:
-      - postgres_data:/var/lib/postgresql/
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U primelar -d primelar"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
 
 volumes:
   postgres_data:
