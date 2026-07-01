@@ -8,8 +8,23 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/landing/landing').then((m) => m.LandingComponent),
   },
   {
+    path: 'imoveis',
+    loadComponent: () => import('./pages/imoveis/imoveis.component').then((m) => m.ImoveisComponent),
+  },
+  {
+    path: 'imoveis/:id',
+    loadComponent: () => import('./pages/imoveis/imoveis.component').then((m) => m.ImoveisComponent),
+  },
+  {
     path: 'auth',
     loadComponent: () => import('./pages/auth/auth.component').then((m) => m.AuthComponent),
+  },
+  {
+    path: 'admin/imoveis',
+    canActivate: [authGuard, roleGuard],
+    data: { roles: ['ADMIN'] },
+    loadComponent: () =>
+      import('./pages/admin/imoveis-manager.component').then((m) => m.ImoveisManagerComponent),
   },
   {
     path: 'cliente',

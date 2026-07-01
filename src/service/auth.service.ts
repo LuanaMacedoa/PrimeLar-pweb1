@@ -36,7 +36,7 @@ export class AuthService {
     return this.user() !== null && this.getAccessToken() !== null;
   }
 
-  async login(email: string, password: string, p0: { email: string; password: string; }): Promise<string> {
+  async login(email: string, password: string): Promise<string> {
     const response = await lastValueFrom(
       this.http.post<AuthApiResponse>(`${this.API}/auth/login`, { email, password })
     ).catch((error: unknown) => {

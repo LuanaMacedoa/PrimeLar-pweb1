@@ -33,8 +33,12 @@ services:
       SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER}
       SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD}
       SERVER_PORT: 8080
+      UPLOAD_DIR: /app/uploads
     ports:
       - "${BACKEND_PORT:-8080}:8080"
+    volumes:
+      - backend_uploads:/app/uploads
 
 volumes:
   postgres_data:
+  backend_uploads:

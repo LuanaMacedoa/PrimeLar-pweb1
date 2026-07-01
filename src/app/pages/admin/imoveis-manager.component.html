@@ -1,0 +1,215 @@
+<main class="min-h-screen bg-[#F8F6F2]">
+  <section class="border-b border-amber-100 bg-white px-4 py-8 sm:px-6 lg:px-10">
+    <div class="mx-auto flex max-w-7xl flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+      <div>
+        <a routerLink="/admin"
+          class="inline-flex min-h-11 items-center justify-center rounded-full border border-amber-200 bg-white px-5 py-2.5 text-sm font-semibold text-amber-800 transition-all hover:-translate-y-0.5 hover:border-amber-700 hover:bg-amber-700 hover:text-white">
+          Voltar ao painel administrativo
+        </a>
+
+        <h1 class="mt-8 text-4xl font-light tracking-[-0.04em] text-gray-950 sm:text-5xl"
+          style="font-family: 'DM Serif Display', Georgia, serif">
+          Cadastro e remoção de imóveis
+        </h1>
+        <p class="mt-4 max-w-2xl text-sm leading-7 text-gray-500 sm:text-base">
+          Esta área fecha o módulo de manutenção dos itens, permitindo criar, editar e excluir imóveis pela API REST.
+        </p>
+      </div>
+
+      <a routerLink="/imoveis"
+        class="inline-flex min-h-11 items-center justify-center rounded-full border border-gray-300 bg-white px-5 py-2.5 text-sm font-semibold text-gray-800 transition-all hover:-translate-y-0.5 hover:border-amber-700 hover:bg-amber-700 hover:text-white">
+        Ver lista pública
+      </a>
+    </div>
+  </section>
+
+  <section class="px-4 py-12 sm:px-6 lg:px-10 lg:py-16">
+    <div class="mx-auto grid max-w-7xl grid-cols-1 gap-8 lg:grid-cols-12">
+      <article class="rounded-[2rem] border border-amber-100 bg-white p-6 shadow-sm lg:col-span-5 lg:p-8">
+        <div class="flex items-start justify-between gap-4">
+          <div>
+            <span class="inline-flex rounded-full bg-amber-50 px-4 py-2 text-xs font-semibold uppercase tracking-[0.22em] text-amber-800">
+              Formulário
+            </span>
+            <h2 class="mt-4 text-3xl font-semibold tracking-[-0.04em] text-gray-950">
+              {{ editingId ? 'Editar imóvel' : 'Cadastrar imóvel' }}
+            </h2>
+          </div>
+
+          <button type="button"
+            class="inline-flex min-h-10 items-center justify-center rounded-full border border-gray-200 px-4 py-2 text-sm font-medium text-gray-700 transition-all hover:border-amber-700 hover:bg-amber-700 hover:text-white"
+            (click)="iniciarNovo()">
+            Limpar
+          </button>
+        </div>
+
+        <div class="mt-8 grid grid-cols-1 gap-4">
+          <label class="grid gap-2 text-sm font-medium text-gray-700">
+            Título
+            <input type="text" [(ngModel)]="form.titulo"
+              class="h-12 rounded-2xl border border-gray-200 bg-gray-50 px-4 text-sm outline-none transition-all focus:border-amber-700 focus:bg-white focus:ring-4 focus:ring-amber-700/10" />
+          </label>
+
+          <label class="grid gap-2 text-sm font-medium text-gray-700">
+            Descrição
+            <textarea [(ngModel)]="form.descricao" rows="4"
+              class="rounded-2xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm outline-none transition-all focus:border-amber-700 focus:bg-white focus:ring-4 focus:ring-amber-700/10"></textarea>
+          </label>
+
+          <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+            <label class="grid gap-2 text-sm font-medium text-gray-700">
+              Preço
+              <input type="number" min="0" [(ngModel)]="form.preco"
+                class="h-12 rounded-2xl border border-gray-200 bg-gray-50 px-4 text-sm outline-none transition-all focus:border-amber-700 focus:bg-white focus:ring-4 focus:ring-amber-700/10" />
+            </label>
+
+            <label class="grid gap-2 text-sm font-medium text-gray-700">
+              Cidade
+              <input type="text" [(ngModel)]="form.cidade"
+                class="h-12 rounded-2xl border border-gray-200 bg-gray-50 px-4 text-sm outline-none transition-all focus:border-amber-700 focus:bg-white focus:ring-4 focus:ring-amber-700/10" />
+            </label>
+          </div>
+
+          <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+            <label class="grid gap-2 text-sm font-medium text-gray-700">
+              Bairro
+              <input type="text" [(ngModel)]="form.bairro"
+                class="h-12 rounded-2xl border border-gray-200 bg-gray-50 px-4 text-sm outline-none transition-all focus:border-amber-700 focus:bg-white focus:ring-4 focus:ring-amber-700/10" />
+            </label>
+
+            <label class="grid gap-2 text-sm font-medium text-gray-700">
+              Endereço
+              <input type="text" [(ngModel)]="form.endereco"
+                class="h-12 rounded-2xl border border-gray-200 bg-gray-50 px-4 text-sm outline-none transition-all focus:border-amber-700 focus:bg-white focus:ring-4 focus:ring-amber-700/10" />
+            </label>
+          </div>
+
+          <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
+            <label class="grid gap-2 text-sm font-medium text-gray-700">
+              Quartos
+              <input type="number" min="0" [(ngModel)]="form.quartos"
+                class="h-12 rounded-2xl border border-gray-200 bg-gray-50 px-4 text-sm outline-none transition-all focus:border-amber-700 focus:bg-white focus:ring-4 focus:ring-amber-700/10" />
+            </label>
+
+            <label class="grid gap-2 text-sm font-medium text-gray-700">
+              Banheiros
+              <input type="number" min="0" [(ngModel)]="form.banheiros"
+                class="h-12 rounded-2xl border border-gray-200 bg-gray-50 px-4 text-sm outline-none transition-all focus:border-amber-700 focus:bg-white focus:ring-4 focus:ring-amber-700/10" />
+            </label>
+
+            <label class="grid gap-2 text-sm font-medium text-gray-700">
+              Vagas
+              <input type="number" min="0" [(ngModel)]="form.vagas"
+                class="h-12 rounded-2xl border border-gray-200 bg-gray-50 px-4 text-sm outline-none transition-all focus:border-amber-700 focus:bg-white focus:ring-4 focus:ring-amber-700/10" />
+            </label>
+          </div>
+
+          <label class="grid gap-2 text-sm font-medium text-gray-700">
+            Foto do imóvel
+            <input type="file" accept="image/*" (change)="onImageSelected($event)"
+              class="h-12 rounded-2xl border border-gray-200 bg-gray-50 px-4 py-2 text-sm outline-none transition-all file:mr-4 file:rounded-full file:border-0 file:bg-amber-700 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-white hover:border-amber-700 focus:border-amber-700 focus:bg-white focus:ring-4 focus:ring-amber-700/10" />
+            <p class="text-xs text-gray-500">
+              Se você não enviar foto, o sistema usa um placeholder.
+            </p>
+          </label>
+
+          @if (imagePreview) {
+          <div class="overflow-hidden rounded-3xl border border-amber-100 bg-amber-50/50">
+            <img [src]="imagePreview" alt="Pré-visualização da imagem do imóvel" class="h-56 w-full object-cover" />
+          </div>
+          }
+        </div>
+
+        @if (errorMessage) {
+        <p class="mt-5 rounded-2xl border border-red-100 bg-red-50 px-4 py-3 text-sm text-red-700">
+          {{ errorMessage }}
+        </p>
+        }
+
+        @if (actionMessage) {
+        <p class="mt-5 rounded-2xl border border-green-100 bg-green-50 px-4 py-3 text-sm text-green-700">
+          {{ actionMessage }}
+        </p>
+        }
+
+        <div class="mt-8 flex flex-col gap-3 sm:flex-row">
+          <button type="button"
+            class="inline-flex min-h-12 items-center justify-center rounded-full bg-amber-700 px-6 py-3 text-sm font-semibold text-white transition-all hover:-translate-y-0.5 hover:bg-amber-800 disabled:cursor-not-allowed disabled:bg-amber-300"
+            [disabled]="saving" (click)="salvar()">
+            {{ saving ? 'Salvando...' : (editingId ? 'Atualizar imóvel' : 'Cadastrar imóvel') }}
+          </button>
+
+          <button type="button"
+            class="inline-flex min-h-12 items-center justify-center rounded-full border border-gray-300 bg-white px-6 py-3 text-sm font-semibold text-gray-800 transition-all hover:-translate-y-0.5 hover:border-amber-700 hover:bg-amber-700 hover:text-white"
+            (click)="cancelarEdicao()">
+            Cancelar edição
+          </button>
+        </div>
+      </article>
+
+      <section class="lg:col-span-7">
+        <div class="mb-5 flex items-end justify-between gap-4">
+          <div>
+            <span class="inline-flex rounded-full bg-white px-4 py-2 text-xs font-semibold uppercase tracking-[0.22em] text-amber-800 shadow-sm">
+              Imóveis cadastrados
+            </span>
+            <h2 class="mt-4 text-3xl font-semibold tracking-[-0.04em] text-gray-950">
+              Lista conectada à API REST
+            </h2>
+          </div>
+
+          <p class="text-sm text-gray-500">{{ imoveis.length }} item(ns)</p>
+        </div>
+
+        @if (loading) {
+        <div class="rounded-[2rem] border border-amber-100 bg-white p-8 text-sm text-gray-500 shadow-sm">
+          Carregando imóveis...
+        </div>
+        } @else {
+        <div class="grid grid-cols-1 gap-5 xl:grid-cols-2">
+          @for (imovel of imoveis; track imovel.id) {
+          <article class="overflow-hidden rounded-[2rem] border border-amber-100 bg-white shadow-sm">
+            <div class="aspect-[4/3] bg-gray-100">
+              <img [src]="resolveImageUrl(imovel.caminhoImagem)" [alt]="imovel.titulo"
+                class="h-full w-full object-cover" />
+            </div>
+
+            <div class="p-6">
+              <div class="flex flex-wrap items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-amber-800">
+                <span class="rounded-full bg-amber-50 px-3 py-1">#{{ imovel.id }}</span>
+                <span class="rounded-full bg-amber-50 px-3 py-1">{{ imovel.cidade }}</span>
+              </div>
+
+              <h3 class="mt-4 text-xl font-semibold text-gray-950">{{ imovel.titulo }}</h3>
+              <p class="mt-2 text-sm leading-6 text-gray-500">
+                {{ imovel.descricao || 'Sem descrição cadastrada.' }}
+              </p>
+
+              <div class="mt-5 flex items-center justify-between gap-3">
+                <strong class="text-base text-gray-950">{{ formatCurrency(imovel.preco) }}</strong>
+                <span class="text-sm text-gray-500">{{ imovel.bairro }}</span>
+              </div>
+
+              <div class="mt-5 flex flex-wrap gap-2">
+                <button type="button"
+                  class="inline-flex min-h-10 items-center justify-center rounded-full bg-amber-700 px-4 py-2 text-xs font-semibold text-white transition-all hover:bg-amber-800"
+                  (click)="editar(imovel)">
+                  Editar
+                </button>
+                <button type="button"
+                  class="inline-flex min-h-10 items-center justify-center rounded-full border border-red-200 bg-red-50 px-4 py-2 text-xs font-semibold text-red-700 transition-all hover:bg-red-100"
+                  (click)="remover(imovel)">
+                  Remover
+                </button>
+              </div>
+            </div>
+          </article>
+          }
+        </div>
+        }
+      </section>
+    </div>
+  </section>
+
+  <app-footer></app-footer>
+</main>

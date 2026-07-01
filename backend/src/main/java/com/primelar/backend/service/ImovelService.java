@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.primelar.backend.model.dto.ImovelFiltroDTO;
 import com.primelar.backend.model.dto.request.ImovelRequest;
@@ -19,9 +20,11 @@ import com.primelar.backend.repository.spec.ImovelSpecification;
 public class ImovelService {
 
     private final ImovelRepository imovelRepository;
+    private final ImageStorageService imageStorageService;
 
-    public ImovelService(ImovelRepository imovelRepository) {
+    public ImovelService(ImovelRepository imovelRepository, ImageStorageService imageStorageService) {
         this.imovelRepository = imovelRepository;
+        this.imageStorageService = imageStorageService;
     }
 
     @Transactional(readOnly = true)
@@ -65,6 +68,24 @@ public class ImovelService {
     }
 
     @Transactional
+    public ImovelResponseDTO cadastrar(ImovelRequest request, MultipartFile imagem) {
+        Imovel imovel = new Imovel();
+
+        imovel.setTitulo(request.getTitulo());
+        imovel.setDescricao(request.getDescricao());
+        imovel.setPreco(request.getPreco());
+        imovel.setCidade(request.getCidade());
+        imovel.setBairro(request.getBairro());
+        imovel.setEndereco(request.getEndereco());
+        imovel.setQuartos(request.getQuartos());
+        imovel.setBanheiros(request.getBanheiros());
+        imovel.setVagas(request.getVagas());
+        imovel.setCaminhoImagem(resolveImagem(request.getCaminhoImagem(), imagem));
+
+        return toDTO(imovelRepository.save(imovel));
+    }
+
+    @Transactional
     public ImovelResponseDTO atualizar(Long id, ImovelRequest request) {
         Imovel imovel = imovelRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Imóvel não encontrado."));
@@ -79,6 +100,29 @@ public class ImovelService {
         imovel.setBanheiros(request.getBanheiros());
         imovel.setVagas(request.getVagas());
         imovel.setCaminhoImagem(request.getCaminhoImagem());
+
+        return toDTO(imovelRepository.save(imovel));
+    }
+
+    @Transactional
+    public ImovelResponseDTO atualizar(Long id, ImovelRequest request, MultipartFile imagem) {
+        Imovel imovel = imovelRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Imóvel não encontrado."));
+
+        imovel.setTitulo(request.getTitulo());
+        imovel.setDescricao(request.getDescricao());
+        imovel.setPreco(request.getPreco());
+        imovel.setCidade(request.getCidade());
+        imovel.setBairro(request.getBairro());
+        imovel.setEndereco(request.getEndereco());
+        imovel.setQuartos(request.getQuartos());
+        imovel.setBanheiros(request.getBanheiros());
+        imovel.setVagas(request.getVagas());
+
+        String caminhoImagem = resolveImagem(request.getCaminhoImagem(), imagem);
+        if (caminhoImagem != null) {
+            imovel.setCaminhoImagem(caminhoImagem);
+        }
 
         return toDTO(imovelRepository.save(imovel));
     }
@@ -120,6 +164,18 @@ public class ImovelService {
                 imovel.getVagas(),
                 imovel.getCaminhoImagem()
         );
+    }
+
+    private String resolveImagem(String caminhoImagem, MultipartFile imagem) {
+        if (imagem != null && !imagem.isEmpty()) {
+            return imageStorageService.salvarImagemImovel(imagem);
+        }
+
+        if (caminhoImagem != null && !caminhoImagem.isBlank()) {
+            return caminhoImagem.trim();
+        }
+
+        return null;
     }
 }
 
