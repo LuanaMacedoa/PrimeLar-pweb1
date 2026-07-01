@@ -6,7 +6,7 @@ import { environment } from '../environments/environment';
 @Injectable({ providedIn: 'root' })
 export class PasswordResetService {
 
-  private readonly API = environment.supabaseUrl;
+  private readonly API = environment.apiUrl;
 
   constructor(private http: HttpClient) {}
 

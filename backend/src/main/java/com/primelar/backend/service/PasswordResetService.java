@@ -61,16 +61,16 @@ public class PasswordResetService {
     public void confirmarReset(String token, String novaSenha) {
         // Busca o token no banco
         PasswordResetToken resetToken = tokenRepository.findByToken(token)
-            .orElseThrow(() -> new RuntimeException("Token inválido"));
+            .orElseThrow(() -> new IllegalArgumentException("Token inválido"));
 
         // Verifica se o token já foi usado
         if (resetToken.isUsed()) {
-            throw new RuntimeException("Token já utilizado");
+            throw new IllegalArgumentException("Token já utilizado");
         }
 
         // Verifica se o token expirou
         if (resetToken.getExpiresAt().isBefore(LocalDateTime.now())) {
-            throw new RuntimeException("Token expirado. Solicite um novo reset.");
+            throw new IllegalArgumentException("Token expirado. Solicite um novo reset.");
         }
 
         // Atualiza a senha do usuário com hash BCrypt

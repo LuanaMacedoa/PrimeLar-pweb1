@@ -1,5 +1,6 @@
 package com.primelar.backend.model.dto.response;
-import com.primelar.backend.model.enums.UserRole;
+
+import java.util.Set;
 
 public record UserResponseDTO(
     Long id,
@@ -7,5 +8,5 @@ public record UserResponseDTO(
     String lastname,
     String email,
     Boolean active,
-    UserRole role
+    Set<String> roles
 ) {}

@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Configuration;
 public class LoggingConfig {
 
     @Bean
-    public FilterRegistrationBean<CorrelationIdFilter> correlationIdFilter(
+    public FilterRegistrationBean<CorrelationIdFilter> correlationIdFilterRegistration(
         CorrelationIdFilter filter
     ) {
         FilterRegistrationBean<CorrelationIdFilter> registrationBean =

@@ -1,0 +1,402 @@
+{
+  "_type": "export",
+  "__export_format": 4,
+  "__export_date": "2026-06-30T00:00:00.000Z",
+  "__export_source": "primelar-api",
+  "resources": [
+    {
+      "_id": "wrk_primelar",
+      "_type": "workspace",
+      "name": "PrimeLar API",
+      "description": "Coleção completa da API REST do PrimeLar",
+      "scope": "collection"
+    },
+    {
+      "_id": "env_base",
+      "_type": "environment",
+      "parentId": "wrk_primelar",
+      "name": "Local",
+      "data": {
+        "base_url": "http://localhost:8080",
+        "token": ""
+      }
+    },
+
+    {
+      "_id": "fld_auth",
+      "_type": "request_group",
+      "parentId": "wrk_primelar",
+      "name": "Auth"
+    },
+    {
+      "_id": "req_login",
+      "_type": "request",
+      "parentId": "fld_auth",
+      "name": "Login",
+      "method": "POST",
+      "url": "{{ base_url }}/auth/login",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"email\": \"maria@primelar.com\",\n  \"password\": \"Senha@123\"\n}"
+      },
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" }
+      ]
+    },
+    {
+      "_id": "req_register_user",
+      "_type": "request",
+      "parentId": "fld_auth",
+      "name": "Registrar (sempre cria USER)",
+      "method": "POST",
+      "url": "{{ base_url }}/auth/register",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"firstname\": \"João\",\n  \"lastname\": \"Silva\",\n  \"email\": \"joao@email.com\",\n  \"password\": \"Senha@123\"\n}"
+      },
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" }
+      ]
+    },
+    {
+      "_id": "req_forgot_auth",
+      "_type": "request",
+      "parentId": "fld_auth",
+      "name": "Esqueci a senha",
+      "method": "POST",
+      "url": "{{ base_url }}/auth/forgot-password",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"email\": \"usuario@email.com\"\n}"
+      },
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" }
+      ]
+    },
+    {
+      "_id": "req_reset_auth",
+      "_type": "request",
+      "parentId": "fld_auth",
+      "name": "Redefinir senha",
+      "method": "POST",
+      "url": "{{ base_url }}/auth/reset-password",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"token\": \"TOKEN_RECEBIDO_NO_EMAIL\",\n  \"novaSenha\": \"novaSenha1234\"\n}"
+      },
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" }
+      ]
+    },
+
+    {
+      "_id": "fld_password",
+      "_type": "request_group",
+      "parentId": "wrk_primelar",
+      "name": "Password Reset (rota alternativa)"
+    },
+    {
+      "_id": "req_password_forgot",
+      "_type": "request",
+      "parentId": "fld_password",
+      "name": "Esqueci a senha",
+      "method": "POST",
+      "url": "{{ base_url }}/password/forgot",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"email\": \"usuario@email.com\"\n}"
+      },
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" }
+      ]
+    },
+    {
+      "_id": "req_password_reset",
+      "_type": "request",
+      "parentId": "fld_password",
+      "name": "Redefinir senha",
+      "method": "POST",
+      "url": "{{ base_url }}/password/reset",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"token\": \"TOKEN_RECEBIDO_NO_EMAIL\",\n  \"newPassword\": \"novaSenha1234\"\n}"
+      },
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" }
+      ]
+    },
+
+    {
+      "_id": "fld_imoveis",
+      "_type": "request_group",
+      "parentId": "wrk_primelar",
+      "name": "Imóveis"
+    },
+    {
+      "_id": "req_imoveis_listar",
+      "_type": "request",
+      "parentId": "fld_imoveis",
+      "name": "Listar todos",
+      "method": "GET",
+      "url": "{{ base_url }}/imoveis",
+      "body": {},
+      "headers": []
+    },
+    {
+      "_id": "req_imoveis_buscar",
+      "_type": "request",
+      "parentId": "fld_imoveis",
+      "name": "Buscar por ID",
+      "method": "GET",
+      "url": "{{ base_url }}/imoveis/1",
+      "body": {},
+      "headers": []
+    },
+    {
+      "_id": "req_imoveis_cadastrar",
+      "_type": "request",
+      "parentId": "fld_imoveis",
+      "name": "Cadastrar (ADMIN)",
+      "method": "POST",
+      "url": "{{ base_url }}/imoveis",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"titulo\": \"Apartamento 3 quartos Centro\",\n  \"descricao\": \"Apartamento amplo com varanda, próximo ao metrô.\",\n  \"preco\": 350000.00,\n  \"cidade\": \"São Paulo\",\n  \"bairro\": \"Centro\",\n  \"endereco\": \"Rua das Flores, 100, Apto 42\",\n  \"quartos\": 3,\n  \"banheiros\": 2,\n  \"vagas\": 1,\n  \"caminhoImagem\": \"https://exemplo.com/imagem.jpg\"\n}"
+      },
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" },
+        { "name": "Authorization", "value": "Bearer {{ token }}" }
+      ]
+    },
+    {
+      "_id": "req_imoveis_atualizar",
+      "_type": "request",
+      "parentId": "fld_imoveis",
+      "name": "Atualizar (ADMIN)",
+      "method": "PUT",
+      "url": "{{ base_url }}/imoveis/1",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"titulo\": \"Apartamento 3 quartos Centro — Atualizado\",\n  \"descricao\": \"Descrição atualizada.\",\n  \"preco\": 370000.00,\n  \"cidade\": \"São Paulo\",\n  \"bairro\": \"Centro\",\n  \"endereco\": \"Rua das Flores, 100, Apto 42\",\n  \"quartos\": 3,\n  \"banheiros\": 2,\n  \"vagas\": 2,\n  \"caminhoImagem\": \"https://exemplo.com/imagem-nova.jpg\"\n}"
+      },
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" },
+        { "name": "Authorization", "value": "Bearer {{ token }}" }
+      ]
+    },
+    {
+      "_id": "req_imoveis_excluir",
+      "_type": "request",
+      "parentId": "fld_imoveis",
+      "name": "Excluir (ADMIN)",
+      "method": "DELETE",
+      "url": "{{ base_url }}/imoveis/1",
+      "body": {},
+      "headers": [
+        { "name": "Authorization", "value": "Bearer {{ token }}" }
+      ]
+    },
+
+    {
+      "_id": "fld_favoritos",
+      "_type": "request_group",
+      "parentId": "wrk_primelar",
+      "name": "Favoritos"
+    },
+    {
+      "_id": "req_favoritos_listar",
+      "_type": "request",
+      "parentId": "fld_favoritos",
+      "name": "Listar meus favoritos",
+      "method": "GET",
+      "url": "{{ base_url }}/favoritos",
+      "body": {},
+      "headers": [
+        { "name": "Authorization", "value": "Bearer {{ token }}" }
+      ]
+    },
+    {
+      "_id": "req_favoritos_adicionar",
+      "_type": "request",
+      "parentId": "fld_favoritos",
+      "name": "Favoritar imóvel",
+      "method": "POST",
+      "url": "{{ base_url }}/favoritos",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"imovelId\": 1\n}"
+      },
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" },
+        { "name": "Authorization", "value": "Bearer {{ token }}" }
+      ]
+    },
+    {
+      "_id": "req_favoritos_remover",
+      "_type": "request",
+      "parentId": "fld_favoritos",
+      "name": "Desfavoritar imóvel",
+      "method": "DELETE",
+      "url": "{{ base_url }}/favoritos/1",
+      "body": {},
+      "headers": [
+        { "name": "Authorization", "value": "Bearer {{ token }}" }
+      ]
+    },
+
+    {
+      "_id": "fld_clientes",
+      "_type": "request_group",
+      "parentId": "wrk_primelar",
+      "name": "Clientes (perfil)"
+    },
+    {
+      "_id": "req_clientes_perfil_get",
+      "_type": "request",
+      "parentId": "fld_clientes",
+      "name": "Ver meu perfil",
+      "method": "GET",
+      "url": "{{ base_url }}/clientes/perfil",
+      "body": {},
+      "headers": [
+        { "name": "Authorization", "value": "Bearer {{ token }}" }
+      ]
+    },
+    {
+      "_id": "req_clientes_perfil_put",
+      "_type": "request",
+      "parentId": "fld_clientes",
+      "name": "Atualizar meu perfil",
+      "method": "PUT",
+      "url": "{{ base_url }}/clientes/perfil",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"telefone\": \"(11) 91234-5678\",\n  \"cpf\": \"123.456.789-00\",\n  \"preferencias\": \"Apartamentos, 2 quartos, próximo a metrô\"\n}"
+      },
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" },
+        { "name": "Authorization", "value": "Bearer {{ token }}" }
+      ]
+    },
+
+    {
+      "_id": "fld_corretores",
+      "_type": "request_group",
+      "parentId": "wrk_primelar",
+      "name": "Corretores (perfil)"
+    },
+    {
+      "_id": "req_corretores_publico",
+      "_type": "request",
+      "parentId": "fld_corretores",
+      "name": "Ver perfil público por ID",
+      "method": "GET",
+      "url": "{{ base_url }}/corretores/1",
+      "body": {},
+      "headers": []
+    },
+    {
+      "_id": "req_corretores_perfil_get",
+      "_type": "request",
+      "parentId": "fld_corretores",
+      "name": "Ver meu perfil (CORRETOR)",
+      "method": "GET",
+      "url": "{{ base_url }}/corretores/perfil",
+      "body": {},
+      "headers": [
+        { "name": "Authorization", "value": "Bearer {{ token }}" }
+      ]
+    },
+    {
+      "_id": "req_corretores_perfil_put",
+      "_type": "request",
+      "parentId": "fld_corretores",
+      "name": "Atualizar meu perfil (CORRETOR)",
+      "method": "PUT",
+      "url": "{{ base_url }}/corretores/perfil",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"creci\": \"123456-SP\",\n  \"telefone\": \"(11) 98765-4321\",\n  \"bio\": \"Corretor com 10 anos de experiência no mercado imobiliário paulistano.\"\n}"
+      },
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" },
+        { "name": "Authorization", "value": "Bearer {{ token }}" }
+      ]
+    },
+
+    {
+      "_id": "fld_users",
+      "_type": "request_group",
+      "parentId": "wrk_primelar",
+      "name": "Usuários — Admin"
+    },
+    {
+      "_id": "req_users_listar",
+      "_type": "request",
+      "parentId": "fld_users",
+      "name": "Listar todos",
+      "method": "GET",
+      "url": "{{ base_url }}/users",
+      "body": {},
+      "headers": [
+        { "name": "Authorization", "value": "Bearer {{ token }}" }
+      ]
+    },
+    {
+      "_id": "req_users_buscar",
+      "_type": "request",
+      "parentId": "fld_users",
+      "name": "Buscar por ID",
+      "method": "GET",
+      "url": "{{ base_url }}/users/1",
+      "body": {},
+      "headers": [
+        { "name": "Authorization", "value": "Bearer {{ token }}" }
+      ]
+    },
+    {
+      "_id": "req_users_criar",
+      "_type": "request",
+      "parentId": "fld_users",
+      "name": "Criar usuário",
+      "method": "POST",
+      "url": "{{ base_url }}/users",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"firstname\": \"Carlos\",\n  \"lastname\": \"Mendes\",\n  \"email\": \"carlos@email.com\",\n  \"password\": \"senha1234\",\n  \"role\": \"USER\"\n}"
+      },
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" },
+        { "name": "Authorization", "value": "Bearer {{ token }}" }
+      ]
+    },
+    {
+      "_id": "req_users_atualizar",
+      "_type": "request",
+      "parentId": "fld_users",
+      "name": "Atualizar usuário",
+      "method": "PUT",
+      "url": "{{ base_url }}/users/1",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"firstname\": \"Carlos\",\n  \"lastname\": \"Mendes\",\n  \"email\": \"carlos.novo@email.com\",\n  \"password\": \"novaSenha1234\",\n  \"role\": \"USER\",\n  \"active\": true\n}"
+      },
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" },
+        { "name": "Authorization", "value": "Bearer {{ token }}" }
+      ]
+    },
+    {
+      "_id": "req_users_excluir",
+      "_type": "request",
+      "parentId": "fld_users",
+      "name": "Excluir usuário",
+      "method": "DELETE",
+      "url": "{{ base_url }}/users/1",
+      "body": {},
+      "headers": [
+        { "name": "Authorization", "value": "Bearer {{ token }}" }
+      ]
+    }
+  ]
+}

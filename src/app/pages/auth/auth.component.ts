@@ -44,28 +44,26 @@ export class AuthComponent {
     }, 0);
   }
 
-  onLogin() {
+  async onLogin() {
     this.feedback.set(null);
     this.loading.set(true);
 
-    this.auth.login(
+    try {
+      await this.auth.login(
         this.loginData.email,
         this.loginData.password,
         {
-            email: this.loginData.email,
-            password: this.loginData.password
+          email: this.loginData.email,
+          password: this.loginData.password
         }
-    ).subscribe({
-      next: async () => {
-        this.loading.set(false);
-        await this.router.navigateByUrl('/');
-        window.location.reload();
-      },
-      error: () => {
-        this.loading.set(false);
-        this.feedback.set('Email ou senha inválidos.');
-      }
-    });
+      );
+      this.loading.set(false);
+      await this.router.navigateByUrl('/');
+      window.location.reload();
+    } catch {
+      this.loading.set(false);
+      this.feedback.set('Email ou senha inválidos.');
+    }
   }
 
   async onRegister() {
