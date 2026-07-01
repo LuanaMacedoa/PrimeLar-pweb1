@@ -87,8 +87,20 @@
           <div class="mx-5 h-px bg-gray-100"></div>
 
           <div class="p-3">
-            <button type="button"
+            <a [routerLink]="dashboardRoute"
               class="flex w-full items-center gap-3 rounded-2xl px-4 py-3 text-left text-sm font-medium text-gray-700 transition hover:bg-amber-50 hover:text-amber-800"
+              (click)="closeUserMenu()">
+              <span class="inline-flex h-9 w-9 items-center justify-center rounded-full bg-amber-50 text-amber-700">
+                <svg class="h-4.5 w-4.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M3 9.5L12 3l9 6.5M5 10v10a1 1 0 001 1h4a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1h4a1 1 0 001-1V10" />
+                </svg>
+              </span>
+              <span class="flex-1">{{ dashboardLabel }}</span>
+            </a>
+
+            <button type="button"
+              class="mt-2 flex w-full items-center gap-3 rounded-2xl px-4 py-3 text-left text-sm font-medium text-gray-700 transition hover:bg-amber-50 hover:text-amber-800"
               (click)="auth.logout(); closeUserMenu()">
               <span class="inline-flex h-9 w-9 items-center justify-center rounded-full bg-amber-50 text-amber-700">
                 <svg class="h-4.5 w-4.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">

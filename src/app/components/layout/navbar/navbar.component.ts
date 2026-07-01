@@ -64,6 +64,20 @@ export class NavbarComponent {
     this.closeUserMenu();
   }
 
+  protected get dashboardRoute(): string {
+    const roles = this.user()?.roles ?? [];
+    if (roles.includes('ADMIN')) return '/admin';
+    if (roles.includes('CORRETOR')) return '/corretor';
+    return '/cliente';
+  }
+
+  protected get dashboardLabel(): string {
+    const roles = this.user()?.roles ?? [];
+    if (roles.includes('ADMIN')) return 'Painel administrativo';
+    if (roles.includes('CORRETOR')) return 'Área do corretor';
+    return 'Minha área';
+  }
+
   protected async deactivateAccount(): Promise<void> {
     const confirmed = window.confirm('Tem certeza que deseja desativar sua conta?');
     if (!confirmed) return;
