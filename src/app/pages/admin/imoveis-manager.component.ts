@@ -1,6 +1,7 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
+import { HttpErrorResponse } from '@angular/common/http';
 import { FooterComponent } from '../../components/layout/footer/footer.component';
 import {
   ImovelApiResponse,
@@ -86,8 +87,17 @@ export class ImoveisManagerComponent implements OnInit {
   }
 
   async salvar(): Promise<void> {
-    if (!this.form.titulo.trim() || !this.form.preco || !this.form.cidade.trim() || !this.form.bairro.trim()) {
-      this.errorMessage = 'Preencha título, preço, cidade e bairro.';
+    const titulo = this.form.titulo.trim();
+    if (!titulo || titulo.length < 4) {
+      this.errorMessage = 'O título deve ter pelo menos 4 caracteres.';
+      return;
+    }
+    if (!this.form.preco || Number(this.form.preco) <= 0) {
+      this.errorMessage = 'Informe um preço válido e maior que zero.';
+      return;
+    }
+    if (!this.form.cidade.trim() || !this.form.bairro.trim()) {
+      this.errorMessage = 'Preencha cidade e bairro.';
       return;
     }
 
@@ -106,7 +116,7 @@ export class ImoveisManagerComponent implements OnInit {
           : await this.imovelService.criar(payload));
 
       if (!resultado) {
-        this.errorMessage = 'Não foi possível salvar o imóvel.';
+        this.errorMessage = 'Não foi possível salvar o imóvel. Verifique os dados e tente novamente.';
         return;
       }
 
@@ -116,6 +126,8 @@ export class ImoveisManagerComponent implements OnInit {
 
       this.iniciarNovo();
       await this.carregarImoveis();
+    } catch (err: unknown) {
+      this.errorMessage = this.extractErrorMessage(err);
     } finally {
       this.saving = false;
     }
@@ -194,6 +206,17 @@ export class ImoveisManagerComponent implements OnInit {
       vagas: null,
       caminhoImagem: '',
     };
+  }
+
+  private extractErrorMessage(err: unknown): string {
+    if (err instanceof HttpErrorResponse) {
+      const body = err.error;
+      if (body?.errors?.length) {
+        return body.errors.map((e: { field: string; message: string }) => `${e.field}: ${e.message}`).join(' | ');
+      }
+      return body?.message ?? `Erro ${err.status}: ${err.statusText}`;
+    }
+    return 'Erro inesperado. Tente novamente.';
   }
 
   private toPayload(form: ImovelForm): ImovelRequestPayload {

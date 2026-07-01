@@ -23,15 +23,18 @@ public class ImageStorageService {
         }
 
         String contentType = imagem.getContentType();
-        if (contentType == null || !contentType.toLowerCase(Locale.ROOT).startsWith("image/")) {
-            throw new IllegalArgumentException("O arquivo enviado deve ser uma imagem.");
+        String originalName = imagem.getOriginalFilename() == null ? "" : imagem.getOriginalFilename();
+        String ext = extrairExtensao(originalName).toLowerCase(Locale.ROOT);
+        boolean tipoValido = (contentType != null && contentType.toLowerCase(Locale.ROOT).startsWith("image/"))
+                || java.util.Set.of(".jpg", ".jpeg", ".png", ".gif", ".webp", ".bmp").contains(ext);
+        if (!tipoValido) {
+            throw new IllegalArgumentException("O arquivo enviado deve ser uma imagem (jpg, png, gif, webp ou bmp).");
         }
 
         try {
             Path dir = Paths.get(uploadDir).toAbsolutePath().normalize();
             Files.createDirectories(dir);
 
-            String originalName = imagem.getOriginalFilename() == null ? "imagem" : imagem.getOriginalFilename();
             String extension = extrairExtensao(originalName);
             String nomeArquivo = UUID.randomUUID() + extension;
 

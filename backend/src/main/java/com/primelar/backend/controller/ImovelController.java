@@ -43,7 +43,7 @@ public class ImovelController {
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<ImovelResponseDTO> cadastrarComImagem(
             @Valid @ModelAttribute ImovelRequest request,
-            @RequestPart(value = "imagem", required = false) MultipartFile imagem) {
+            @RequestParam(value = "imagem", required = false) MultipartFile imagem) {
         return ResponseEntity.status(HttpStatus.CREATED).body(imovelService.cadastrar(request, imagem));
     }
 
@@ -58,7 +58,7 @@ public class ImovelController {
     public ResponseEntity<ImovelResponseDTO> atualizarComImagem(
             @PathVariable Long id,
             @Valid @ModelAttribute ImovelRequest request,
-            @RequestPart(value = "imagem", required = false) MultipartFile imagem) {
+            @RequestParam(value = "imagem", required = false) MultipartFile imagem) {
         return ResponseEntity.ok(imovelService.atualizar(id, request, imagem));
     }
 
