@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -31,6 +31,7 @@ interface ImovelForm {
 })
 export class ImoveisManagerComponent implements OnInit {
   private readonly imovelService = inject(ImovelService);
+  private readonly cdr = inject(ChangeDetectorRef);
 
   loading = false;
   saving = false;
@@ -58,6 +59,7 @@ export class ImoveisManagerComponent implements OnInit {
       this.imoveis = [];
     } finally {
       this.loading = false;
+      this.cdr.markForCheck();
     }
   }
 
@@ -130,6 +132,7 @@ export class ImoveisManagerComponent implements OnInit {
       this.errorMessage = this.extractErrorMessage(err);
     } finally {
       this.saving = false;
+      this.cdr.markForCheck();
     }
   }
 
@@ -146,6 +149,7 @@ export class ImoveisManagerComponent implements OnInit {
     const reader = new FileReader();
     reader.onload = () => {
       this.imagePreview = String(reader.result ?? '');
+      this.cdr.markForCheck();
     };
     reader.readAsDataURL(file);
   }
@@ -174,6 +178,7 @@ export class ImoveisManagerComponent implements OnInit {
       await this.carregarImoveis();
     } finally {
       this.loading = false;
+      this.cdr.markForCheck();
     }
   }
 
