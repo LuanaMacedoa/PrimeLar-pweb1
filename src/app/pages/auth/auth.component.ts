@@ -49,9 +49,12 @@ export class AuthComponent {
     this.loading.set(true);
 
     this.auth.login(
-      this.loginData.email,
-      this.loginData.password,
-      false,
+        this.loginData.email,
+        this.loginData.password,
+        {
+            email: this.loginData.email,
+            password: this.loginData.password
+        }
     ).subscribe({
       next: async () => {
         this.loading.set(false);
