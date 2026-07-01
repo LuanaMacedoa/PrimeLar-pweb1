@@ -1,7 +1,7 @@
 -- =============================================================================
 -- SEED DE USUÁRIOS PARA DESENVOLVIMENTO / TESTES
 -- Execute manualmente no banco: psql -h localhost -p 5433 -U primelar -d primelar
--- Senhas geradas com BCrypt custo 10, prefixo $2a$ (compatível com Spring BCryptPasswordEncoder)
+-- Senhas geradas com BCrypt(compatível com Spring BCryptPasswordEncoder)
 -- =============================================================================
 
 -- Limpa usuários existentes (CASCADE remove user_roles, profiles, favoritos, tokens)
