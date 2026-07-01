@@ -1,7 +1,7 @@
 {
   "_type": "export",
   "__export_format": 4,
-  "__export_date": "2026-06-30T00:00:00.000Z",
+  "__export_date": "2026-07-01T00:00:00.000Z",
   "__export_source": "primelar-api",
   "resources": [
     {
@@ -192,6 +192,58 @@
       "method": "DELETE",
       "url": "{{ base_url }}/imoveis/1",
       "body": {},
+      "headers": [
+        { "name": "Authorization", "value": "Bearer {{ token }}" }
+      ]
+    },
+    {
+      "_id": "req_imoveis_cadastrar_imagem",
+      "_type": "request",
+      "parentId": "fld_imoveis",
+      "name": "Cadastrar com imagem (ADMIN)",
+      "method": "POST",
+      "url": "{{ base_url }}/imoveis",
+      "body": {
+        "mimeType": "multipart/form-data",
+        "params": [
+          { "name": "titulo",    "value": "Apartamento 3 quartos Centro" },
+          { "name": "descricao", "value": "Apartamento amplo com varanda, próximo ao metrô." },
+          { "name": "preco",     "value": "350000.00" },
+          { "name": "cidade",    "value": "São Paulo" },
+          { "name": "bairro",   "value": "Centro" },
+          { "name": "endereco",  "value": "Rua das Flores, 100, Apto 42" },
+          { "name": "quartos",   "value": "3" },
+          { "name": "banheiros", "value": "2" },
+          { "name": "vagas",     "value": "1" },
+          { "name": "imagem",    "type": "file", "fileName": "" }
+        ]
+      },
+      "headers": [
+        { "name": "Authorization", "value": "Bearer {{ token }}" }
+      ]
+    },
+    {
+      "_id": "req_imoveis_atualizar_imagem",
+      "_type": "request",
+      "parentId": "fld_imoveis",
+      "name": "Atualizar com imagem (ADMIN)",
+      "method": "PUT",
+      "url": "{{ base_url }}/imoveis/1",
+      "body": {
+        "mimeType": "multipart/form-data",
+        "params": [
+          { "name": "titulo",    "value": "Apartamento 3 quartos Centro — Atualizado" },
+          { "name": "descricao", "value": "Descrição atualizada." },
+          { "name": "preco",     "value": "370000.00" },
+          { "name": "cidade",    "value": "São Paulo" },
+          { "name": "bairro",   "value": "Centro" },
+          { "name": "endereco",  "value": "Rua das Flores, 100, Apto 42" },
+          { "name": "quartos",   "value": "3" },
+          { "name": "banheiros", "value": "2" },
+          { "name": "vagas",     "value": "2" },
+          { "name": "imagem",    "type": "file", "fileName": "" }
+        ]
+      },
       "headers": [
         { "name": "Authorization", "value": "Bearer {{ token }}" }
       ]
