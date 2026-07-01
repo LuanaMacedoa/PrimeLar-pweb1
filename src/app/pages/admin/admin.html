@@ -1,16 +1,30 @@
 <main id="admin" class="min-h-screen bg-[#F8F6F2]">
-
   <!-- TOPO / ÁREA ADMIN -->
-  <section class="relative overflow-hidden border-b border-amber-100 bg-white px-4 py-8 sm:px-6 lg:px-10">
+  <section
+    class="relative overflow-hidden border-b border-amber-100 bg-white px-4 py-8 sm:px-6 lg:px-10"
+  >
     <div class="absolute right-0 top-0 h-72 w-72 rounded-full bg-amber-100/60 blur-3xl"></div>
     <div class="absolute bottom-0 left-0 h-56 w-56 rounded-full bg-stone-200/60 blur-3xl"></div>
 
     <div class="relative z-10 mx-auto max-w-7xl">
-      <a routerLink="/"
+      <a
+        routerLink="/"
         class="inline-flex min-h-11 items-center justify-center gap-2 rounded-full border border-amber-200 bg-white px-5 py-2.5 text-sm font-semibold text-amber-800 shadow-sm transition-all hover:-translate-y-0.5 hover:border-amber-700 hover:bg-amber-700 hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-700 focus-visible:ring-offset-4"
-        aria-label="Voltar para a página inicial">
-        <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7" />
+        aria-label="Voltar para a página inicial"
+      >
+        <svg
+          class="h-4 w-4"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          aria-hidden="true"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2.5"
+            d="M15 19l-7-7 7-7"
+          />
         </svg>
         Voltar à página inicial
       </a>
@@ -18,19 +32,21 @@
       <div class="mt-10 grid grid-cols-1 gap-8 lg:grid-cols-12 lg:items-end">
         <div class="lg:col-span-7">
           <span
-            class="mb-4 inline-flex rounded-full bg-amber-50 px-4 py-2 text-xs font-semibold uppercase tracking-[0.22em] text-amber-800">
+            class="mb-4 inline-flex rounded-full bg-amber-50 px-4 py-2 text-xs font-semibold uppercase tracking-[0.22em] text-amber-800"
+          >
             Área administrativa
           </span>
 
           <h1
             class="max-w-4xl text-4xl font-light leading-tight tracking-[-0.04em] text-gray-950 sm:text-5xl lg:text-6xl"
-            style="font-family: 'DM Serif Display', Georgia, serif">
+            style="font-family: 'DM Serif Display', Georgia, serif"
+          >
             Gerencie usuários, acessos, dados e configurações do sistema.
           </h1>
 
           <p class="mt-5 max-w-2xl text-sm leading-7 text-gray-500 sm:text-base">
-            Acompanhe métricas, revise permissões, administre imóveis, corretores, clientes, logs e parâmetros gerais da
-            plataforma.
+            Acompanhe métricas, revise permissões, administre imóveis, corretores, clientes, logs e
+            parâmetros gerais da plataforma.
           </p>
         </div>
 
@@ -38,7 +54,9 @@
         <div class="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-4 lg:col-span-5">
           <article class="rounded-[1.75rem] border border-amber-100 bg-amber-50/70 p-5 shadow-sm">
             <div class="flex items-center justify-between gap-3">
-              <span class="flex h-11 w-11 items-center justify-center rounded-2xl bg-white text-amber-800 shadow-sm">
+              <span
+                class="flex h-11 w-11 items-center justify-center rounded-2xl bg-white text-amber-800 shadow-sm"
+              >
                 👥
               </span>
               <span class="rounded-full bg-white px-3 py-1 text-xs font-semibold text-amber-800">
@@ -53,7 +71,9 @@
 
           <article class="rounded-[1.75rem] border border-amber-100 bg-white p-5 shadow-sm">
             <div class="flex items-center justify-between gap-3">
-              <span class="flex h-11 w-11 items-center justify-center rounded-2xl bg-green-50 text-green-700">
+              <span
+                class="flex h-11 w-11 items-center justify-center rounded-2xl bg-green-50 text-green-700"
+              >
                 ✓
               </span>
               <span class="rounded-full bg-green-50 px-3 py-1 text-xs font-semibold text-green-700">
@@ -68,7 +88,9 @@
 
           <article class="rounded-[1.75rem] border border-amber-100 bg-white p-5 shadow-sm">
             <div class="flex items-center justify-between gap-3">
-              <span class="flex h-11 w-11 items-center justify-center rounded-2xl bg-amber-50 text-amber-800">
+              <span
+                class="flex h-11 w-11 items-center justify-center rounded-2xl bg-amber-50 text-amber-800"
+              >
                 !
               </span>
               <span class="rounded-full bg-amber-50 px-3 py-1 text-xs font-semibold text-amber-800">
@@ -83,7 +105,9 @@
 
           <article class="rounded-[1.75rem] border border-amber-100 bg-white p-5 shadow-sm">
             <div class="flex items-center justify-between gap-3">
-              <span class="flex h-11 w-11 items-center justify-center rounded-2xl bg-red-50 text-red-700">
+              <span
+                class="flex h-11 w-11 items-center justify-center rounded-2xl bg-red-50 text-red-700"
+              >
                 ⚠
               </span>
               <span class="rounded-full bg-red-50 px-3 py-1 text-xs font-semibold text-red-700">
@@ -102,35 +126,53 @@
 
   <!-- NAVEGAÇÃO INTERNA -->
   <section
-    class="sticky top-0 z-30 border-b border-gray-200 bg-[#F8F6F2]/90 px-4 py-4 backdrop-blur-md sm:px-6 lg:px-10">
+    class="sticky top-0 z-30 border-b border-gray-200 bg-[#F8F6F2]/90 px-4 py-4 backdrop-blur-md sm:px-6 lg:px-10"
+  >
     <div class="mx-auto max-w-7xl">
-      <div class="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-5" role="tablist"
-        aria-label="Navegação administrativa">
+      <div
+        class="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-5"
+        role="tablist"
+        aria-label="Navegação administrativa"
+      >
         @for (tab of adminTabs; track tab.key) {
-        <button type="button"
-          class="group rounded-[1.5rem] border p-4 text-left transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-700 focus-visible:ring-offset-2"
-          [class.border-amber-700]="activeSection === tab.key" [class.bg-amber-700]="activeSection === tab.key"
-          [class.text-white]="activeSection === tab.key" [class.shadow-lg]="activeSection === tab.key"
-          [class.shadow-amber-900]="activeSection === tab.key" [class.border-gray-200]="activeSection !== tab.key"
-          [class.bg-white]="activeSection !== tab.key" [class.text-gray-800]="activeSection !== tab.key"
-          [attr.aria-selected]="activeSection === tab.key" role="tab" (click)="setSection(tab.key)">
-          <div class="flex items-center gap-3">
-            <span
-              class="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl border text-sm font-bold shadow-sm text-amber-800"
-              [class.border-white]="activeSection === tab.key" [class.bg-white]="activeSection === tab.key"
-              [class.border-amber-100]="activeSection !== tab.key" [class.bg-amber-50]="activeSection !== tab.key">
-              {{ tab.number }}
-            </span>
+          <button
+            type="button"
+            class="group rounded-[1.5rem] border p-4 text-left transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-700 focus-visible:ring-offset-2"
+            [class.border-amber-700]="activeSection === tab.key"
+            [class.bg-amber-700]="activeSection === tab.key"
+            [class.text-white]="activeSection === tab.key"
+            [class.shadow-lg]="activeSection === tab.key"
+            [class.shadow-amber-900]="activeSection === tab.key"
+            [class.border-gray-200]="activeSection !== tab.key"
+            [class.bg-white]="activeSection !== tab.key"
+            [class.text-gray-800]="activeSection !== tab.key"
+            [attr.aria-selected]="activeSection === tab.key"
+            role="tab"
+            (click)="setSection(tab.key)"
+          >
+            <div class="flex items-center gap-3">
+              <span
+                class="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl border text-sm font-bold shadow-sm text-amber-800"
+                [class.border-white]="activeSection === tab.key"
+                [class.bg-white]="activeSection === tab.key"
+                [class.border-amber-100]="activeSection !== tab.key"
+                [class.bg-amber-50]="activeSection !== tab.key"
+              >
+                {{ tab.number }}
+              </span>
 
-            <div>
-              <p class="font-semibold">{{ tab.title }}</p>
-              <p class="mt-1 text-xs" [class.text-white/70]="activeSection === tab.key"
-                [class.text-gray-500]="activeSection !== tab.key">
-                {{ tab.description }}
-              </p>
+              <div>
+                <p class="font-semibold">{{ tab.title }}</p>
+                <p
+                  class="mt-1 text-xs"
+                  [class.text-white/70]="activeSection === tab.key"
+                  [class.text-gray-500]="activeSection !== tab.key"
+                >
+                  {{ tab.description }}
+                </p>
+              </div>
             </div>
-          </div>
-        </button>
+          </button>
         }
       </div>
     </div>
@@ -138,725 +180,894 @@
 
   <!-- FEEDBACK GLOBAL -->
   @if (actionMessage) {
-  <div
-    class="fixed bottom-5 left-1/2 z-50 w-[calc(100%-2rem)] max-w-md -translate-x-1/2 rounded-3xl border border-green-100 bg-green-50 px-5 py-4 text-sm font-medium text-green-700 shadow-xl shadow-green-900/10 sm:right-5 sm:left-auto sm:translate-x-0"
-    role="status" aria-live="polite">
-    <div class="flex items-start gap-3">
-      <span class="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-green-100 text-green-700">
-        ✓
-      </span>
-      <p>{{ actionMessage }}</p>
+    <div
+      class="fixed bottom-5 left-1/2 z-50 w-[calc(100%-2rem)] max-w-md -translate-x-1/2 rounded-3xl border border-green-100 bg-green-50 px-5 py-4 text-sm font-medium text-green-700 shadow-xl shadow-green-900/10 sm:right-5 sm:left-auto sm:translate-x-0"
+      role="status"
+      aria-live="polite"
+    >
+      <div class="flex items-start gap-3">
+        <span
+          class="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-green-100 text-green-700"
+        >
+          ✓
+        </span>
+        <p>{{ actionMessage }}</p>
+      </div>
     </div>
-  </div>
   }
 
   <!-- VISÃO GERAL -->
   @if (activeSection === 'visao') {
-  <section class="px-4 py-16 sm:px-6 lg:px-10 lg:py-20">
-    <div class="mx-auto max-w-7xl">
+    <section class="px-4 py-16 sm:px-6 lg:px-10 lg:py-20">
+      <div class="mx-auto max-w-7xl">
+        <div class="mb-10 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <span
+              class="mb-4 inline-flex rounded-full bg-white px-4 py-2 text-xs font-semibold uppercase tracking-[0.22em] text-amber-800 shadow-sm"
+            >
+              Visão geral
+            </span>
 
-      <div class="mb-10 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-        <div>
-          <span
-            class="mb-4 inline-flex rounded-full bg-white px-4 py-2 text-xs font-semibold uppercase tracking-[0.22em] text-amber-800 shadow-sm">
-            Visão geral
-          </span>
+            <h2
+              class="text-4xl font-light leading-tight tracking-[-0.04em] text-gray-950"
+              style="font-family: 'DM Serif Display', Georgia, serif"
+            >
+              Métricas e alertas administrativos.
+            </h2>
 
-          <h2 class="text-4xl font-light leading-tight tracking-[-0.04em] text-gray-950"
-            style="font-family: 'DM Serif Display', Georgia, serif">
-            Métricas e alertas administrativos.
-          </h2>
+            <p class="mt-4 max-w-2xl text-sm leading-7 text-gray-500">
+              Acompanhe a saúde geral do sistema, contas ativas, pendências e eventos recentes.
+            </p>
+          </div>
 
-          <p class="mt-4 max-w-2xl text-sm leading-7 text-gray-500">
-            Acompanhe a saúde geral do sistema, contas ativas, pendências e eventos recentes.
-          </p>
+          <div class="flex gap-3">
+            <button
+              type="button"
+              class="inline-flex min-h-11 items-center justify-center rounded-full bg-amber-700 px-6 py-2.5 text-sm font-semibold text-white shadow-lg shadow-amber-900/20 transition-all hover:-translate-y-0.5 hover:bg-amber-800"
+              (click)="setSection('usuarios')"
+            >
+              Gerenciar usuários
+            </button>
+
+            <a
+              routerLink="/admin/imoveis"
+              class="inline-flex min-h-11 items-center justify-center rounded-full border border-gray-300 bg-white px-6 py-2.5 text-sm font-semibold text-gray-800 transition-all hover:-translate-y-0.5 hover:border-amber-700 hover:bg-amber-700 hover:text-white"
+            >
+              Gerenciar imóveis
+            </a>
+          </div>
         </div>
 
-        <button type="button"
-          class="inline-flex min-h-11 items-center justify-center rounded-full bg-amber-700 px-6 py-2.5 text-sm font-semibold text-white shadow-lg shadow-amber-900/20 transition-all hover:-translate-y-0.5 hover:bg-amber-800"
-          (click)="setSection('usuarios')">
-          Gerenciar usuários
-        </button>
+        <div class="grid grid-cols-1 gap-6 lg:grid-cols-3">
+          <article class="rounded-[2rem] border border-amber-100 bg-white p-6 shadow-sm">
+            <h3 class="text-xl font-semibold text-gray-950">Status dos usuários</h3>
 
-        <a routerLink="/admin/imoveis"
-          class="inline-flex min-h-11 items-center justify-center rounded-full border border-gray-300 bg-white px-6 py-2.5 text-sm font-semibold text-gray-800 transition-all hover:-translate-y-0.5 hover:border-amber-700 hover:bg-amber-700 hover:text-white">
-          Gerenciar imóveis
-        </a>
-      </div>
-
-      <div class="grid grid-cols-1 gap-6 lg:grid-cols-3">
-        <article class="rounded-[2rem] border border-amber-100 bg-white p-6 shadow-sm">
-          <h3 class="text-xl font-semibold text-gray-950">Status dos usuários</h3>
-
-          <div class="mt-6 space-y-4">
-            <div class="rounded-3xl bg-gray-50 p-4">
-              <div class="flex items-center justify-between">
-                <p class="text-sm text-gray-500">Ativos</p>
-                <p class="font-semibold text-green-700">{{ activeUsers }}</p>
-              </div>
-            </div>
-
-            <div class="rounded-3xl bg-gray-50 p-4">
-              <div class="flex items-center justify-between">
-                <p class="text-sm text-gray-500">Bloqueados</p>
-                <p class="font-semibold text-red-700">{{ blockedUsers }}</p>
-              </div>
-            </div>
-
-            <div class="rounded-3xl bg-gray-50 p-4">
-              <div class="flex items-center justify-between">
-                <p class="text-sm text-gray-500">Total</p>
-                <p class="font-semibold text-gray-950">{{ totalUsers }}</p>
-              </div>
-            </div>
-          </div>
-        </article>
-
-        <article class="rounded-[2rem] border border-amber-100 bg-white p-6 shadow-sm">
-          <h3 class="text-xl font-semibold text-gray-950">Pendências administrativas</h3>
-
-          <div class="mt-6 space-y-4">
-            @for (entity of entities; track entity.id) {
-            @if (entity.status === 'Pendente') {
-            <div class="rounded-3xl border border-amber-100 bg-amber-50/60 p-4">
-              <div class="flex items-start justify-between gap-4">
-                <div>
-                  <p class="font-semibold text-gray-950">{{ entity.name }}</p>
-                  <p class="mt-1 text-sm text-gray-500">{{ entity.type }}</p>
+            <div class="mt-6 space-y-4">
+              <div class="rounded-3xl bg-gray-50 p-4">
+                <div class="flex items-center justify-between">
+                  <p class="text-sm text-gray-500">Ativos</p>
+                  <p class="font-semibold text-green-700">{{ activeUsers }}</p>
                 </div>
-
-                <span class="rounded-full bg-amber-100 px-3 py-1 text-xs font-semibold text-amber-800">
-                  Pendente
-                </span>
               </div>
 
-              <button type="button"
-                class="mt-4 inline-flex min-h-10 items-center justify-center rounded-full bg-amber-700 px-4 py-2 text-xs font-semibold text-white transition-all hover:bg-amber-800"
-                (click)="approveEntity(entity)">
-                Aprovar
-              </button>
-            </div>
-            }
-            }
-          </div>
-        </article>
-
-        <article class="rounded-[2rem] border border-amber-100 bg-white p-6 shadow-sm">
-          <h3 class="text-xl font-semibold text-gray-950">Logs recentes</h3>
-
-          <div class="mt-6 space-y-4">
-            @for (log of logs.slice(0, 3); track log.id) {
-            <div class="rounded-3xl border border-gray-100 bg-gray-50 p-4">
-              <div class="flex items-start justify-between gap-4">
-                <div>
-                  <p class="font-semibold text-gray-950">{{ log.action }}</p>
-                  <p class="mt-1 text-sm text-gray-500">{{ log.date }}</p>
+              <div class="rounded-3xl bg-gray-50 p-4">
+                <div class="flex items-center justify-between">
+                  <p class="text-sm text-gray-500">Bloqueados</p>
+                  <p class="font-semibold text-red-700">{{ blockedUsers }}</p>
                 </div>
-
-                <span class="rounded-full px-3 py-1 text-xs font-semibold" [class.bg-green-50]="log.severity === 'Info'"
-                  [class.text-green-700]="log.severity === 'Info'" [class.bg-amber-50]="log.severity === 'Atenção'"
-                  [class.text-amber-800]="log.severity === 'Atenção'" [class.bg-red-50]="log.severity === 'Crítico'"
-                  [class.text-red-700]="log.severity === 'Crítico'">
-                  {{ log.severity }}
-                </span>
               </div>
 
-              <p class="mt-3 text-sm leading-6 text-gray-500">
-                {{ log.description }}
-              </p>
+              <div class="rounded-3xl bg-gray-50 p-4">
+                <div class="flex items-center justify-between">
+                  <p class="text-sm text-gray-500">Total</p>
+                  <p class="font-semibold text-gray-950">{{ totalUsers }}</p>
+                </div>
+              </div>
             </div>
-            }
-          </div>
-        </article>
+          </article>
+
+          <article class="rounded-[2rem] border border-amber-100 bg-white p-6 shadow-sm">
+            <h3 class="text-xl font-semibold text-gray-950">Pendências administrativas</h3>
+
+            <div class="mt-6 space-y-4">
+              @for (entity of entities; track entity.id) {
+                @if (entity.status === 'Pendente') {
+                  <div class="rounded-3xl border border-amber-100 bg-amber-50/60 p-4">
+                    <div class="flex items-start justify-between gap-4">
+                      <div>
+                        <p class="font-semibold text-gray-950">{{ entity.name }}</p>
+                        <p class="mt-1 text-sm text-gray-500">{{ entity.type }}</p>
+                      </div>
+
+                      <span
+                        class="rounded-full bg-amber-100 px-3 py-1 text-xs font-semibold text-amber-800"
+                      >
+                        Pendente
+                      </span>
+                    </div>
+
+                    <button
+                      type="button"
+                      class="mt-4 inline-flex min-h-10 items-center justify-center rounded-full bg-amber-700 px-4 py-2 text-xs font-semibold text-white transition-all hover:bg-amber-800"
+                      (click)="approveEntity(entity)"
+                    >
+                      Aprovar
+                    </button>
+                  </div>
+                }
+              }
+            </div>
+          </article>
+
+          <article class="rounded-[2rem] border border-amber-100 bg-white p-6 shadow-sm">
+            <h3 class="text-xl font-semibold text-gray-950">Logs recentes</h3>
+
+            <div class="mt-6 space-y-4">
+              @for (log of logs.slice(0, 3); track log.id) {
+                <div class="rounded-3xl border border-gray-100 bg-gray-50 p-4">
+                  <div class="flex items-start justify-between gap-4">
+                    <div>
+                      <p class="font-semibold text-gray-950">{{ log.action }}</p>
+                      <p class="mt-1 text-sm text-gray-500">{{ log.date }}</p>
+                    </div>
+
+                    <span
+                      class="rounded-full px-3 py-1 text-xs font-semibold"
+                      [class.bg-green-50]="log.severity === 'Info'"
+                      [class.text-green-700]="log.severity === 'Info'"
+                      [class.bg-amber-50]="log.severity === 'Atenção'"
+                      [class.text-amber-800]="log.severity === 'Atenção'"
+                      [class.bg-red-50]="log.severity === 'Crítico'"
+                      [class.text-red-700]="log.severity === 'Crítico'"
+                    >
+                      {{ log.severity }}
+                    </span>
+                  </div>
+
+                  <p class="mt-3 text-sm leading-6 text-gray-500">
+                    {{ log.description }}
+                  </p>
+                </div>
+              }
+            </div>
+          </article>
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
   }
 
   <!-- USUÁRIOS -->
   @if (activeSection === 'usuarios') {
-  <section class="px-4 py-16 sm:px-6 lg:px-10 lg:py-20">
-    <div class="mx-auto max-w-7xl">
+    <section class="px-4 py-16 sm:px-6 lg:px-10 lg:py-20">
+      <div class="mx-auto max-w-7xl">
+        <div class="mb-8 rounded-[2rem] border border-amber-100 bg-white p-6 shadow-sm lg:p-8">
+          <div class="grid grid-cols-1 gap-6 lg:grid-cols-12 lg:items-end">
+            <div class="lg:col-span-7">
+              <span
+                class="mb-4 inline-flex rounded-full bg-amber-50 px-4 py-2 text-xs font-semibold uppercase tracking-[0.22em] text-amber-800"
+              >
+                Usuários
+              </span>
 
-      <div class="mb-8 rounded-[2rem] border border-amber-100 bg-white p-6 shadow-sm lg:p-8">
-        <div class="grid grid-cols-1 gap-6 lg:grid-cols-12 lg:items-end">
-          <div class="lg:col-span-7">
-            <span
-              class="mb-4 inline-flex rounded-full bg-amber-50 px-4 py-2 text-xs font-semibold uppercase tracking-[0.22em] text-amber-800">
-              Usuários
-            </span>
+              <h2
+                class="text-4xl font-light leading-tight tracking-[-0.04em] text-gray-950"
+                style="font-family: 'DM Serif Display', Georgia, serif"
+              >
+                Listar, cadastrar, editar e remover usuários.
+              </h2>
 
-            <h2 class="text-4xl font-light leading-tight tracking-[-0.04em] text-gray-950"
-              style="font-family: 'DM Serif Display', Georgia, serif">
-              Listar, cadastrar, editar e remover usuários.
-            </h2>
+              <p class="mt-4 max-w-2xl text-sm leading-7 text-gray-500">
+                Mantenha os usuários organizados por perfil, status e último acesso.
+              </p>
+            </div>
 
-            <p class="mt-4 max-w-2xl text-sm leading-7 text-gray-500">
-              Mantenha os usuários organizados por perfil, status e último acesso.
-            </p>
+            <div class="lg:col-span-5">
+              <label class="mb-2 block text-sm font-semibold text-gray-700">Buscar usuário</label>
+              <input
+                type="text"
+                placeholder="Nome, e-mail ou perfil..."
+                class="h-12 w-full rounded-2xl border border-gray-200 bg-gray-50 px-5 text-sm outline-none transition-all focus:border-amber-700 focus:bg-white focus:ring-4 focus:ring-amber-700/10"
+                [value]="userSearchTerm"
+                (input)="userSearchTerm = $any($event.target).value"
+                aria-label="Buscar usuário"
+              />
+            </div>
           </div>
 
-          <div class="lg:col-span-5">
-            <label class="mb-2 block text-sm font-semibold text-gray-700">Buscar usuário</label>
-            <input type="text" placeholder="Nome, e-mail ou perfil..."
-              class="h-12 w-full rounded-2xl border border-gray-200 bg-gray-50 px-5 text-sm outline-none transition-all focus:border-amber-700 focus:bg-white focus:ring-4 focus:ring-amber-700/10"
-              [value]="userSearchTerm" (input)="userSearchTerm = $any($event.target).value"
-              aria-label="Buscar usuário" />
-          </div>
-        </div>
-
-        <div
-          class="mt-6 flex flex-col gap-4 border-t border-gray-100 pt-6 lg:flex-row lg:items-center lg:justify-between">
-          <div class="flex flex-wrap gap-2" role="group" aria-label="Filtrar usuários por status">
-            @for (filter of userFilters; track filter) {
-            <button type="button"
-              class="rounded-full border px-4 py-2 text-sm font-medium transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-700 focus-visible:ring-offset-2"
-              [class.border-amber-700]="activeUserFilter === filter" [class.bg-amber-700]="activeUserFilter === filter"
-              [class.text-white]="activeUserFilter === filter" [class.border-gray-200]="activeUserFilter !== filter"
-              [class.bg-white]="activeUserFilter !== filter" [class.text-gray-700]="activeUserFilter !== filter"
-              [attr.aria-pressed]="activeUserFilter === filter" (click)="activeUserFilter = filter">
-              {{ filter }}
-            </button>
-            }
-          </div>
-
-          <div class="flex flex-col gap-3 sm:flex-row sm:items-center">
-            <p class="text-sm text-gray-500" role="status">
-              {{ filteredUsers.length }} usuário(s)
-            </p>
-
-            @if (activeUserFilter !== 'Todos' || userSearchTerm) {
-            <button type="button" class="text-sm font-semibold text-amber-800 underline-offset-4 hover:underline"
-              (click)="clearUserFilters()">
-              Limpar filtros
-            </button>
-            }
-
-            <button type="button"
-              class="inline-flex min-h-11 items-center justify-center rounded-full bg-amber-700 px-6 py-2.5 text-sm font-semibold text-white shadow-lg shadow-amber-900/20 transition-all hover:-translate-y-0.5 hover:bg-amber-800"
-              (click)="openCreateUser()">
-              Novo usuário
-            </button>
-          </div>
-        </div>
-      </div>
-
-      @if (showUserForm) {
-      <article class="mb-8 rounded-[2rem] border border-amber-100 bg-white p-6 shadow-sm lg:p-8">
-        <div class="flex flex-col gap-3 border-b border-gray-100 pb-6 sm:flex-row sm:items-center sm:justify-between">
-          <div>
-            <h3 class="text-xl font-semibold text-gray-950">
-              @if (editingUserId) {
-              Editar usuário
-              } @else {
-              Cadastrar usuário
+          <div
+            class="mt-6 flex flex-col gap-4 border-t border-gray-100 pt-6 lg:flex-row lg:items-center lg:justify-between"
+          >
+            <div class="flex flex-wrap gap-2" role="group" aria-label="Filtrar usuários por status">
+              @for (filter of userFilters; track filter) {
+                <button
+                  type="button"
+                  class="rounded-full border px-4 py-2 text-sm font-medium transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-700 focus-visible:ring-offset-2"
+                  [class.border-amber-700]="activeUserFilter === filter"
+                  [class.bg-amber-700]="activeUserFilter === filter"
+                  [class.text-white]="activeUserFilter === filter"
+                  [class.border-gray-200]="activeUserFilter !== filter"
+                  [class.bg-white]="activeUserFilter !== filter"
+                  [class.text-gray-700]="activeUserFilter !== filter"
+                  [attr.aria-pressed]="activeUserFilter === filter"
+                  (click)="activeUserFilter = filter"
+                >
+                  {{ filter }}
+                </button>
               }
-            </h3>
-            <p class="mt-1 text-sm text-gray-500">Preencha os dados obrigatórios antes de salvar.</p>
-          </div>
+            </div>
 
-          <button type="button"
-            class="text-sm font-semibold text-gray-500 underline-offset-4 hover:text-red-600 hover:underline"
-            (click)="cancelUserForm()">
-            Cancelar
-          </button>
-        </div>
+            <div class="flex flex-col gap-3 sm:flex-row sm:items-center">
+              <p class="text-sm text-gray-500" role="status">
+                {{ filteredUsers.length }} usuário(s)
+              </p>
 
-        <div class="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          <div>
-            <label class="mb-1.5 block text-sm font-semibold text-gray-700">Nome</label>
-            <input type="text"
-              class="h-12 w-full rounded-2xl border border-gray-200 bg-gray-50 px-4 text-sm outline-none transition-all focus:border-amber-700 focus:bg-white focus:ring-4 focus:ring-amber-700/10"
-              [value]="userForm.name" (input)="userForm.name = $any($event.target).value" />
-          </div>
+              @if (activeUserFilter !== 'Todos' || userSearchTerm) {
+                <button
+                  type="button"
+                  class="text-sm font-semibold text-amber-800 underline-offset-4 hover:underline"
+                  (click)="clearUserFilters()"
+                >
+                  Limpar filtros
+                </button>
+              }
 
-          <div>
-            <label class="mb-1.5 block text-sm font-semibold text-gray-700">E-mail</label>
-            <input type="email"
-              class="h-12 w-full rounded-2xl border border-gray-200 bg-gray-50 px-4 text-sm outline-none transition-all focus:border-amber-700 focus:bg-white focus:ring-4 focus:ring-amber-700/10"
-              [value]="userForm.email" (input)="userForm.email = $any($event.target).value" />
-          </div>
-
-          <div>
-            <label class="mb-1.5 block text-sm font-semibold text-gray-700">Perfil</label>
-            <select
-              class="h-12 w-full rounded-2xl border border-gray-200 bg-gray-50 px-4 text-sm outline-none transition-all focus:border-amber-700 focus:bg-white focus:ring-4 focus:ring-amber-700/10"
-              [value]="userForm.role" (change)="userForm.role = $any($event.target).value">
-              <option>Administrador</option>
-              <option>Corretor</option>
-              <option>Cliente</option>
-            </select>
-          </div>
-
-          <div>
-            <label class="mb-1.5 block text-sm font-semibold text-gray-700">Status</label>
-            <select
-              class="h-12 w-full rounded-2xl border border-gray-200 bg-gray-50 px-4 text-sm outline-none transition-all focus:border-amber-700 focus:bg-white focus:ring-4 focus:ring-amber-700/10"
-              [value]="userForm.status" (change)="userForm.status = $any($event.target).value">
-              <option>Ativo</option>
-              <option>Bloqueado</option>
-            </select>
+              <button
+                type="button"
+                class="inline-flex min-h-11 items-center justify-center rounded-full bg-amber-700 px-6 py-2.5 text-sm font-semibold text-white shadow-lg shadow-amber-900/20 transition-all hover:-translate-y-0.5 hover:bg-amber-800"
+                (click)="openCreateUser()"
+              >
+                Novo usuário
+              </button>
+            </div>
           </div>
         </div>
 
-        <div class="mt-7 flex justify-end">
-          <button type="button"
-            class="inline-flex min-h-12 items-center justify-center rounded-full bg-amber-700 px-7 py-3 text-sm font-semibold text-white shadow-lg shadow-amber-900/20 transition-all hover:-translate-y-0.5 hover:bg-amber-800"
-            (click)="saveUser()">
-            Salvar usuário
-          </button>
-        </div>
-      </article>
-      }
+        @if (showUserForm) {
+          <article
+            class="mb-8 rounded-[2rem] border border-amber-100 bg-white p-6 shadow-sm lg:p-8"
+          >
+            <div
+              class="flex flex-col gap-3 border-b border-gray-100 pb-6 sm:flex-row sm:items-center sm:justify-between"
+            >
+              <div>
+                <h3 class="text-xl font-semibold text-gray-950">
+                  @if (editingUserId) {
+                    Editar usuário
+                  } @else {
+                    Cadastrar usuário
+                  }
+                </h3>
+                <p class="mt-1 text-sm text-gray-500">
+                  Preencha os dados obrigatórios antes de salvar.
+                </p>
+              </div>
 
-      <div class="grid grid-cols-1 gap-5">
-        @for (user of filteredUsers; track user.id) {
-        <article
-          class="rounded-[2rem] border border-gray-200 bg-white p-5 shadow-sm transition-all hover:-translate-y-0.5 hover:border-amber-200 hover:shadow-xl hover:shadow-amber-900/10">
-          <div class="grid grid-cols-1 gap-5 lg:grid-cols-12 lg:items-center">
-            <div class="lg:col-span-4">
-              <div class="flex items-center gap-4">
-                <div
-                  class="flex h-12 w-12 items-center justify-center rounded-2xl bg-amber-50 text-sm font-bold text-amber-800">
-                  {{ user.name[0] }}
-                </div>
+              <button
+                type="button"
+                class="text-sm font-semibold text-gray-500 underline-offset-4 hover:text-red-600 hover:underline"
+                (click)="cancelUserForm()"
+              >
+                Cancelar
+              </button>
+            </div>
 
-                <div>
-                  <h3 class="font-semibold text-gray-950">{{ user.name }}</h3>
-                  <p class="mt-1 text-sm text-gray-500">{{ user.email }}</p>
-                </div>
+            <div class="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+              <div>
+                <label class="mb-1.5 block text-sm font-semibold text-gray-700">Nome</label>
+                <input
+                  type="text"
+                  class="h-12 w-full rounded-2xl border border-gray-200 bg-gray-50 px-4 text-sm outline-none transition-all focus:border-amber-700 focus:bg-white focus:ring-4 focus:ring-amber-700/10"
+                  [value]="userForm.name"
+                  (input)="userForm.name = $any($event.target).value"
+                />
+              </div>
+
+              <div>
+                <label class="mb-1.5 block text-sm font-semibold text-gray-700">E-mail</label>
+                <input
+                  type="email"
+                  class="h-12 w-full rounded-2xl border border-gray-200 bg-gray-50 px-4 text-sm outline-none transition-all focus:border-amber-700 focus:bg-white focus:ring-4 focus:ring-amber-700/10"
+                  [value]="userForm.email"
+                  (input)="userForm.email = $any($event.target).value"
+                />
+              </div>
+
+              <div>
+                <label class="mb-1.5 block text-sm font-semibold text-gray-700">Perfil</label>
+                <select
+                  class="h-12 w-full rounded-2xl border border-gray-200 bg-gray-50 px-4 text-sm outline-none transition-all focus:border-amber-700 focus:bg-white focus:ring-4 focus:ring-amber-700/10"
+                  [value]="userForm.role"
+                  (change)="userForm.role = $any($event.target).value"
+                >
+                  <option>Administrador</option>
+                  <option>Corretor</option>
+                  <option>Cliente</option>
+                </select>
+              </div>
+
+              <div>
+                <label class="mb-1.5 block text-sm font-semibold text-gray-700">Status</label>
+                <select
+                  class="h-12 w-full rounded-2xl border border-gray-200 bg-gray-50 px-4 text-sm outline-none transition-all focus:border-amber-700 focus:bg-white focus:ring-4 focus:ring-amber-700/10"
+                  [value]="userForm.status"
+                  (change)="userForm.status = $any($event.target).value"
+                >
+                  <option>Ativo</option>
+                  <option>Bloqueado</option>
+                </select>
               </div>
             </div>
 
-            <div class="lg:col-span-2">
-              <p class="text-xs text-gray-400">Perfil</p>
-              <p class="mt-1 text-sm font-semibold text-gray-950">{{ user.role }}</p>
-            </div>
-
-            <div class="lg:col-span-2">
-              <p class="text-xs text-gray-400">Status</p>
-              <span class="mt-1 inline-flex rounded-full px-3 py-1 text-xs font-semibold"
-                [class.bg-green-50]="user.status === 'Ativo'" [class.text-green-700]="user.status === 'Ativo'"
-                [class.bg-red-50]="user.status === 'Bloqueado'" [class.text-red-700]="user.status === 'Bloqueado'">
-                {{ user.status }}
-              </span>
-            </div>
-
-            <div class="lg:col-span-2">
-              <p class="text-xs text-gray-400">Último acesso</p>
-              <p class="mt-1 text-sm text-gray-600">{{ user.lastAccess }}</p>
-            </div>
-
-            <div class="flex flex-wrap gap-2 lg:col-span-2 lg:justify-end">
-              <button type="button"
-                class="inline-flex min-h-10 items-center justify-center rounded-full border border-gray-300 bg-white px-4 py-2 text-xs font-semibold text-gray-800 transition-all hover:border-amber-700 hover:bg-amber-700 hover:text-white"
-                (click)="editUser(user)">
-                Editar
-              </button>
-
-              <button type="button"
-                class="inline-flex min-h-10 items-center justify-center rounded-full border px-4 py-2 text-xs font-semibold transition-all"
-                [class.border-red-200]="user.status === 'Ativo'" [class.bg-red-50]="user.status === 'Ativo'"
-                [class.text-red-700]="user.status === 'Ativo'" [class.hover:bg-red-100]="user.status === 'Ativo'"
-                [class.border-green-200]="user.status === 'Bloqueado'" [class.bg-green-50]="user.status === 'Bloqueado'"
-                [class.text-green-700]="user.status === 'Bloqueado'"
-                [class.hover:bg-green-100]="user.status === 'Bloqueado'" (click)="toggleUserStatus(user)">
-                @if (user.status === 'Ativo') {
-                Bloquear
-                } @else {
-                Desbloquear
-                }
-              </button>
-
-              <button type="button"
-                class="inline-flex min-h-10 items-center justify-center rounded-full border border-red-200 bg-white px-4 py-2 text-xs font-semibold text-red-700 transition-all hover:bg-red-50"
-                (click)="removeUser(user)">
-                Remover
+            <div class="mt-7 flex justify-end">
+              <button
+                type="button"
+                class="inline-flex min-h-12 items-center justify-center rounded-full bg-amber-700 px-7 py-3 text-sm font-semibold text-white shadow-lg shadow-amber-900/20 transition-all hover:-translate-y-0.5 hover:bg-amber-800"
+                (click)="saveUser()"
+              >
+                Salvar usuário
               </button>
             </div>
-          </div>
-        </article>
+          </article>
         }
+
+        <div class="grid grid-cols-1 gap-5">
+          @for (user of filteredUsers; track user.id) {
+            <article
+              class="rounded-[2rem] border border-gray-200 bg-white p-5 shadow-sm transition-all hover:-translate-y-0.5 hover:border-amber-200 hover:shadow-xl hover:shadow-amber-900/10"
+            >
+              <div class="grid grid-cols-1 gap-5 lg:grid-cols-12 lg:items-center">
+                <div class="lg:col-span-4">
+                  <div class="flex items-center gap-4">
+                    <div
+                      class="flex h-12 w-12 items-center justify-center rounded-2xl bg-amber-50 text-sm font-bold text-amber-800"
+                    >
+                      {{ user.name[0] }}
+                    </div>
+
+                    <div>
+                      <h3 class="font-semibold text-gray-950">{{ user.name }}</h3>
+                      <p class="mt-1 text-sm text-gray-500">{{ user.email }}</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="lg:col-span-2">
+                  <p class="text-xs text-gray-400">Perfil</p>
+                  <p class="mt-1 text-sm font-semibold text-gray-950">{{ user.role }}</p>
+                </div>
+
+                <div class="lg:col-span-2">
+                  <p class="text-xs text-gray-400">Status</p>
+                  <span
+                    class="mt-1 inline-flex rounded-full px-3 py-1 text-xs font-semibold"
+                    [class.bg-green-50]="user.status === 'Ativo'"
+                    [class.text-green-700]="user.status === 'Ativo'"
+                    [class.bg-red-50]="user.status === 'Bloqueado'"
+                    [class.text-red-700]="user.status === 'Bloqueado'"
+                  >
+                    {{ user.status }}
+                  </span>
+                </div>
+
+                <div class="lg:col-span-2">
+                  <p class="text-xs text-gray-400">Último acesso</p>
+                  <p class="mt-1 text-sm text-gray-600">{{ user.lastAccess }}</p>
+                </div>
+
+                <div class="flex flex-wrap gap-2 lg:col-span-2 lg:justify-end">
+                  <button
+                    type="button"
+                    class="inline-flex min-h-10 items-center justify-center rounded-full border border-gray-300 bg-white px-4 py-2 text-xs font-semibold text-gray-800 transition-all hover:border-amber-700 hover:bg-amber-700 hover:text-white"
+                    (click)="editUser(user)"
+                  >
+                    Editar
+                  </button>
+
+                  <button
+                    type="button"
+                    class="inline-flex min-h-10 items-center justify-center rounded-full border px-4 py-2 text-xs font-semibold transition-all"
+                    [class.border-red-200]="user.status === 'Ativo'"
+                    [class.bg-red-50]="user.status === 'Ativo'"
+                    [class.text-red-700]="user.status === 'Ativo'"
+                    [class.hover:bg-red-100]="user.status === 'Ativo'"
+                    [class.border-green-200]="user.status === 'Bloqueado'"
+                    [class.bg-green-50]="user.status === 'Bloqueado'"
+                    [class.text-green-700]="user.status === 'Bloqueado'"
+                    [class.hover:bg-green-100]="user.status === 'Bloqueado'"
+                    (click)="toggleUserStatus(user)"
+                  >
+                    @if (user.status === 'Ativo') {
+                      Bloquear
+                    } @else {
+                      Desbloquear
+                    }
+                  </button>
+
+                  <button
+                    type="button"
+                    class="inline-flex min-h-10 items-center justify-center rounded-full border border-red-200 bg-white px-4 py-2 text-xs font-semibold text-red-700 transition-all hover:bg-red-50"
+                    (click)="removeUser(user)"
+                  >
+                    Remover
+                  </button>
+                </div>
+              </div>
+            </article>
+          }
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
   }
 
   <!-- ACESSOS -->
   @if (activeSection === 'acessos') {
-  <section class="px-4 py-16 sm:px-6 lg:px-10 lg:py-20">
-    <div class="mx-auto grid max-w-7xl grid-cols-1 gap-8 lg:grid-cols-12">
-
-      <aside class="lg:col-span-4">
-        <div class="sticky top-32 rounded-[2rem] border border-amber-100 bg-white p-6 shadow-sm">
-          <span
-            class="mb-4 inline-flex rounded-full bg-amber-50 px-4 py-2 text-xs font-semibold uppercase tracking-[0.22em] text-amber-800">
-            Perfis de acesso
-          </span>
-
-          <h2 class="text-3xl font-light leading-tight tracking-[-0.04em] text-gray-950 sm:text-4xl"
-            style="font-family: 'DM Serif Display', Georgia, serif">
-            Gerencie autorizações do sistema.
-          </h2>
-
-          <p class="mt-5 text-sm leading-7 text-gray-500">
-            Selecione um perfil e ajuste as permissões disponíveis de forma clara e controlada.
-          </p>
-
-          <div class="mt-6 space-y-3">
-            @for (role of roleProfiles; track role.key) {
-            <button type="button" class="w-full rounded-3xl border p-4 text-left transition-all"
-              [class.border-amber-700]="selectedRoleKey === role.key"
-              [class.bg-amber-700]="selectedRoleKey === role.key" [class.text-white]="selectedRoleKey === role.key"
-              [class.border-gray-200]="selectedRoleKey !== role.key" [class.bg-gray-50]="selectedRoleKey !== role.key"
-              [class.text-gray-800]="selectedRoleKey !== role.key" (click)="selectRole(role)">
-              <p class="font-semibold">{{ role.name }}</p>
-              <p class="mt-1 text-xs leading-5" [class.text-white/70]="selectedRoleKey === role.key"
-                [class.text-gray-500]="selectedRoleKey !== role.key">
-                {{ role.description }}
-              </p>
-            </button>
-            }
-          </div>
-        </div>
-      </aside>
-
-      <section class="lg:col-span-8">
-        <article class="rounded-[2rem] border border-gray-200 bg-white p-6 shadow-sm lg:p-8">
-          @if (selectedRole) {
-          <div class="flex flex-col gap-4 border-b border-gray-100 pb-6 sm:flex-row sm:items-center sm:justify-between">
-            <div>
-              <h3 class="text-xl font-semibold text-gray-950">{{ selectedRole.name }}</h3>
-              <p class="mt-1 text-sm text-gray-500">{{ selectedRole.description }}</p>
-            </div>
-
-            <span class="inline-flex rounded-full bg-amber-50 px-3 py-1.5 text-xs font-semibold text-amber-800">
-              {{ selectedRole.permissions.length }} permissões
-            </span>
-          </div>
-
-          <div class="mt-6 grid grid-cols-1 gap-4">
-            @for (permission of permissions; track permission.key) {
-            <div class="rounded-3xl border border-gray-100 bg-gray-50 p-5">
-              <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-                <div>
-                  <div class="flex flex-wrap items-center gap-2">
-                    <h4 class="font-semibold text-gray-950">{{ permission.label }}</h4>
-                    <span class="rounded-full bg-white px-3 py-1 text-xs font-semibold text-amber-800">
-                      {{ permission.category }}
-                    </span>
-                  </div>
-
-                  <p class="mt-2 text-sm leading-6 text-gray-500">
-                    {{ permission.description }}
-                  </p>
-                </div>
-
-                <button type="button"
-                  class="inline-flex min-h-10 items-center justify-center rounded-full border px-5 py-2 text-xs font-semibold transition-all"
-                  [class.border-amber-700]="roleHasPermission(permission.key)"
-                  [class.bg-amber-700]="roleHasPermission(permission.key)"
-                  [class.text-white]="roleHasPermission(permission.key)"
-                  [class.border-gray-300]="!roleHasPermission(permission.key)"
-                  [class.bg-white]="!roleHasPermission(permission.key)"
-                  [class.text-gray-800]="!roleHasPermission(permission.key)"
-                  [attr.aria-pressed]="roleHasPermission(permission.key)" (click)="togglePermission(permission.key)">
-                  @if (roleHasPermission(permission.key)) {
-                  Permitido
-                  } @else {
-                  Bloqueado
-                  }
-                </button>
-              </div>
-            </div>
-            }
-          </div>
-          }
-        </article>
-      </section>
-    </div>
-  </section>
-  }
-
-  <!-- GESTÃO -->
-  @if (activeSection === 'gestao') {
-  <section class="px-4 py-16 sm:px-6 lg:px-10 lg:py-20">
-    <div class="mx-auto max-w-7xl">
-
-      <div class="mb-8 rounded-[2rem] border border-amber-100 bg-white p-6 shadow-sm lg:p-8">
-        <div class="grid grid-cols-1 gap-6 lg:grid-cols-12 lg:items-end">
-          <div class="lg:col-span-7">
+    <section class="px-4 py-16 sm:px-6 lg:px-10 lg:py-20">
+      <div class="mx-auto grid max-w-7xl grid-cols-1 gap-8 lg:grid-cols-12">
+        <aside class="lg:col-span-4">
+          <div class="sticky top-32 rounded-[2rem] border border-amber-100 bg-white p-6 shadow-sm">
             <span
-              class="mb-4 inline-flex rounded-full bg-amber-50 px-4 py-2 text-xs font-semibold uppercase tracking-[0.22em] text-amber-800">
-              Gestão administrativa
+              class="mb-4 inline-flex rounded-full bg-amber-50 px-4 py-2 text-xs font-semibold uppercase tracking-[0.22em] text-amber-800"
+            >
+              Perfis de acesso
             </span>
 
-            <h2 class="text-4xl font-light leading-tight tracking-[-0.04em] text-gray-950"
-              style="font-family: 'DM Serif Display', Georgia, serif">
-              Imóveis, corretores, clientes e logs.
+            <h2
+              class="text-3xl font-light leading-tight tracking-[-0.04em] text-gray-950 sm:text-4xl"
+              style="font-family: 'DM Serif Display', Georgia, serif"
+            >
+              Gerencie autorizações do sistema.
             </h2>
 
-            <p class="mt-4 max-w-2xl text-sm leading-7 text-gray-500">
-              Consulte registros administrativos e controle rapidamente itens ativos, pendentes ou inativos.
-            </p>
-          </div>
-
-          <div class="lg:col-span-5">
-            <label class="mb-2 block text-sm font-semibold text-gray-700">Buscar registro</label>
-            <input type="text" placeholder="Nome, tipo ou descrição..."
-              class="h-12 w-full rounded-2xl border border-gray-200 bg-gray-50 px-5 text-sm outline-none transition-all focus:border-amber-700 focus:bg-white focus:ring-4 focus:ring-amber-700/10"
-              [value]="entitySearchTerm" (input)="entitySearchTerm = $any($event.target).value"
-              aria-label="Buscar registro administrativo" />
-          </div>
-        </div>
-
-        <div
-          class="mt-6 flex flex-col gap-4 border-t border-gray-100 pt-6 lg:flex-row lg:items-center lg:justify-between">
-          <div class="flex flex-wrap gap-2" role="group" aria-label="Filtrar registros administrativos">
-            @for (filter of entityFilters; track filter) {
-            <button type="button"
-              class="rounded-full border px-4 py-2 text-sm font-medium transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-700 focus-visible:ring-offset-2"
-              [class.border-amber-700]="activeEntityFilter === filter"
-              [class.bg-amber-700]="activeEntityFilter === filter" [class.text-white]="activeEntityFilter === filter"
-              [class.border-gray-200]="activeEntityFilter !== filter" [class.bg-white]="activeEntityFilter !== filter"
-              [class.text-gray-700]="activeEntityFilter !== filter" [attr.aria-pressed]="activeEntityFilter === filter"
-              (click)="activeEntityFilter = filter">
-              {{ filter }}
-            </button>
-            }
-          </div>
-
-          <div class="flex items-center gap-3">
-            <p class="text-sm text-gray-500" role="status">
-              {{ filteredEntities.length }} registro(s)
+            <p class="mt-5 text-sm leading-7 text-gray-500">
+              Selecione um perfil e ajuste as permissões disponíveis de forma clara e controlada.
             </p>
 
-            @if (activeEntityFilter !== 'Todos' || entitySearchTerm) {
-            <button type="button" class="text-sm font-semibold text-amber-800 underline-offset-4 hover:underline"
-              (click)="clearEntityFilters()">
-              Limpar filtros
-            </button>
-            }
-          </div>
-        </div>
-      </div>
-
-      <div class="grid grid-cols-1 gap-6 lg:grid-cols-12">
-        <section class="space-y-4 lg:col-span-7">
-          @for (entity of filteredEntities; track entity.id) {
-          <article
-            class="rounded-[2rem] border border-gray-200 bg-white p-5 shadow-sm transition-all hover:-translate-y-0.5 hover:border-amber-200 hover:shadow-xl hover:shadow-amber-900/10">
-            <div class="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-              <div>
-                <div class="flex flex-wrap items-center gap-2">
-                  <h3 class="text-lg font-semibold text-gray-950">{{ entity.name }}</h3>
-
-                  <span class="rounded-full bg-amber-50 px-3 py-1 text-xs font-semibold text-amber-800">
-                    {{ entity.type }}
-                  </span>
-                </div>
-
-                <p class="mt-2 text-sm leading-6 text-gray-500">
-                  {{ entity.description }}
-                </p>
-
-                <p class="mt-3 text-xs text-gray-400">
-                  Atualizado: {{ entity.updatedAt }}
-                </p>
-              </div>
-
-              <span class="rounded-full px-3 py-1 text-xs font-semibold" [class.bg-green-50]="entity.status === 'Ativo'"
-                [class.text-green-700]="entity.status === 'Ativo'" [class.bg-amber-50]="entity.status === 'Pendente'"
-                [class.text-amber-800]="entity.status === 'Pendente'" [class.bg-gray-100]="entity.status === 'Inativo'"
-                [class.text-gray-700]="entity.status === 'Inativo'">
-                {{ entity.status }}
-              </span>
-            </div>
-
-            <div class="mt-5 flex flex-wrap gap-2">
-              @if (entity.status === 'Pendente') {
-              <button type="button"
-                class="inline-flex min-h-10 items-center justify-center rounded-full bg-amber-700 px-4 py-2 text-xs font-semibold text-white transition-all hover:bg-amber-800"
-                (click)="approveEntity(entity)">
-                Aprovar
-              </button>
-              }
-
-              <button type="button"
-                class="inline-flex min-h-10 items-center justify-center rounded-full border px-4 py-2 text-xs font-semibold transition-all"
-                [class.border-red-200]="entity.status === 'Ativo'" [class.bg-red-50]="entity.status === 'Ativo'"
-                [class.text-red-700]="entity.status === 'Ativo'" [class.hover:bg-red-100]="entity.status === 'Ativo'"
-                [class.border-green-200]="entity.status !== 'Ativo'" [class.bg-green-50]="entity.status !== 'Ativo'"
-                [class.text-green-700]="entity.status !== 'Ativo'"
-                [class.hover:bg-green-100]="entity.status !== 'Ativo'" (click)="toggleEntityStatus(entity)">
-                @if (entity.status === 'Ativo') {
-                Desativar
-                } @else {
-                Ativar
-                }
-              </button>
-            </div>
-          </article>
-          }
-        </section>
-
-        <aside class="lg:col-span-5">
-          <div class="sticky top-32 rounded-[2rem] border border-amber-100 bg-white p-6 shadow-sm">
-            <div class="flex items-center justify-between gap-4">
-              <h3 class="text-xl font-semibold text-gray-950">Logs administrativos</h3>
-              <span class="rounded-full bg-red-50 px-3 py-1 text-xs font-semibold text-red-700">
-                {{ criticalLogs }} críticos
-              </span>
-            </div>
-
-            <div class="mt-6 space-y-4">
-              @for (log of logs; track log.id) {
-              <div class="rounded-3xl border border-gray-100 bg-gray-50 p-4">
-                <div class="flex items-start justify-between gap-4">
-                  <div>
-                    <p class="font-semibold text-gray-950">{{ log.action }}</p>
-                    <p class="mt-1 text-sm text-gray-500">{{ log.user }}</p>
-                  </div>
-
-                  <span class="rounded-full px-3 py-1 text-xs font-semibold"
-                    [class.bg-green-50]="log.severity === 'Info'" [class.text-green-700]="log.severity === 'Info'"
-                    [class.bg-amber-50]="log.severity === 'Atenção'" [class.text-amber-800]="log.severity === 'Atenção'"
-                    [class.bg-red-50]="log.severity === 'Crítico'" [class.text-red-700]="log.severity === 'Crítico'">
-                    {{ log.severity }}
-                  </span>
-                </div>
-
-                <p class="mt-3 text-sm leading-6 text-gray-500">
-                  {{ log.description }}
-                </p>
-
-                <p class="mt-3 text-xs text-gray-400">
-                  {{ log.date }}
-                </p>
-              </div>
+            <div class="mt-6 space-y-3">
+              @for (role of roleProfiles; track role.key) {
+                <button
+                  type="button"
+                  class="w-full rounded-3xl border p-4 text-left transition-all"
+                  [class.border-amber-700]="selectedRoleKey === role.key"
+                  [class.bg-amber-700]="selectedRoleKey === role.key"
+                  [class.text-white]="selectedRoleKey === role.key"
+                  [class.border-gray-200]="selectedRoleKey !== role.key"
+                  [class.bg-gray-50]="selectedRoleKey !== role.key"
+                  [class.text-gray-800]="selectedRoleKey !== role.key"
+                  (click)="selectRole(role)"
+                >
+                  <p class="font-semibold">{{ role.name }}</p>
+                  <p
+                    class="mt-1 text-xs leading-5"
+                    [class.text-white/70]="selectedRoleKey === role.key"
+                    [class.text-gray-500]="selectedRoleKey !== role.key"
+                  >
+                    {{ role.description }}
+                  </p>
+                </button>
               }
             </div>
           </div>
         </aside>
+
+        <section class="lg:col-span-8">
+          <article class="rounded-[2rem] border border-gray-200 bg-white p-6 shadow-sm lg:p-8">
+            @if (selectedRole) {
+              <div
+                class="flex flex-col gap-4 border-b border-gray-100 pb-6 sm:flex-row sm:items-center sm:justify-between"
+              >
+                <div>
+                  <h3 class="text-xl font-semibold text-gray-950">{{ selectedRole.name }}</h3>
+                  <p class="mt-1 text-sm text-gray-500">{{ selectedRole.description }}</p>
+                </div>
+
+                <span
+                  class="inline-flex rounded-full bg-amber-50 px-3 py-1.5 text-xs font-semibold text-amber-800"
+                >
+                  {{ selectedRole.permissions.length }} permissões
+                </span>
+              </div>
+
+              <div class="mt-6 grid grid-cols-1 gap-4">
+                @for (permission of permissions; track permission.key) {
+                  <div class="rounded-3xl border border-gray-100 bg-gray-50 p-5">
+                    <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                      <div>
+                        <div class="flex flex-wrap items-center gap-2">
+                          <h4 class="font-semibold text-gray-950">{{ permission.label }}</h4>
+                          <span
+                            class="rounded-full bg-white px-3 py-1 text-xs font-semibold text-amber-800"
+                          >
+                            {{ permission.category }}
+                          </span>
+                        </div>
+
+                        <p class="mt-2 text-sm leading-6 text-gray-500">
+                          {{ permission.description }}
+                        </p>
+                      </div>
+
+                      <button
+                        type="button"
+                        class="inline-flex min-h-10 items-center justify-center rounded-full border px-5 py-2 text-xs font-semibold transition-all"
+                        [class.border-amber-700]="roleHasPermission(permission.key)"
+                        [class.bg-amber-700]="roleHasPermission(permission.key)"
+                        [class.text-white]="roleHasPermission(permission.key)"
+                        [class.border-gray-300]="!roleHasPermission(permission.key)"
+                        [class.bg-white]="!roleHasPermission(permission.key)"
+                        [class.text-gray-800]="!roleHasPermission(permission.key)"
+                        [attr.aria-pressed]="roleHasPermission(permission.key)"
+                        (click)="togglePermission(permission.key)"
+                      >
+                        @if (roleHasPermission(permission.key)) {
+                          Permitido
+                        } @else {
+                          Bloqueado
+                        }
+                      </button>
+                    </div>
+                  </div>
+                }
+              </div>
+            }
+          </article>
+        </section>
       </div>
-    </div>
-  </section>
+    </section>
+  }
+
+  <!-- GESTÃO -->
+  @if (activeSection === 'gestao') {
+    <section class="px-4 py-16 sm:px-6 lg:px-10 lg:py-20">
+      <div class="mx-auto max-w-7xl">
+        <div class="mb-8 rounded-[2rem] border border-amber-100 bg-white p-6 shadow-sm lg:p-8">
+          <div class="grid grid-cols-1 gap-6 lg:grid-cols-12 lg:items-end">
+            <div class="lg:col-span-7">
+              <span
+                class="mb-4 inline-flex rounded-full bg-amber-50 px-4 py-2 text-xs font-semibold uppercase tracking-[0.22em] text-amber-800"
+              >
+                Gestão administrativa
+              </span>
+
+              <h2
+                class="text-4xl font-light leading-tight tracking-[-0.04em] text-gray-950"
+                style="font-family: 'DM Serif Display', Georgia, serif"
+              >
+                Imóveis, corretores, clientes e logs.
+              </h2>
+
+              <p class="mt-4 max-w-2xl text-sm leading-7 text-gray-500">
+                Consulte registros administrativos e controle rapidamente itens ativos, pendentes ou
+                inativos.
+              </p>
+            </div>
+
+            <div class="lg:col-span-5">
+              <label class="mb-2 block text-sm font-semibold text-gray-700">Buscar registro</label>
+              <input
+                type="text"
+                placeholder="Nome, tipo ou descrição..."
+                class="h-12 w-full rounded-2xl border border-gray-200 bg-gray-50 px-5 text-sm outline-none transition-all focus:border-amber-700 focus:bg-white focus:ring-4 focus:ring-amber-700/10"
+                [value]="entitySearchTerm"
+                (input)="entitySearchTerm = $any($event.target).value"
+                aria-label="Buscar registro administrativo"
+              />
+            </div>
+          </div>
+
+          <div
+            class="mt-6 flex flex-col gap-4 border-t border-gray-100 pt-6 lg:flex-row lg:items-center lg:justify-between"
+          >
+            <div
+              class="flex flex-wrap gap-2"
+              role="group"
+              aria-label="Filtrar registros administrativos"
+            >
+              @for (filter of entityFilters; track filter) {
+                <button
+                  type="button"
+                  class="rounded-full border px-4 py-2 text-sm font-medium transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-700 focus-visible:ring-offset-2"
+                  [class.border-amber-700]="activeEntityFilter === filter"
+                  [class.bg-amber-700]="activeEntityFilter === filter"
+                  [class.text-white]="activeEntityFilter === filter"
+                  [class.border-gray-200]="activeEntityFilter !== filter"
+                  [class.bg-white]="activeEntityFilter !== filter"
+                  [class.text-gray-700]="activeEntityFilter !== filter"
+                  [attr.aria-pressed]="activeEntityFilter === filter"
+                  (click)="activeEntityFilter = filter"
+                >
+                  {{ filter }}
+                </button>
+              }
+            </div>
+
+            <div class="flex items-center gap-3">
+              <p class="text-sm text-gray-500" role="status">
+                {{ filteredEntities.length }} registro(s)
+              </p>
+
+              @if (activeEntityFilter !== 'Todos' || entitySearchTerm) {
+                <button
+                  type="button"
+                  class="text-sm font-semibold text-amber-800 underline-offset-4 hover:underline"
+                  (click)="clearEntityFilters()"
+                >
+                  Limpar filtros
+                </button>
+              }
+            </div>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 gap-6 lg:grid-cols-12">
+          <section class="space-y-4 lg:col-span-7">
+            @for (entity of filteredEntities; track entity.id) {
+              <article
+                class="rounded-[2rem] border border-gray-200 bg-white p-5 shadow-sm transition-all hover:-translate-y-0.5 hover:border-amber-200 hover:shadow-xl hover:shadow-amber-900/10"
+              >
+                <div class="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+                  <div>
+                    <div class="flex flex-wrap items-center gap-2">
+                      <h3 class="text-lg font-semibold text-gray-950">{{ entity.name }}</h3>
+
+                      <span
+                        class="rounded-full bg-amber-50 px-3 py-1 text-xs font-semibold text-amber-800"
+                      >
+                        {{ entity.type }}
+                      </span>
+                    </div>
+
+                    <p class="mt-2 text-sm leading-6 text-gray-500">
+                      {{ entity.description }}
+                    </p>
+
+                    <p class="mt-3 text-xs text-gray-400">Atualizado: {{ entity.updatedAt }}</p>
+                  </div>
+
+                  <span
+                    class="rounded-full px-3 py-1 text-xs font-semibold"
+                    [class.bg-green-50]="entity.status === 'Ativo'"
+                    [class.text-green-700]="entity.status === 'Ativo'"
+                    [class.bg-amber-50]="entity.status === 'Pendente'"
+                    [class.text-amber-800]="entity.status === 'Pendente'"
+                    [class.bg-gray-100]="entity.status === 'Inativo'"
+                    [class.text-gray-700]="entity.status === 'Inativo'"
+                  >
+                    {{ entity.status }}
+                  </span>
+                </div>
+
+                <div class="mt-5 flex flex-wrap gap-2">
+                  @if (entity.status === 'Pendente') {
+                    <button
+                      type="button"
+                      class="inline-flex min-h-10 items-center justify-center rounded-full bg-amber-700 px-4 py-2 text-xs font-semibold text-white transition-all hover:bg-amber-800"
+                      (click)="approveEntity(entity)"
+                    >
+                      Aprovar
+                    </button>
+                  }
+
+                  <button
+                    type="button"
+                    class="inline-flex min-h-10 items-center justify-center rounded-full border px-4 py-2 text-xs font-semibold transition-all"
+                    [class.border-red-200]="entity.status === 'Ativo'"
+                    [class.bg-red-50]="entity.status === 'Ativo'"
+                    [class.text-red-700]="entity.status === 'Ativo'"
+                    [class.hover:bg-red-100]="entity.status === 'Ativo'"
+                    [class.border-green-200]="entity.status !== 'Ativo'"
+                    [class.bg-green-50]="entity.status !== 'Ativo'"
+                    [class.text-green-700]="entity.status !== 'Ativo'"
+                    [class.hover:bg-green-100]="entity.status !== 'Ativo'"
+                    (click)="toggleEntityStatus(entity)"
+                  >
+                    @if (entity.status === 'Ativo') {
+                      Desativar
+                    } @else {
+                      Ativar
+                    }
+                  </button>
+                </div>
+              </article>
+            }
+          </section>
+
+          <aside class="lg:col-span-5">
+            <div
+              class="sticky top-32 rounded-[2rem] border border-amber-100 bg-white p-6 shadow-sm"
+            >
+              <div class="flex items-center justify-between gap-4">
+                <h3 class="text-xl font-semibold text-gray-950">Logs administrativos</h3>
+                <span class="rounded-full bg-red-50 px-3 py-1 text-xs font-semibold text-red-700">
+                  {{ criticalLogs }} críticos
+                </span>
+              </div>
+
+              <div class="mt-6 space-y-4">
+                @for (log of logs; track log.id) {
+                  <div class="rounded-3xl border border-gray-100 bg-gray-50 p-4">
+                    <div class="flex items-start justify-between gap-4">
+                      <div>
+                        <p class="font-semibold text-gray-950">{{ log.action }}</p>
+                        <p class="mt-1 text-sm text-gray-500">{{ log.user }}</p>
+                      </div>
+
+                      <span
+                        class="rounded-full px-3 py-1 text-xs font-semibold"
+                        [class.bg-green-50]="log.severity === 'Info'"
+                        [class.text-green-700]="log.severity === 'Info'"
+                        [class.bg-amber-50]="log.severity === 'Atenção'"
+                        [class.text-amber-800]="log.severity === 'Atenção'"
+                        [class.bg-red-50]="log.severity === 'Crítico'"
+                        [class.text-red-700]="log.severity === 'Crítico'"
+                      >
+                        {{ log.severity }}
+                      </span>
+                    </div>
+
+                    <p class="mt-3 text-sm leading-6 text-gray-500">
+                      {{ log.description }}
+                    </p>
+
+                    <p class="mt-3 text-xs text-gray-400">
+                      {{ log.date }}
+                    </p>
+                  </div>
+                }
+              </div>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
   }
 
   <!-- CONFIGURAÇÕES -->
   @if (activeSection === 'configuracoes') {
-  <section class="px-4 py-16 sm:px-6 lg:px-10 lg:py-20">
-    <div class="mx-auto grid max-w-7xl grid-cols-1 gap-8 lg:grid-cols-12">
+    <section class="px-4 py-16 sm:px-6 lg:px-10 lg:py-20">
+      <div class="mx-auto grid max-w-7xl grid-cols-1 gap-8 lg:grid-cols-12">
+        <aside class="lg:col-span-4">
+          <div class="sticky top-32 rounded-[2rem] border border-amber-100 bg-white p-6 shadow-sm">
+            <span
+              class="mb-4 inline-flex rounded-full bg-amber-50 px-4 py-2 text-xs font-semibold uppercase tracking-[0.22em] text-amber-800"
+            >
+              Configurações
+            </span>
 
-      <aside class="lg:col-span-4">
-        <div class="sticky top-32 rounded-[2rem] border border-amber-100 bg-white p-6 shadow-sm">
-          <span
-            class="mb-4 inline-flex rounded-full bg-amber-50 px-4 py-2 text-xs font-semibold uppercase tracking-[0.22em] text-amber-800">
-            Configurações
-          </span>
+            <h2
+              class="text-3xl font-light leading-tight tracking-[-0.04em] text-gray-950 sm:text-4xl"
+              style="font-family: 'DM Serif Display', Georgia, serif"
+            >
+              Ajuste parâmetros macros do sistema.
+            </h2>
 
-          <h2 class="text-3xl font-light leading-tight tracking-[-0.04em] text-gray-950 sm:text-4xl"
-            style="font-family: 'DM Serif Display', Georgia, serif">
-            Ajuste parâmetros macros do sistema.
-          </h2>
-
-          <p class="mt-5 text-sm leading-7 text-gray-500">
-            Configure informações gerais, comportamento de cadastro e limites exibidos na plataforma.
-          </p>
-
-          <div class="mt-6 rounded-3xl bg-amber-50/70 p-4">
-            <p class="text-sm font-semibold text-gray-950">Atenção</p>
-            <p class="mt-1 text-sm leading-6 text-gray-500">
-              Alterações aqui podem impactar todos os usuários do sistema.
-            </p>
-          </div>
-        </div>
-      </aside>
-
-      <section class="lg:col-span-8">
-        <article class="rounded-[2rem] border border-gray-200 bg-white p-6 shadow-sm lg:p-8">
-          <div class="border-b border-gray-100 pb-6">
-            <h3 class="text-xl font-semibold text-gray-950">Parâmetros gerais</h3>
-            <p class="mt-1 text-sm text-gray-500">Revise os campos antes de salvar as configurações.</p>
-          </div>
-
-          <div class="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
-            <div>
-              <label class="mb-1.5 block text-sm font-semibold text-gray-700">Nome do sistema</label>
-              <input type="text"
-                class="h-12 w-full rounded-2xl border border-gray-200 bg-gray-50 px-4 text-sm outline-none transition-all focus:border-amber-700 focus:bg-white focus:ring-4 focus:ring-amber-700/10"
-                [value]="settings.systemName" (input)="settings.systemName = $any($event.target).value" />
-            </div>
-
-            <div>
-              <label class="mb-1.5 block text-sm font-semibold text-gray-700">E-mail de suporte</label>
-              <input type="email"
-                class="h-12 w-full rounded-2xl border border-gray-200 bg-gray-50 px-4 text-sm outline-none transition-all focus:border-amber-700 focus:bg-white focus:ring-4 focus:ring-amber-700/10"
-                [value]="settings.supportEmail" (input)="settings.supportEmail = $any($event.target).value" />
-            </div>
-
-            <div>
-              <label class="mb-1.5 block text-sm font-semibold text-gray-700">Prioridade padrão dos leads</label>
-              <select
-                class="h-12 w-full rounded-2xl border border-gray-200 bg-gray-50 px-4 text-sm outline-none transition-all focus:border-amber-700 focus:bg-white focus:ring-4 focus:ring-amber-700/10"
-                [value]="settings.defaultLeadPriority"
-                (change)="settings.defaultLeadPriority = $any($event.target).value">
-                <option>Baixa</option>
-                <option>Média</option>
-                <option>Alta</option>
-              </select>
-            </div>
-
-            <div>
-              <label class="mb-1.5 block text-sm font-semibold text-gray-700">Máximo de imóveis em destaque</label>
-              <input type="number" min="1"
-                class="h-12 w-full rounded-2xl border border-gray-200 bg-gray-50 px-4 text-sm outline-none transition-all focus:border-amber-700 focus:bg-white focus:ring-4 focus:ring-amber-700/10"
-                [value]="settings.maxFeaturedProperties"
-                (input)="updateMaxFeaturedProperties($any($event.target).value)" />
-            </div>
-          </div>
-
-          <div class="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2">
-            <label class="flex cursor-pointer items-start gap-4 rounded-3xl border border-gray-100 bg-gray-50 p-5">
-              <input type="checkbox" class="mt-1 h-4 w-4 rounded border-gray-300 text-amber-700 focus:ring-amber-700"
-                [checked]="settings.allowRegistrations"
-                (change)="settings.allowRegistrations = $any($event.target).checked" />
-              <span>
-                <span class="block font-semibold text-gray-950">Permitir novos cadastros</span>
-                <span class="mt-1 block text-sm leading-6 text-gray-500">
-                  Usuários poderão criar novas contas pelo sistema.
-                </span>
-              </span>
-            </label>
-
-            <label class="flex cursor-pointer items-start gap-4 rounded-3xl border border-gray-100 bg-gray-50 p-5">
-              <input type="checkbox" class="mt-1 h-4 w-4 rounded border-gray-300 text-amber-700 focus:ring-amber-700"
-                [checked]="settings.maintenanceMode"
-                (change)="settings.maintenanceMode = $any($event.target).checked" />
-              <span>
-                <span class="block font-semibold text-gray-950">Modo manutenção</span>
-                <span class="mt-1 block text-sm leading-6 text-gray-500">
-                  Restringe temporariamente o acesso de usuários comuns.
-                </span>
-              </span>
-            </label>
-          </div>
-
-          <div class="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-            <p class="text-xs text-gray-400">
-              As configurações serão aplicadas após salvar.
+            <p class="mt-5 text-sm leading-7 text-gray-500">
+              Configure informações gerais, comportamento de cadastro e limites exibidos na
+              plataforma.
             </p>
 
-            <button type="button"
-              class="inline-flex min-h-12 items-center justify-center rounded-full bg-amber-700 px-7 py-3 text-sm font-semibold text-white shadow-lg shadow-amber-900/20 transition-all hover:-translate-y-0.5 hover:bg-amber-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-700 focus-visible:ring-offset-4"
-              (click)="saveSettings()">
-              Salvar configurações
-            </button>
+            <div class="mt-6 rounded-3xl bg-amber-50/70 p-4">
+              <p class="text-sm font-semibold text-gray-950">Atenção</p>
+              <p class="mt-1 text-sm leading-6 text-gray-500">
+                Alterações aqui podem impactar todos os usuários do sistema.
+              </p>
+            </div>
           </div>
-        </article>
-      </section>
-    </div>
-  </section>
+        </aside>
+
+        <section class="lg:col-span-8">
+          <article class="rounded-[2rem] border border-gray-200 bg-white p-6 shadow-sm lg:p-8">
+            <div class="border-b border-gray-100 pb-6">
+              <h3 class="text-xl font-semibold text-gray-950">Parâmetros gerais</h3>
+              <p class="mt-1 text-sm text-gray-500">
+                Revise os campos antes de salvar as configurações.
+              </p>
+            </div>
+
+            <div class="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
+              <div>
+                <label class="mb-1.5 block text-sm font-semibold text-gray-700"
+                  >Nome do sistema</label
+                >
+                <input
+                  type="text"
+                  class="h-12 w-full rounded-2xl border border-gray-200 bg-gray-50 px-4 text-sm outline-none transition-all focus:border-amber-700 focus:bg-white focus:ring-4 focus:ring-amber-700/10"
+                  [value]="settings.systemName"
+                  (input)="settings.systemName = $any($event.target).value"
+                />
+              </div>
+
+              <div>
+                <label class="mb-1.5 block text-sm font-semibold text-gray-700"
+                  >E-mail de suporte</label
+                >
+                <input
+                  type="email"
+                  class="h-12 w-full rounded-2xl border border-gray-200 bg-gray-50 px-4 text-sm outline-none transition-all focus:border-amber-700 focus:bg-white focus:ring-4 focus:ring-amber-700/10"
+                  [value]="settings.supportEmail"
+                  (input)="settings.supportEmail = $any($event.target).value"
+                />
+              </div>
+
+              <div>
+                <label class="mb-1.5 block text-sm font-semibold text-gray-700"
+                  >Prioridade padrão dos leads</label
+                >
+                <select
+                  class="h-12 w-full rounded-2xl border border-gray-200 bg-gray-50 px-4 text-sm outline-none transition-all focus:border-amber-700 focus:bg-white focus:ring-4 focus:ring-amber-700/10"
+                  [value]="settings.defaultLeadPriority"
+                  (change)="settings.defaultLeadPriority = $any($event.target).value"
+                >
+                  <option>Baixa</option>
+                  <option>Média</option>
+                  <option>Alta</option>
+                </select>
+              </div>
+
+              <div>
+                <label class="mb-1.5 block text-sm font-semibold text-gray-700"
+                  >Máximo de imóveis em destaque</label
+                >
+                <input
+                  type="number"
+                  min="1"
+                  class="h-12 w-full rounded-2xl border border-gray-200 bg-gray-50 px-4 text-sm outline-none transition-all focus:border-amber-700 focus:bg-white focus:ring-4 focus:ring-amber-700/10"
+                  [value]="settings.maxFeaturedProperties"
+                  (input)="updateMaxFeaturedProperties($any($event.target).value)"
+                />
+              </div>
+            </div>
+
+            <div class="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2">
+              <label
+                class="flex cursor-pointer items-start gap-4 rounded-3xl border border-gray-100 bg-gray-50 p-5"
+              >
+                <input
+                  type="checkbox"
+                  class="mt-1 h-4 w-4 rounded border-gray-300 text-amber-700 focus:ring-amber-700"
+                  [checked]="settings.allowRegistrations"
+                  (change)="settings.allowRegistrations = $any($event.target).checked"
+                />
+                <span>
+                  <span class="block font-semibold text-gray-950">Permitir novos cadastros</span>
+                  <span class="mt-1 block text-sm leading-6 text-gray-500">
+                    Usuários poderão criar novas contas pelo sistema.
+                  </span>
+                </span>
+              </label>
+
+              <label
+                class="flex cursor-pointer items-start gap-4 rounded-3xl border border-gray-100 bg-gray-50 p-5"
+              >
+                <input
+                  type="checkbox"
+                  class="mt-1 h-4 w-4 rounded border-gray-300 text-amber-700 focus:ring-amber-700"
+                  [checked]="settings.maintenanceMode"
+                  (change)="settings.maintenanceMode = $any($event.target).checked"
+                />
+                <span>
+                  <span class="block font-semibold text-gray-950">Modo manutenção</span>
+                  <span class="mt-1 block text-sm leading-6 text-gray-500">
+                    Restringe temporariamente o acesso de usuários comuns.
+                  </span>
+                </span>
+              </label>
+            </div>
+
+            <div class="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+              <p class="text-xs text-gray-400">As configurações serão aplicadas após salvar.</p>
+
+              <button
+                type="button"
+                class="inline-flex min-h-12 items-center justify-center rounded-full bg-amber-700 px-7 py-3 text-sm font-semibold text-white shadow-lg shadow-amber-900/20 transition-all hover:-translate-y-0.5 hover:bg-amber-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-700 focus-visible:ring-offset-4"
+                (click)="saveSettings()"
+              >
+                Salvar configurações
+              </button>
+            </div>
+          </article>
+        </section>
+      </div>
+    </section>
   }
 </main>
 
