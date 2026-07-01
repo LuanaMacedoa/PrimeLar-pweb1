@@ -1,72 +1,92 @@
-import { Component, OnInit , inject } from '@angular/core';
-import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { Component, OnInit, inject } from '@angular/core';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { PasswordResetService } from '../../../service/password-reset.service';
 
 @Component({
   selector: 'app-reset-password',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, RouterLink],
-  templateUrl: './reset-password.component.html'
+  imports: [CommonModule, ReactiveFormsModule, RouterLink],
+  templateUrl: './reset-password.component.html',
 })
 export class ResetPasswordComponent implements OnInit {
+  private readonly fb = inject(FormBuilder);
+  private readonly route = inject(ActivatedRoute);
+  private readonly router = inject(Router);
+  private readonly passwordResetService = inject(PasswordResetService);
 
-  private fb = inject(FormBuilder);
-
-  form = this.fb.group({
+  form = this.fb.nonNullable.group({
     novaSenha: ['', [Validators.required, Validators.minLength(6)]],
-    confirmarSenha: ['', Validators.required]
+    confirmarSenha: ['', [Validators.required]],
   });
 
-  token = '';          // lido da URL: /redefinir-senha?token=abc123
+  token = '';
   mensagem = '';
-  erro = '';
+
+  erroToken = '';
+  erroFormulario = '';
+
   carregando = false;
-  sucesso = false;     // controla redirecionamento após sucesso
+  sucesso = false;
 
-  constructor(
-    private route: ActivatedRoute, // lê parâmetros da URL
-    private router: Router,
-    private passwordResetService: PasswordResetService
-  ) {}
-
-  ngOnInit() {
-    // Lê o token do query param da URL
+  ngOnInit(): void {
     this.token = this.route.snapshot.queryParamMap.get('token') || '';
 
-    // Se não tiver token na URL, mostra erro imediatamente
     if (!this.token) {
-      this.erro = 'Link inválido ou expirado. Solicite um novo link de recuperação.';
+      this.erroToken = 'Solicite um novo link de recuperação para redefinir sua senha.';
     }
   }
 
-  onSubmit() {
-    if (this.form.invalid || !this.token) return;
+  get novaSenhaInvalida(): boolean {
+    const control = this.form.controls.novaSenha;
+    return control.invalid && control.touched;
+  }
 
-    const { novaSenha, confirmarSenha } = this.form.value;
+  get confirmarSenhaInvalida(): boolean {
+    const control = this.form.controls.confirmarSenha;
+    return control.invalid && control.touched;
+  }
 
-    // Validação: as duas senhas precisam ser iguais
+  onSubmit(): void {
+    this.erroFormulario = '';
+
+    if (!this.token) {
+      this.erroToken = 'Solicite um novo link de recuperação para redefinir sua senha.';
+      return;
+    }
+
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
+      return;
+    }
+
+    const novaSenha = this.form.controls.novaSenha.value;
+    const confirmarSenha = this.form.controls.confirmarSenha.value;
+
     if (novaSenha !== confirmarSenha) {
-      this.erro = 'As senhas não coincidem.';
+      this.erroFormulario = 'As senhas não coincidem.';
       return;
     }
 
     this.carregando = true;
-    this.erro = '';
 
-    this.passwordResetService.confirmarReset(this.token, novaSenha!).subscribe({
-      next: (resposta) => {
-        this.mensagem = resposta;
+    this.passwordResetService.confirmarReset(this.token, novaSenha).subscribe({
+      next: (resposta: string) => {
+        this.mensagem = resposta || 'Sua senha foi redefinida com sucesso.';
         this.carregando = false;
         this.sucesso = true;
-        // Redireciona para login após 3 segundos
-        setTimeout(() => this.router.navigate(['/auth/login']), 3000);
+
+        setTimeout(() => {
+          this.router.navigate(['/auth/login']);
+        }, 3000);
       },
       error: (err) => {
-        this.erro = err.error || 'Erro ao redefinir senha. O link pode ter expirado.';
+        this.erroFormulario =
+          err?.error || 'Erro ao redefinir senha. O link pode ter expirado.';
+
         this.carregando = false;
-      }
+      },
     });
   }
 }

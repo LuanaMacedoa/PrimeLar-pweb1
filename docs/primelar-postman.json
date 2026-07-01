@@ -221,6 +221,64 @@
               { "key": "Authorization", "value": "Bearer {{token}}" }
             ]
           }
+        },
+        {
+          "name": "Cadastrar com imagem (ADMIN)",
+          "request": {
+            "method": "POST",
+            "url": {
+              "raw": "{{base_url}}/imoveis",
+              "host": ["{{base_url}}"],
+              "path": ["imoveis"]
+            },
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                { "key": "titulo",    "value": "Apartamento 3 quartos Centro",                           "type": "text" },
+                { "key": "descricao", "value": "Apartamento amplo com varanda, próximo ao metrô.",       "type": "text" },
+                { "key": "preco",     "value": "350000.00",                                              "type": "text" },
+                { "key": "cidade",    "value": "São Paulo",                                              "type": "text" },
+                { "key": "bairro",    "value": "Centro",                                                 "type": "text" },
+                { "key": "endereco",  "value": "Rua das Flores, 100, Apto 42",                           "type": "text" },
+                { "key": "quartos",   "value": "3",                                                      "type": "text" },
+                { "key": "banheiros", "value": "2",                                                      "type": "text" },
+                { "key": "vagas",     "value": "1",                                                      "type": "text" },
+                { "key": "imagem",    "src": "",                                                         "type": "file" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Atualizar com imagem (ADMIN)",
+          "request": {
+            "method": "PUT",
+            "url": {
+              "raw": "{{base_url}}/imoveis/1",
+              "host": ["{{base_url}}"],
+              "path": ["imoveis", "1"]
+            },
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                { "key": "titulo",    "value": "Apartamento 3 quartos Centro — Atualizado",              "type": "text" },
+                { "key": "descricao", "value": "Descrição atualizada.",                                  "type": "text" },
+                { "key": "preco",     "value": "370000.00",                                              "type": "text" },
+                { "key": "cidade",    "value": "São Paulo",                                              "type": "text" },
+                { "key": "bairro",    "value": "Centro",                                                 "type": "text" },
+                { "key": "endereco",  "value": "Rua das Flores, 100, Apto 42",                           "type": "text" },
+                { "key": "quartos",   "value": "3",                                                      "type": "text" },
+                { "key": "banheiros", "value": "2",                                                      "type": "text" },
+                { "key": "vagas",     "value": "2",                                                      "type": "text" },
+                { "key": "imagem",    "src": "",                                                         "type": "file" }
+              ]
+            }
+          }
         }
       ]
     },

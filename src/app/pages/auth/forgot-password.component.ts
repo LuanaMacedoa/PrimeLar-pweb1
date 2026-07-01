@@ -1,55 +1,60 @@
-import { Component, inject } from '@angular/core';
-import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { Component, inject } from '@angular/core';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { RouterLink } from '@angular/router';
 import { PasswordResetService } from '../../../service/password-reset.service';
 
 @Component({
   selector: 'app-forgot-password',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, RouterLink],
-  templateUrl: './forgot-password.component.html'
+  imports: [CommonModule, ReactiveFormsModule, RouterLink],
+  templateUrl: './forgot-password.component.html',
 })
 export class ForgotPasswordComponent {
+  private readonly fb = inject(FormBuilder);
+  private readonly passwordResetService = inject(PasswordResetService);
 
-  
-
-  private fb = inject(FormBuilder);
-
-  form = this.fb.group({
-    email: ['', [Validators.required, Validators.email]]
+  form = this.fb.nonNullable.group({
+    email: ['', [Validators.required, Validators.email]],
   });
 
-  mensagem = '';     
-  erro = '';          
-  carregando = false; 
-  enviado = false;    
+  mensagem = '';
+  erro = '';
+  carregando = false;
+  enviado = false;
 
-  constructor(
-    private passwordResetService: PasswordResetService
-  ) {}
+  get emailInvalido(): boolean {
+    const email = this.form.controls.email;
+    return email.invalid && email.touched;
+  }
 
-  onSubmit() {
-    if (this.form.invalid) return;
+  onSubmit(): void {
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
+      return;
+    }
 
     this.carregando = true;
     this.erro = '';
     this.mensagem = '';
 
-    const email = this.form.value.email!;
+    const email = this.form.controls.email.value;
 
     this.passwordResetService.solicitarReset(email).subscribe({
       next: (resposta: string) => {
-        this.mensagem = resposta;
-        this.carregando = false;
-        this.enviado = true; // esconde o form e mostra mensagem
-      },
-      error: () => {
-        // Mesmo em erro, mostra mensagem genérica por segurança
-        this.mensagem = 'Se o e-mail estiver cadastrado, você receberá um link em breve.';
+        this.mensagem =
+          resposta || 'Se o e-mail estiver cadastrado, você receberá um link em breve.';
+
         this.carregando = false;
         this.enviado = true;
-      }
+      },
+      error: () => {
+        this.mensagem =
+          'Se o e-mail estiver cadastrado, você receberá um link em breve.';
+
+        this.carregando = false;
+        this.enviado = true;
+      },
     });
   }
 }

@@ -1,0 +1,615 @@
+<main class="min-h-screen bg-[#F8F6F2]">
+  <!-- TOPO / GESTÃO DE IMÓVEIS -->
+  <section
+    class="relative overflow-hidden border-b border-amber-100 bg-white px-4 py-8 sm:px-6 lg:px-10"
+  >
+    <div class="absolute right-0 top-0 h-72 w-72 rounded-full bg-amber-100/60 blur-3xl"></div>
+    <div class="absolute bottom-0 left-0 h-56 w-56 rounded-full bg-stone-200/60 blur-3xl"></div>
+
+    <div class="relative z-10 mx-auto max-w-7xl">
+      <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <a
+          routerLink="/admin"
+          class="inline-flex min-h-11 w-fit items-center justify-center gap-2 rounded-full border border-amber-200 bg-white px-5 py-2.5 text-sm font-semibold text-amber-800 shadow-sm transition-all hover:-translate-y-0.5 hover:border-amber-700 hover:bg-amber-700 hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-700 focus-visible:ring-offset-4"
+          aria-label="Voltar ao painel administrativo"
+        >
+          <svg
+            class="h-4 w-4"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            aria-hidden="true"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2.5"
+              d="M15 19l-7-7 7-7"
+            />
+          </svg>
+          Voltar ao painel administrativo
+        </a>
+
+        <a
+          routerLink="/imoveis"
+          class="inline-flex min-h-11 w-fit items-center justify-center rounded-full border border-gray-300 bg-white px-5 py-2.5 text-sm font-semibold text-gray-800 shadow-sm transition-all hover:-translate-y-0.5 hover:border-amber-700 hover:bg-amber-700 hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-700 focus-visible:ring-offset-4"
+        >
+          Ver lista pública
+        </a>
+      </div>
+
+      <div class="mt-10 grid grid-cols-1 gap-8 lg:grid-cols-12 lg:items-end">
+        <div class="lg:col-span-7">
+          <span
+            class="mb-4 inline-flex rounded-full bg-amber-50 px-4 py-2 text-xs font-semibold uppercase tracking-[0.22em] text-amber-800"
+          >
+            Gestão de imóveis
+          </span>
+
+          <h1
+            class="max-w-4xl text-4xl font-light leading-tight tracking-[-0.04em] text-gray-950 sm:text-5xl lg:text-6xl"
+            style="font-family: 'DM Serif Display', Georgia, serif"
+          >
+            Cadastre, edite e mantenha os imóveis atualizados.
+          </h1>
+
+          <p class="mt-5 max-w-2xl text-sm leading-7 text-gray-500 sm:text-base">
+            Controle os imóveis exibidos na plataforma, revise informações importantes e atualize
+            imagens de forma centralizada.
+          </p>
+        </div>
+
+        <!-- RESUMO / STATUS -->
+        <div class="grid grid-cols-1 gap-3 sm:grid-cols-3 lg:col-span-5">
+          <article class="rounded-[1.75rem] border border-amber-100 bg-amber-50/70 p-5 shadow-sm">
+            <div class="flex items-center justify-between gap-3">
+              <span
+                class="flex h-11 w-11 items-center justify-center rounded-2xl bg-white text-amber-800 shadow-sm"
+              >
+                ⌂
+              </span>
+              <span class="rounded-full bg-white px-3 py-1 text-xs font-semibold text-amber-800">
+                API
+              </span>
+            </div>
+
+            <p class="mt-5 text-3xl font-semibold tracking-[-0.04em] text-gray-950">
+              {{ imoveis.length }}
+            </p>
+            <p class="mt-1 text-sm text-gray-500">Imóveis cadastrados</p>
+          </article>
+
+          <article class="rounded-[1.75rem] border border-amber-100 bg-white p-5 shadow-sm">
+            <div class="flex items-center justify-between gap-3">
+              <span
+                class="flex h-11 w-11 items-center justify-center rounded-2xl bg-amber-50 text-amber-800"
+              >
+                @if (editingId) {
+                  ✎
+                } @else {
+                  +
+                }
+              </span>
+              <span class="rounded-full bg-amber-50 px-3 py-1 text-xs font-semibold text-amber-800">
+                Formulário
+              </span>
+            </div>
+
+            <p class="mt-5 text-xl font-semibold tracking-[-0.04em] text-gray-950">
+              @if (editingId) {
+                Editando
+              } @else {
+                Novo cadastro
+              }
+            </p>
+            <p class="mt-1 text-sm text-gray-500">
+              @if (editingId) {
+                Imóvel #{{ editingId }}
+              } @else {
+                Pronto para preencher
+              }
+            </p>
+          </article>
+
+          <article class="rounded-[1.75rem] border border-amber-100 bg-white p-5 shadow-sm">
+            <div class="flex items-center justify-between gap-3">
+              <span
+                class="flex h-11 w-11 items-center justify-center rounded-2xl bg-green-50 text-green-700"
+              >
+                ✓
+              </span>
+              <span class="rounded-full bg-green-50 px-3 py-1 text-xs font-semibold text-green-700">
+                Status
+              </span>
+            </div>
+
+            <p class="mt-5 text-xl font-semibold tracking-[-0.04em] text-gray-950">
+              @if (loading) {
+                Carregando
+              } @else if (saving) {
+                Salvando
+              } @else {
+                Disponível
+              }
+            </p>
+            <p class="mt-1 text-sm text-gray-500">Operação atual</p>
+          </article>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEEDBACK GLOBAL -->
+  @if (actionMessage) {
+    <div
+      class="fixed bottom-5 left-1/2 z-50 w-[calc(100%-2rem)] max-w-md -translate-x-1/2 rounded-3xl border border-green-100 bg-green-50 px-5 py-4 text-sm font-medium text-green-700 shadow-xl shadow-green-900/10 sm:right-5 sm:left-auto sm:translate-x-0"
+      role="status"
+      aria-live="polite"
+    >
+      <div class="flex items-start gap-3">
+        <span
+          class="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-green-100 text-green-700"
+        >
+          ✓
+        </span>
+        <p>{{ actionMessage }}</p>
+      </div>
+    </div>
+  }
+
+  @if (errorMessage) {
+    <div
+      class="fixed bottom-5 left-1/2 z-50 w-[calc(100%-2rem)] max-w-md -translate-x-1/2 rounded-3xl border border-red-100 bg-red-50 px-5 py-4 text-sm font-medium text-red-700 shadow-xl shadow-red-900/10 sm:right-5 sm:left-auto sm:translate-x-0"
+      role="alert"
+    >
+      <div class="flex items-start gap-3">
+        <span
+          class="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-red-100 text-red-700"
+        >
+          !
+        </span>
+        <p>{{ errorMessage }}</p>
+      </div>
+    </div>
+  }
+
+  <!-- CONTEÚDO -->
+  <section class="px-4 py-16 sm:px-6 lg:px-10 lg:py-20">
+    <div class="mx-auto grid max-w-7xl grid-cols-1 gap-8 lg:grid-cols-12">
+      <!-- FORMULÁRIO -->
+      <aside class="lg:col-span-5">
+        <article
+          class="sticky top-8 rounded-[2rem] border border-amber-100 bg-white p-6 shadow-sm lg:p-8"
+        >
+          <div
+            class="flex flex-col gap-4 border-b border-gray-100 pb-6 sm:flex-row sm:items-start sm:justify-between"
+          >
+            <div>
+              <span
+                class="inline-flex rounded-full bg-amber-50 px-4 py-2 text-xs font-semibold uppercase tracking-[0.22em] text-amber-800"
+              >
+                Formulário
+              </span>
+
+              <h2
+                class="mt-4 text-3xl font-light leading-tight tracking-[-0.04em] text-gray-950"
+                style="font-family: 'DM Serif Display', Georgia, serif"
+              >
+                @if (editingId) {
+                  Editar imóvel
+                } @else {
+                  Cadastrar imóvel
+                }
+              </h2>
+
+              <p class="mt-3 text-sm leading-6 text-gray-500">
+                @if (editingId) {
+                  Revise os dados antes de atualizar o imóvel selecionado.
+                } @else {
+                  Preencha as informações principais para cadastrar um novo imóvel.
+                }
+              </p>
+            </div>
+
+            <button
+              type="button"
+              class="inline-flex min-h-10 shrink-0 items-center justify-center rounded-full border border-gray-300 bg-white px-4 py-2 text-xs font-semibold text-gray-800 transition-all hover:border-amber-700 hover:bg-amber-700 hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-700 focus-visible:ring-offset-2"
+              (click)="iniciarNovo()"
+            >
+              Limpar
+            </button>
+          </div>
+
+          <div class="mt-6 grid grid-cols-1 gap-4">
+            <!-- DADOS PRINCIPAIS -->
+            <div class="rounded-3xl border border-gray-100 bg-gray-50 p-4">
+              <p class="text-sm font-semibold text-gray-950">Informações principais</p>
+              <p class="mt-1 text-xs leading-5 text-gray-500">
+                Título, descrição e preço ajudam o usuário a entender rapidamente o imóvel.
+              </p>
+
+              <div class="mt-4 grid grid-cols-1 gap-4">
+                <label class="grid gap-2 text-sm font-semibold text-gray-700">
+                  Título
+                  <span class="text-xs font-normal text-gray-400">Mínimo de 4 caracteres</span>
+                  <input
+                    type="text"
+                    [(ngModel)]="form.titulo"
+                    placeholder="Ex.: Casa moderna no Altiplano"
+                    class="h-12 rounded-2xl border border-gray-200 bg-white px-4 text-sm outline-none transition-all focus:border-amber-700 focus:ring-4 focus:ring-amber-700/10"
+                  />
+                </label>
+
+                <label class="grid gap-2 text-sm font-semibold text-gray-700">
+                  Descrição
+                  <textarea
+                    [(ngModel)]="form.descricao"
+                    rows="4"
+                    placeholder="Descreva os diferenciais do imóvel..."
+                    class="resize-none rounded-2xl border border-gray-200 bg-white px-4 py-3 text-sm outline-none transition-all focus:border-amber-700 focus:ring-4 focus:ring-amber-700/10"
+                  ></textarea>
+                </label>
+
+                <label class="grid gap-2 text-sm font-semibold text-gray-700">
+                  Preço
+                  <input
+                    type="number"
+                    min="0"
+                    [(ngModel)]="form.preco"
+                    placeholder="Ex.: 850000"
+                    class="h-12 rounded-2xl border border-gray-200 bg-white px-4 text-sm outline-none transition-all focus:border-amber-700 focus:ring-4 focus:ring-amber-700/10"
+                  />
+                </label>
+              </div>
+            </div>
+
+            <!-- LOCALIZAÇÃO -->
+            <div class="rounded-3xl border border-gray-100 bg-gray-50 p-4">
+              <p class="text-sm font-semibold text-gray-950">Localização</p>
+              <p class="mt-1 text-xs leading-5 text-gray-500">
+                Cidade e bairro são obrigatórios para facilitar a busca.
+              </p>
+
+              <div class="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
+                <label class="grid gap-2 text-sm font-semibold text-gray-700">
+                  Cidade
+                  <input
+                    type="text"
+                    [(ngModel)]="form.cidade"
+                    placeholder="João Pessoa"
+                    class="h-12 rounded-2xl border border-gray-200 bg-white px-4 text-sm outline-none transition-all focus:border-amber-700 focus:ring-4 focus:ring-amber-700/10"
+                  />
+                </label>
+
+                <label class="grid gap-2 text-sm font-semibold text-gray-700">
+                  Bairro
+                  <input
+                    type="text"
+                    [(ngModel)]="form.bairro"
+                    placeholder="Altiplano"
+                    class="h-12 rounded-2xl border border-gray-200 bg-white px-4 text-sm outline-none transition-all focus:border-amber-700 focus:ring-4 focus:ring-amber-700/10"
+                  />
+                </label>
+
+                <label class="grid gap-2 text-sm font-semibold text-gray-700 sm:col-span-2">
+                  Endereço <span class="text-xs font-normal text-gray-400">Opcional</span>
+                  <input
+                    type="text"
+                    [(ngModel)]="form.endereco"
+                    placeholder="Rua, número ou referência"
+                    class="h-12 rounded-2xl border border-gray-200 bg-white px-4 text-sm outline-none transition-all focus:border-amber-700 focus:ring-4 focus:ring-amber-700/10"
+                  />
+                </label>
+              </div>
+            </div>
+
+            <!-- CARACTERÍSTICAS -->
+            <div class="overflow-hidden rounded-3xl border border-gray-100 bg-gray-50 p-4">
+              <p class="text-sm font-semibold text-gray-950">Características</p>
+              <p class="mt-1 text-xs leading-5 text-gray-500">
+                Informe os números principais para melhorar a comparação entre imóveis.
+              </p>
+
+              <div class="mt-4 grid grid-cols-1 gap-4 md:grid-cols-3">
+                <label class="min-w-0 grid gap-2 text-sm font-semibold text-gray-700">
+                  Quartos
+                  <input
+                    type="number"
+                    min="0"
+                    [(ngModel)]="form.quartos"
+                    class="h-12 w-full min-w-0 rounded-2xl border border-gray-200 bg-white px-4 text-sm outline-none transition-all focus:border-amber-700 focus:ring-4 focus:ring-amber-700/10"
+                  />
+                </label>
+
+                <label class="min-w-0 grid gap-2 text-sm font-semibold text-gray-700">
+                  Banheiros
+                  <input
+                    type="number"
+                    min="0"
+                    [(ngModel)]="form.banheiros"
+                    class="h-12 w-full min-w-0 rounded-2xl border border-gray-200 bg-white px-4 text-sm outline-none transition-all focus:border-amber-700 focus:ring-4 focus:ring-amber-700/10"
+                  />
+                </label>
+
+                <label class="min-w-0 grid gap-2 text-sm font-semibold text-gray-700">
+                  Vagas
+                  <input
+                    type="number"
+                    min="0"
+                    [(ngModel)]="form.vagas"
+                    class="h-12 w-full min-w-0 rounded-2xl border border-gray-200 bg-white px-4 text-sm outline-none transition-all focus:border-amber-700 focus:ring-4 focus:ring-amber-700/10"
+                  />
+                </label>
+              </div>
+            </div>
+
+            <!-- IMAGEM -->
+            <div class="rounded-3xl border border-gray-100 bg-gray-50 p-4">
+              <p class="text-sm font-semibold text-gray-950">Imagem do imóvel</p>
+              <p class="mt-1 text-xs leading-5 text-gray-500">
+                A imagem ajuda o usuário a reconhecer o imóvel com mais facilidade.
+              </p>
+
+              <label class="mt-4 grid gap-2 text-sm font-semibold text-gray-700">
+                Foto do imóvel
+                <input
+                  type="file"
+                  accept="image/*"
+                  (change)="onImageSelected($event)"
+                  class="h-12 rounded-2xl border border-gray-200 bg-white px-4 py-2 text-sm outline-none transition-all file:mr-4 file:rounded-full file:border-0 file:bg-amber-700 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-white hover:border-amber-700 focus:border-amber-700 focus:ring-4 focus:ring-amber-700/10"
+                />
+                <span class="text-xs font-normal text-gray-400">
+                  Caso nenhuma imagem seja enviada, o sistema manterá a imagem atual ou usará um
+                  placeholder.
+                </span>
+              </label>
+
+              @if (imagePreview) {
+                <div
+                  class="mt-4 overflow-hidden rounded-3xl border border-amber-100 bg-amber-50/50"
+                >
+                  <img
+                    [src]="imagePreview"
+                    alt="Pré-visualização da imagem do imóvel"
+                    class="h-56 w-full object-cover"
+                  />
+                </div>
+              } @else {
+                <div
+                  class="mt-4 flex h-40 items-center justify-center rounded-3xl border border-dashed border-amber-200 bg-amber-50/50 text-center"
+                >
+                  <div>
+                    <p class="text-sm font-semibold text-gray-700">Nenhuma imagem selecionada</p>
+                    <p class="mt-1 text-xs text-gray-500">A pré-visualização aparecerá aqui.</p>
+                  </div>
+                </div>
+              }
+            </div>
+          </div>
+
+          <!-- AÇÕES DO FORMULÁRIO -->
+          <div class="mt-8 flex flex-col gap-3 sm:flex-row">
+            <button
+              type="button"
+              class="inline-flex min-h-12 flex-1 items-center justify-center rounded-full bg-amber-700 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-amber-900/20 transition-all hover:-translate-y-0.5 hover:bg-amber-800 disabled:cursor-not-allowed disabled:bg-amber-300 disabled:shadow-none focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-700 focus-visible:ring-offset-4"
+              [disabled]="saving"
+              [attr.aria-busy]="saving"
+              (click)="salvar()"
+            >
+              @if (saving) {
+                Salvando...
+              } @else if (editingId) {
+                Atualizar imóvel
+              } @else {
+                Cadastrar imóvel
+              }
+            </button>
+
+            <button
+              type="button"
+              class="inline-flex min-h-12 items-center justify-center rounded-full border border-gray-300 bg-white px-6 py-3 text-sm font-semibold text-gray-800 transition-all hover:-translate-y-0.5 hover:border-amber-700 hover:bg-amber-700 hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-700 focus-visible:ring-offset-4"
+              (click)="cancelarEdicao()"
+            >
+              Cancelar
+            </button>
+          </div>
+        </article>
+      </aside>
+
+      <!-- LISTAGEM -->
+      <section class="lg:col-span-7">
+        <div class="mb-8 rounded-[2rem] border border-amber-100 bg-white p-6 shadow-sm lg:p-8">
+          <div class="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <span
+                class="inline-flex rounded-full bg-amber-50 px-4 py-2 text-xs font-semibold uppercase tracking-[0.22em] text-amber-800"
+              >
+                Imóveis cadastrados
+              </span>
+
+              <h2
+                class="mt-4 text-3xl font-light leading-tight tracking-[-0.04em] text-gray-950 sm:text-4xl"
+                style="font-family: 'DM Serif Display', Georgia, serif"
+              >
+                Lista conectada à API REST.
+              </h2>
+
+              <p class="mt-3 max-w-xl text-sm leading-6 text-gray-500">
+                Edite informações existentes ou remova imóveis que não devem mais aparecer na
+                plataforma.
+              </p>
+            </div>
+
+            <div class="flex flex-col gap-3 sm:items-end">
+              <p
+                class="rounded-full bg-gray-50 px-4 py-2 text-sm font-semibold text-gray-700"
+                role="status"
+              >
+                {{ imoveis.length }} item(ns)
+              </p>
+
+              <button
+                type="button"
+                class="inline-flex min-h-10 items-center justify-center rounded-full border border-gray-300 bg-white px-4 py-2 text-xs font-semibold text-gray-800 transition-all hover:border-amber-700 hover:bg-amber-700 hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-700 focus-visible:ring-offset-2"
+                [disabled]="loading"
+                (click)="carregarImoveis()"
+              >
+                @if (loading) {
+                  Atualizando...
+                } @else {
+                  Atualizar lista
+                }
+              </button>
+            </div>
+          </div>
+        </div>
+
+        @if (loading) {
+          <div
+            class="rounded-[2rem] border border-amber-100 bg-white p-10 text-center shadow-sm"
+            role="status"
+          >
+            <div
+              class="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-amber-50 text-amber-800"
+            >
+              ...
+            </div>
+            <p class="mt-4 text-sm font-semibold text-gray-700">Carregando imóveis...</p>
+            <p class="mt-1 text-sm text-gray-500">Aguarde enquanto buscamos os dados da API.</p>
+          </div>
+        } @else if (imoveis.length === 0) {
+          <div
+            class="rounded-[2rem] border border-dashed border-amber-200 bg-white p-10 text-center shadow-sm"
+            role="status"
+          >
+            <div
+              class="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-amber-50 text-3xl"
+            >
+              ⌂
+            </div>
+            <p class="mt-5 text-lg font-semibold text-gray-950">Nenhum imóvel cadastrado</p>
+            <p class="mt-2 text-sm text-gray-500">
+              Preencha o formulário ao lado para adicionar o primeiro imóvel.
+            </p>
+
+            <button
+              type="button"
+              class="mt-5 inline-flex min-h-11 items-center justify-center rounded-full bg-amber-700 px-6 py-2.5 text-sm font-semibold text-white transition-all hover:bg-amber-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-700 focus-visible:ring-offset-4"
+              (click)="iniciarNovo()"
+            >
+              Novo imóvel
+            </button>
+          </div>
+        } @else {
+          <div class="grid grid-cols-1 gap-5 xl:grid-cols-2">
+            @for (imovel of imoveis; track imovel.id) {
+              <article
+                class="group overflow-hidden rounded-[2rem] border bg-white shadow-sm transition-all hover:-translate-y-1 hover:border-amber-200 hover:shadow-xl hover:shadow-amber-900/10"
+                [class.border-amber-700]="editingId === imovel.id"
+                [class.border-amber-100]="editingId !== imovel.id"
+              >
+                <div class="relative aspect-[4/3] overflow-hidden bg-gray-100">
+                  <img
+                    [src]="resolveImageUrl(imovel.caminhoImagem)"
+                    [alt]="imovel.titulo"
+                    class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    loading="lazy"
+                  />
+
+                  <div class="absolute left-4 top-4 flex flex-wrap gap-2">
+                    <span
+                      class="rounded-full bg-white/95 px-3 py-1.5 text-xs font-semibold text-amber-800 shadow-sm backdrop-blur-md"
+                    >
+                      #{{ imovel.id }}
+                    </span>
+
+                    <span
+                      class="rounded-full bg-gray-950/75 px-3 py-1.5 text-xs font-semibold text-white backdrop-blur-md"
+                    >
+                      {{ imovel.cidade }}
+                    </span>
+                  </div>
+
+                  @if (editingId === imovel.id) {
+                    <div
+                      class="absolute right-4 top-4 rounded-full bg-amber-700 px-3 py-1.5 text-xs font-semibold text-white shadow-sm"
+                    >
+                      Em edição
+                    </div>
+                  }
+                </div>
+
+                <div class="p-5">
+                  <div class="flex items-start justify-between gap-4">
+                    <div class="min-w-0">
+                      <h3 class="truncate text-lg font-semibold text-gray-950">
+                        {{ imovel.titulo }}
+                      </h3>
+                      <p class="mt-1 text-sm text-gray-500">
+                        {{ imovel.bairro }} • {{ imovel.cidade }}
+                      </p>
+                    </div>
+
+                    <strong class="shrink-0 text-sm font-bold text-amber-800">
+                      {{ formatCurrency(imovel.preco) }}
+                    </strong>
+                  </div>
+
+                  <p class="mt-4 line-clamp-3 text-sm leading-6 text-gray-500">
+                    {{ imovel.descricao || 'Sem descrição cadastrada.' }}
+                  </p>
+
+                  <div class="mt-5 grid grid-cols-3 gap-2 text-center text-xs text-gray-500">
+                    <div class="rounded-2xl bg-gray-50 p-3">
+                      <p class="font-semibold text-gray-950">{{ imovel.quartos ?? 0 }}</p>
+                      <p class="mt-0.5">Quartos</p>
+                    </div>
+
+                    <div class="rounded-2xl bg-gray-50 p-3">
+                      <p class="font-semibold text-gray-950">{{ imovel.banheiros ?? 0 }}</p>
+                      <p class="mt-0.5">Banheiros</p>
+                    </div>
+
+                    <div class="rounded-2xl bg-gray-50 p-3">
+                      <p class="font-semibold text-gray-950">{{ imovel.vagas ?? 0 }}</p>
+                      <p class="mt-0.5">Vagas</p>
+                    </div>
+                  </div>
+
+                  @if (imovel.endereco) {
+                    <div class="mt-4 rounded-2xl bg-amber-50/60 p-3">
+                      <p class="text-xs font-semibold uppercase tracking-[0.16em] text-amber-800">
+                        Endereço
+                      </p>
+                      <p class="mt-1 text-sm text-gray-600">{{ imovel.endereco }}</p>
+                    </div>
+                  }
+
+                  <div class="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-2">
+                    <button
+                      type="button"
+                      class="inline-flex min-h-11 items-center justify-center rounded-full bg-amber-700 px-5 py-2.5 text-sm font-semibold text-white transition-all hover:bg-amber-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-700 focus-visible:ring-offset-2"
+                      (click)="editar(imovel)"
+                    >
+                      Editar
+                    </button>
+
+                    <button
+                      type="button"
+                      class="inline-flex min-h-11 items-center justify-center rounded-full border border-red-200 bg-red-50 px-5 py-2.5 text-sm font-semibold text-red-700 transition-all hover:bg-red-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-400 focus-visible:ring-offset-2"
+                      (click)="remover(imovel)"
+                    >
+                      Remover
+                    </button>
+                  </div>
+                </div>
+              </article>
+            }
+          </div>
+        }
+      </section>
+    </div>
+  </section>
+
+  <app-footer></app-footer>
+</main>

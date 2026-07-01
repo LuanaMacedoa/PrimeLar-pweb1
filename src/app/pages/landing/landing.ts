@@ -9,9 +9,10 @@ import {
   ViewChild,
   inject,
 } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { FooterComponent } from '../../components/layout/footer/footer.component';
 import { NavbarComponent } from '../../components/layout/navbar/navbar.component';
-import { ImovelService } from '../../../service/imovel.service';
+import { ImovelService, LandingImovelCard } from '../../../service/imovel.service';
 import { AtendimentoService } from '../../../service/atendimento.service';
 
 /* ── Tipos ─────────────────────────────────────────────────── */
@@ -26,7 +27,7 @@ type FormKey = 'nome' | 'telefone' | 'interesse';
 @Component({
   selector: 'app-landing',
   standalone: true,
-  imports: [NavbarComponent, FooterComponent],
+  imports: [NavbarComponent, FooterComponent, RouterLink],
   templateUrl: './landing.html',
   styleUrls: ['../../app.css'],
 })
@@ -112,7 +113,7 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
     },
   ];
 
-  properties: any[] = [];
+  properties: LandingImovelCard[] = [];
 
   stats = [
     {
